@@ -3,13 +3,19 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { BookOpen, Mail, Phone, ShieldCheck } from "lucide-react";
+import { BookOpen, ChevronDown, Mail, Phone, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/public/container";
 import type { SiteSettings } from "@/lib/types";
 
+const aboutItems = [
+  { href: "/about", label: "About" },
+  { href: "/about/mission-vision", label: "Mission & Vision" },
+  { href: "/about/chairman-message", label: "Chairman Message" },
+  { href: "/about/committee", label: "Committee" },
+];
+
 const nav = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
   { href: "/academic", label: "Academic" },
   { href: "/news-events", label: "News & Event" },
   { href: "/gallery", label: "Gallery" },
@@ -97,6 +103,31 @@ export function Header({ settings }: { settings: SiteSettings }) {
           </span>
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
+          <div className="group relative">
+            <button
+              className={[
+                "inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold transition",
+                topIsTransparent
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-slate-700 hover:bg-university-mist hover:text-university-green",
+              ].join(" ")}
+              type="button"
+            >
+              About Us
+              <ChevronDown size={15} className="transition group-hover:rotate-180" />
+            </button>
+            <div className="invisible absolute left-0 top-full z-50 w-60 translate-y-3 rounded-lg border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition-all group-hover:visible group-hover:translate-y-2 group-hover:opacity-100">
+              {aboutItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block rounded-md px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-university-mist hover:text-university-green"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -114,6 +145,18 @@ export function Header({ settings }: { settings: SiteSettings }) {
         </nav>
       </Container>
       <Container className="flex gap-2 overflow-x-auto pb-3 lg:hidden">
+        {aboutItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={[
+              "shrink-0 rounded-md px-3 py-2 text-sm font-semibold",
+              topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-slate-700",
+            ].join(" ")}
+          >
+            {item.label}
+          </Link>
+        ))}
         {nav.map((item) => (
           <Link
             key={item.href}
