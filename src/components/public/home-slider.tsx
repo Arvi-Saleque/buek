@@ -70,12 +70,6 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
               {items[active].buttonLabel || "Learn More"}
               <ArrowRight size={18} />
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/40 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white hover:text-university-navy sm:px-7 sm:py-4 sm:text-base"
-            >
-              Contact Office
-            </Link>
           </div>
         </div>
       </Container>
