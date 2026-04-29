@@ -41,7 +41,7 @@ export default async function HomePage() {
 
       <Container className="grid gap-12 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
-          <SectionHeading eyebrow="Welcome" title={home.introTitle} />
+          <SectionHeading eyebrow="Academic Community" title={home.introTitle} />
           <p className="mt-6 text-lg leading-8 text-slate-700">{home.introBody}</p>
           <p className="mt-5 border-l-4 border-university-gold pl-5 text-xl font-bold leading-8 text-university-navy">
             A modern academic environment focused on practical knowledge,
