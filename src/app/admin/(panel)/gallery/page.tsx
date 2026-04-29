@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
@@ -48,7 +49,17 @@ export default async function AdminGalleryPage({
       <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {items.map((item) => (
           <article key={item._id || item.title} className="admin-card">
-            {item.image?.url ? <img src={item.image.url} alt={item.image.altText || item.title} className="h-48 w-full rounded-md object-cover" /> : null}
+            {item.image?.url ? (
+              <div className="relative h-48 w-full overflow-hidden rounded-md">
+                <Image
+                  src={item.image.url}
+                  alt={item.image.altText || item.title}
+                  fill
+                  sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
             <h2 className="mt-4 font-bold text-university-navy">{item.title}</h2>
             <p className="text-sm text-slate-600">{item.category} · Order {item.order} · {item.published ? "Published" : "Draft"}</p>
             <div className="mt-4 flex gap-2">

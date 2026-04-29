@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BookOpen, ChevronDown, Mail, Phone, ShieldCheck } from "lucide-react";
@@ -73,9 +74,11 @@ export function Header({ settings }: { settings: SiteSettings }) {
       <Container className="flex min-h-20 items-center justify-between gap-4 py-3">
         <Link href="/" className="flex min-w-0 items-center gap-3">
           {settings.logo?.url ? (
-            <img
+            <Image
               src={settings.logo.url}
               alt={settings.logo.altText || settings.universityName}
+              width={48}
+              height={48}
               className="h-12 w-12 rounded-md object-cover"
             />
           ) : (

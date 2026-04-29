@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ImageAsset } from "@/lib/types";
 
 export function ImageField({
@@ -13,11 +14,15 @@ export function ImageField({
     <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
       <span className="label">{label}</span>
       {image?.url ? (
-        <img
-          src={image.url}
-          alt={image.altText || label}
-          className="mb-3 h-36 w-full rounded-md object-cover"
-        />
+        <div className="relative mb-3 h-36 w-full overflow-hidden rounded-md">
+          <Image
+            src={image.url}
+            alt={image.altText || label}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
       ) : null}
       <input type="hidden" name={`${name}Url`} value={image?.url || ""} />
       <input type="hidden" name={`${name}SecureUrl`} value={image?.secureUrl || ""} />

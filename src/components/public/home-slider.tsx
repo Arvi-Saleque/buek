@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/public/container";
@@ -36,10 +37,13 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
           aria-hidden={index !== active}
         >
           {slide.image?.url ? (
-            <img
+            <Image
               src={slide.image.url}
               alt={slide.image.altText || slide.title}
-              className="h-full w-full object-cover"
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              className="object-cover"
             />
           ) : null}
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.84),rgba(11,35,65,0.72)_48%,rgba(18,58,99,0.42))]" />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { SectionHeading } from "@/components/public/section-heading";
@@ -18,7 +19,15 @@ export default async function NewsEventsPage() {
         {news.map((item) => (
           <Link key={item.slug} href={`/news-events/${item.slug}`} className="group rounded-lg border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
             {item.coverImage?.url ? (
-              <img src={item.coverImage.url} alt={item.coverImage.altText || item.title} className="h-52 w-full rounded-t-lg object-cover" />
+              <div className="relative h-52 w-full overflow-hidden rounded-t-lg">
+                <Image
+                  src={item.coverImage.url}
+                  alt={item.coverImage.altText || item.title}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className="h-52 rounded-t-lg bg-university-mist" />
             )}

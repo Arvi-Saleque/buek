@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/public/container";
 import { SectionHeading } from "@/components/public/section-heading";
 import { getGalleryItems } from "@/lib/content";
@@ -16,7 +17,15 @@ export default async function GalleryPage() {
         {items.map((item) => (
           <article key={item._id || item.title} className="group overflow-hidden rounded-lg border border-university-line bg-white shadow-sm">
             {item.image?.url ? (
-              <img src={item.image.url} alt={item.image.altText || item.title} className="h-72 w-full object-cover transition duration-300 group-hover:scale-105" />
+              <div className="relative h-72 w-full overflow-hidden">
+                <Image
+                  src={item.image.url}
+                  alt={item.image.altText || item.title}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
+                />
+              </div>
             ) : (
               <div className="h-72 bg-university-mist" />
             )}

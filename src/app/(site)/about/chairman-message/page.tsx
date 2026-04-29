@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/public/container";
 import { Prose } from "@/components/public/prose";
 import { SectionHeading } from "@/components/public/section-heading";
@@ -11,11 +12,15 @@ export default async function ChairmanMessagePage() {
       <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
         <aside>
           {about.chairmanPhoto?.url ? (
-            <img
-              src={about.chairmanPhoto.url}
-              alt={about.chairmanPhoto.altText || about.chairmanName}
-              className="h-[420px] w-full rounded-lg object-cover shadow-soft"
-            />
+            <div className="relative h-[420px] w-full overflow-hidden rounded-lg shadow-soft">
+              <Image
+                src={about.chairmanPhoto.url}
+                alt={about.chairmanPhoto.altText || about.chairmanName}
+                fill
+                sizes="(min-width: 1024px) 360px, 100vw"
+                className="object-cover"
+              />
+            </div>
           ) : null}
           <div className="mt-5 rounded-lg bg-university-navy p-5 text-white">
             <h2 className="text-xl font-bold">{about.chairmanName}</h2>

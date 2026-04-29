@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { Prose } from "@/components/public/prose";
@@ -26,11 +27,15 @@ export default async function AboutPage() {
           </div>
         </div>
         {about.aboutImage?.url ? (
-          <img
-            src={about.aboutImage.url}
-            alt={about.aboutImage.altText || about.aboutTitle}
-            className="h-[430px] w-full rounded-lg object-cover shadow-soft"
-          />
+          <div className="relative h-[430px] w-full overflow-hidden rounded-lg shadow-soft">
+            <Image
+              src={about.aboutImage.url}
+              alt={about.aboutImage.altText || about.aboutTitle}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         ) : null}
       </div>
     </Container>

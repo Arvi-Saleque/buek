@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Bell,
@@ -128,11 +129,15 @@ export default async function HomePage() {
         </div>
         <div className="relative">
           {home.introImage?.url ? (
-            <img
-              src={home.introImage.url}
-              alt={home.introImage.altText || home.introTitle}
-              className="h-[460px] w-full rounded-lg object-cover shadow-soft"
-            />
+            <div className="relative h-[460px] w-full overflow-hidden rounded-lg shadow-soft">
+              <Image
+                src={home.introImage.url}
+                alt={home.introImage.altText || home.introTitle}
+                fill
+                sizes="(min-width: 1024px) 55vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           ) : null}
           <div className="absolute bottom-5 left-5 right-5 rounded-lg border border-white/30 bg-white/90 p-5 shadow-soft backdrop-blur">
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-university-gold">
@@ -272,7 +277,15 @@ export default async function HomePage() {
             {visibleNews.slice(0, 3).map((item) => (
               <Link key={item.slug} href={`/news-events/${item.slug}`} className="group rounded-lg border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
                 {item.coverImage?.url ? (
-                  <img src={item.coverImage.url} alt={item.coverImage.altText || item.title} className="h-52 w-full rounded-t-lg object-cover" />
+                  <div className="relative h-52 w-full overflow-hidden rounded-t-lg">
+                    <Image
+                      src={item.coverImage.url}
+                      alt={item.coverImage.altText || item.title}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
                 ) : (
                   <div className="grid h-52 place-items-center rounded-t-lg bg-university-mist">
                     <CalendarDays className="text-university-navy" size={34} />
@@ -301,7 +314,15 @@ export default async function HomePage() {
             {gallery[0] ? (
               <article className="group overflow-hidden rounded-lg bg-white shadow-sm">
                 {gallery[0].image?.url ? (
-                  <img src={gallery[0].image.url} alt={gallery[0].image.altText || gallery[0].title} className="h-[440px] w-full object-cover transition duration-300 group-hover:scale-105" />
+                  <div className="relative h-[440px] w-full overflow-hidden">
+                    <Image
+                      src={gallery[0].image.url}
+                      alt={gallery[0].image.altText || gallery[0].title}
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover transition duration-300 group-hover:scale-105"
+                    />
+                  </div>
                 ) : (
                   <div className="h-[440px] bg-university-mist" />
                 )}
@@ -315,7 +336,15 @@ export default async function HomePage() {
               {gallery.slice(1, 3).map((item) => (
                 <article key={item._id || item.title} className="group overflow-hidden rounded-lg bg-white shadow-sm">
                   {item.image?.url ? (
-                    <img src={item.image.url} alt={item.image.altText || item.title} className="h-[190px] w-full object-cover transition duration-300 group-hover:scale-105" />
+                    <div className="relative h-[190px] w-full overflow-hidden">
+                      <Image
+                        src={item.image.url}
+                        alt={item.image.altText || item.title}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, 100vw"
+                        className="object-cover transition duration-300 group-hover:scale-105"
+                      />
+                    </div>
                   ) : (
                     <div className="h-[190px] bg-university-mist" />
                   )}
