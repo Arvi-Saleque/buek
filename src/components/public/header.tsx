@@ -14,8 +14,7 @@ const aboutItems = [
   { href: "/about/committee", label: "Committee" },
 ];
 
-const nav = [
-  { href: "/", label: "Home" },
+const navAfterAbout = [
   { href: "/academic", label: "Academic" },
   { href: "/news-events", label: "News & Event" },
   { href: "/gallery", label: "Gallery" },
@@ -103,6 +102,17 @@ export function Header({ settings }: { settings: SiteSettings }) {
           </span>
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
+          <Link
+            href="/"
+            className={[
+              "rounded-md px-3 py-2 text-sm font-semibold transition",
+              topIsTransparent
+                ? "text-white/80 hover:bg-white/10 hover:text-white"
+                : "text-slate-700 hover:bg-university-mist hover:text-university-green",
+            ].join(" ")}
+          >
+            Home
+          </Link>
           <div className="group relative">
             <button
               className={[
@@ -128,7 +138,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
               ))}
             </div>
           </div>
-          {nav.map((item) => (
+          {navAfterAbout.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -145,6 +155,15 @@ export function Header({ settings }: { settings: SiteSettings }) {
         </nav>
       </Container>
       <Container className="flex gap-2 overflow-x-auto pb-3 lg:hidden">
+        <Link
+          href="/"
+          className={[
+            "shrink-0 rounded-md px-3 py-2 text-sm font-semibold",
+            topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-slate-700",
+          ].join(" ")}
+        >
+          Home
+        </Link>
         {aboutItems.map((item) => (
           <Link
             key={item.href}
@@ -157,7 +176,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
             {item.label}
           </Link>
         ))}
-        {nav.map((item) => (
+        {navAfterAbout.map((item) => (
           <Link
             key={item.href}
             href={item.href}
