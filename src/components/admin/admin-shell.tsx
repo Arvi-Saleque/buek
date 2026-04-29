@@ -8,6 +8,7 @@ import {
   LogOut,
   Newspaper,
   Phone,
+  ServerCog,
   Settings,
   University,
 } from "lucide-react";
@@ -23,6 +24,7 @@ const nav = [
   { href: "/admin/gallery", label: "Gallery", icon: GalleryHorizontal },
   { href: "/admin/contact", label: "Contact", icon: Phone },
   { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/diagnostics", label: "Diagnostics", icon: ServerCog },
 ];
 
 export function AdminShell({
