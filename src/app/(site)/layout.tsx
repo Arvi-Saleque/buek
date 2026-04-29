@@ -2,6 +2,9 @@ import { Footer } from "@/components/public/footer";
 import { Header } from "@/components/public/header";
 import { getSiteSettings } from "@/lib/content";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function SiteLayout({
   children,
 }: {
