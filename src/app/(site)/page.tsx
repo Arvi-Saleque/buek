@@ -43,14 +43,36 @@ export default async function HomePage() {
         <div>
           <SectionHeading eyebrow="Welcome" title={home.introTitle} />
           <p className="mt-6 text-lg leading-8 text-slate-700">{home.introBody}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <p className="mt-5 border-l-4 border-university-gold pl-5 text-xl font-bold leading-8 text-university-navy">
+            A modern academic environment focused on practical knowledge,
+            discipline, research, and professional growth.
+          </p>
+          <div className="mt-9 grid gap-4 sm:grid-cols-2">
             {[
-              { icon: BookOpen, label: academic.programs[0] || "Academic Programs" },
-              { icon: CalendarDays, label: `${news.length} published updates` },
+              {
+                icon: BookOpen,
+                value: `${academic.programs.length}+`,
+                label: "Academic programs",
+                detail: academic.programs[0] || "Academic Programs",
+              },
+              {
+                icon: CalendarDays,
+                value: `${news.length}+`,
+                label: "Published updates",
+                detail: "News, events, and campus notices",
+              },
             ].map((item) => (
-              <div key={item.label} className="rounded-lg border border-university-line bg-white p-5 shadow-sm">
-                <item.icon className="text-university-gold" size={25} />
-                <p className="mt-3 font-bold text-university-navy">{item.label}</p>
+              <div key={item.label} className="rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="grid h-12 w-12 place-items-center rounded-md bg-university-navy text-university-gold">
+                    <item.icon size={25} />
+                  </span>
+                  <span className="text-3xl font-bold text-university-gold">{item.value}</span>
+                </div>
+                <p className="mt-4 text-sm font-bold uppercase tracking-[0.14em] text-university-navy">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-university-text">{item.detail}</p>
               </div>
             ))}
           </div>
