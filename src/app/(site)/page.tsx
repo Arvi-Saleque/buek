@@ -106,44 +106,75 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <Container className="grid gap-8 py-20 lg:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-lg bg-university-navy p-8 text-white shadow-soft">
-          <div className="max-w-3xl">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-university-gold">
-              Academic
-            </p>
-            <h2 className="text-3xl font-bold tracking-normal text-white md:text-4xl">
-              {home.academicTitle}
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-white/75">{home.academicBody}</p>
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {academic.programs.slice(0, 4).map((program) => (
-              <div key={program} className="rounded-lg border border-white/10 bg-white/10 p-5">
-                <GraduationCap className="text-university-gold" size={25} />
-                <h2 className="mt-3 font-bold">{program}</h2>
-              </div>
-            ))}
-          </div>
-          <Link href="/academic" className="mt-8 inline-flex items-center gap-2 font-bold text-university-gold">
-            Explore all programs <ArrowRight size={18} />
-          </Link>
-        </section>
-
-        <aside className="rounded-lg border border-university-line bg-white p-7 shadow-sm">
-          <div className="flex items-center gap-3">
-            <Bell className="text-university-gold" size={25} />
-            <h2 className="text-2xl font-bold text-university-navy">{home.noticeTitle}</h2>
-          </div>
-          <div className="mt-5 divide-y divide-slate-200">
-            {home.notices.map((notice) => (
-              <p key={notice} className="py-4 text-sm leading-6 text-slate-700">
-                {notice}
+      <section className="relative overflow-hidden bg-white py-20">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
+          <div className="absolute left-[8%] top-10 h-[520px] w-24 rounded-t-full border-x-[18px] border-university-navy" />
+          <div className="absolute left-[24%] top-20 h-[480px] w-24 rounded-t-full border-x-[18px] border-university-navy" />
+          <div className="absolute right-[16%] top-0 h-[560px] w-28 rounded-t-full border-x-[20px] border-university-navy" />
+        </div>
+        <Container className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <section className="rounded-lg border border-university-line bg-university-mist p-8 shadow-soft">
+            <div className="max-w-3xl">
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-university-gold">
+                Academic
               </p>
-            ))}
-          </div>
-        </aside>
-      </Container>
+              <h2 className="text-3xl font-bold tracking-normal text-university-navy md:text-4xl">
+                {home.academicTitle}
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-university-text">{home.academicBody}</p>
+            </div>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {academic.programs.slice(0, 4).map((program) => (
+                <Link
+                  key={program}
+                  href="/academic"
+                  className="group flex min-h-28 items-start justify-between gap-4 rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-university-gold hover:shadow-soft"
+                >
+                  <span>
+                    <span className="grid h-10 w-10 place-items-center rounded-md bg-university-navy text-university-gold">
+                      <GraduationCap size={22} />
+                    </span>
+                    <h2 className="mt-4 font-bold leading-6 text-university-navy">{program}</h2>
+                  </span>
+                  <ArrowRight className="mt-2 shrink-0 text-university-gold transition group-hover:translate-x-1" size={18} />
+                </Link>
+              ))}
+            </div>
+            <Link href="/academic" className="mt-8 inline-flex items-center gap-2 font-bold text-university-navy">
+              Explore all programs <ArrowRight className="text-university-gold" size={18} />
+            </Link>
+          </section>
+
+          <aside className="rounded-lg border border-university-line bg-white p-7 shadow-sm">
+            <div className="flex items-start justify-between gap-4 border-b border-university-line pb-5">
+              <div className="flex items-center gap-3">
+                <span className="grid h-11 w-11 place-items-center rounded-md bg-university-mist text-university-gold">
+                  <Bell size={23} />
+                </span>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-university-gold">
+                    Notice Board
+                  </p>
+                  <h2 className="mt-1 text-2xl font-bold text-university-navy">{home.noticeTitle}</h2>
+                </div>
+              </div>
+            </div>
+            <div className="divide-y divide-university-line">
+              {home.notices.map((notice, index) => (
+                <article key={notice} className="flex gap-4 py-5">
+                  <span className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-university-line text-xs font-bold text-university-gold">
+                    {index + 1}
+                  </span>
+                  <p className="text-sm leading-7 text-university-text">{notice}</p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-2 rounded-md bg-university-mist px-4 py-3 text-sm font-semibold text-university-navy">
+              Latest notices are updated from the university admin office.
+            </div>
+          </aside>
+        </Container>
+      </section>
 
       <section className="bg-white py-20">
         <Container>
