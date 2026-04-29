@@ -14,7 +14,7 @@ export default async function SiteLayout({
   return (
     <>
       <Header settings={settings} />
-      <main className="pt-[124px]">{children}</main>
+      <main className="pt-[108px] sm:pt-[124px]">{children}</main>
       <Footer settings={settings} />
     </>
   );

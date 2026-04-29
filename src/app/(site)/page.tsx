@@ -89,11 +89,11 @@ export default async function HomePage() {
     <>
       <HomeSlider slides={slides} />
 
-      <Container className="grid gap-12 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+      <Container className="grid gap-10 py-14 sm:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-12 lg:py-20">
         <div>
           <SectionHeading eyebrow="Academic Community" title={home.introTitle} />
-          <p className="mt-6 text-lg leading-8 text-slate-700">{home.introBody}</p>
-          <p className="mt-5 border-l-4 border-university-gold pl-5 text-xl font-bold leading-8 text-university-navy">
+          <p className="mt-5 text-base leading-7 text-slate-700 sm:mt-6 sm:text-lg sm:leading-8">{home.introBody}</p>
+          <p className="mt-5 border-l-4 border-university-gold pl-4 text-lg font-bold leading-8 text-university-navy sm:pl-5 sm:text-xl">
             A modern academic environment focused on practical knowledge,
             discipline, research, and professional growth.
           </p>
@@ -129,7 +129,7 @@ export default async function HomePage() {
         </div>
         <div className="relative">
           {home.introImage?.url ? (
-            <div className="relative h-[460px] w-full overflow-hidden rounded-lg shadow-soft">
+            <div className="relative h-[320px] w-full overflow-hidden rounded-lg bg-university-mist shadow-soft sm:h-[400px] lg:h-[460px]">
               <Image
                 src={home.introImage.url}
                 alt={home.introImage.altText || home.introTitle}
@@ -139,33 +139,33 @@ export default async function HomePage() {
               />
             </div>
           ) : null}
-          <div className="absolute bottom-5 left-5 right-5 rounded-lg border border-white/30 bg-white/90 p-5 shadow-soft backdrop-blur">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-university-gold">
+          <div className="absolute bottom-4 left-4 right-4 rounded-lg border border-white/30 bg-white/90 p-4 shadow-soft backdrop-blur sm:bottom-5 sm:left-5 sm:right-5 sm:p-5">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-university-gold sm:text-sm">
               Campus Focus
             </p>
-            <p className="mt-2 text-lg font-bold text-university-navy">
+            <p className="mt-2 text-base font-bold text-university-navy sm:text-lg">
               Quality education, disciplined learning, and practical growth.
             </p>
           </div>
         </div>
       </Container>
 
-      <section className="bg-white py-20">
+      <section className="bg-white py-14 sm:py-16 lg:py-20">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-5">
             <SectionHeading eyebrow="Explore" title={home.featureTitle} body={home.featureBody} />
-            <Link href="/contact" className="btn-secondary">
+            <Link href="/contact" className="btn-secondary w-full sm:w-auto">
               Need Help <ArrowRight size={17} />
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:mt-10 md:grid-cols-3 md:gap-6">
             {featureCards.map((card, index) => {
               const Icon = featureIcons[index] || Landmark;
               return (
                 <Link
                   key={card.title}
                   href={card.href || "#"}
-                  className="group min-h-72 rounded-lg border border-university-line bg-university-mist p-8 transition hover:-translate-y-1 hover:bg-white hover:shadow-lg"
+                  className="group min-h-60 rounded-lg border border-university-line bg-university-mist p-6 transition hover:-translate-y-1 hover:bg-white hover:shadow-lg sm:p-8 md:min-h-72"
                 >
                   <span className="grid h-12 w-12 place-items-center rounded-md bg-university-navy text-university-gold">
                     <Icon size={26} />
@@ -184,24 +184,24 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-white py-20">
+      <section className="relative overflow-hidden bg-white py-14 sm:py-16 lg:py-20">
         <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
           <div className="absolute left-[8%] top-10 h-[520px] w-24 rounded-t-full border-x-[18px] border-university-navy" />
           <div className="absolute left-[24%] top-20 h-[480px] w-24 rounded-t-full border-x-[18px] border-university-navy" />
           <div className="absolute right-[16%] top-0 h-[560px] w-28 rounded-t-full border-x-[20px] border-university-navy" />
         </div>
-        <Container className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-lg border border-university-line bg-university-mist p-8 shadow-soft">
+        <Container className="relative grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+          <section className="rounded-lg border border-university-line bg-university-mist p-5 shadow-soft sm:p-8">
             <div className="max-w-3xl">
-              <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-university-gold">
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-university-gold sm:mb-3 sm:text-sm sm:tracking-[0.18em]">
                 Academic
               </p>
-              <h2 className="text-3xl font-bold tracking-normal text-university-navy md:text-4xl">
+              <h2 className="text-2xl font-bold leading-tight tracking-normal text-university-navy sm:text-3xl md:text-4xl">
                 {home.academicTitle}
               </h2>
-              <p className="mt-4 text-lg leading-8 text-university-text">{home.academicBody}</p>
+              <p className="mt-4 text-base leading-7 text-university-text sm:text-lg sm:leading-8">{home.academicBody}</p>
             </div>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2">
               {academic.programs.slice(0, 4).map((program) => (
                 <Link
                   key={program}
@@ -218,12 +218,12 @@ export default async function HomePage() {
                 </Link>
               ))}
             </div>
-            <Link href="/academic" className="mt-8 inline-flex items-center gap-2 font-bold text-university-navy">
+            <Link href="/academic" className="mt-7 inline-flex items-center gap-2 font-bold text-university-navy sm:mt-8">
               Explore all programs <ArrowRight className="text-university-gold" size={18} />
             </Link>
           </section>
 
-          <aside className="rounded-lg border border-university-line bg-white p-7 shadow-sm">
+          <aside className="rounded-lg border border-university-line bg-white p-5 shadow-sm sm:p-7">
             <div className="flex items-start justify-between gap-4 border-b border-university-line pb-5">
               <div className="flex items-center gap-3">
                 <span className="grid h-11 w-11 place-items-center rounded-md bg-university-mist text-university-gold">
@@ -233,7 +233,7 @@ export default async function HomePage() {
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-university-gold">
                     Notice Board
                   </p>
-                  <h2 className="mt-1 text-2xl font-bold text-university-navy">{home.noticeTitle}</h2>
+                  <h2 className="mt-1 text-xl font-bold text-university-navy sm:text-2xl">{home.noticeTitle}</h2>
                 </div>
               </div>
             </div>
@@ -265,19 +265,19 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="bg-white py-20">
+      <section className="bg-white py-14 sm:py-16 lg:py-20">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-5">
             <SectionHeading eyebrow="Latest" title={home.newsTitle} body={home.newsBody} />
-            <Link href="/news-events" className="btn-secondary">
+            <Link href="/news-events" className="btn-secondary w-full sm:w-auto">
               View all <ArrowRight size={17} />
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:mt-10 md:grid-cols-3 md:gap-6">
             {visibleNews.slice(0, 3).map((item) => (
               <Link key={item.slug} href={`/news-events/${item.slug}`} className="group rounded-lg border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
                 {item.coverImage?.url ? (
-                  <div className="relative h-52 w-full overflow-hidden rounded-t-lg">
+                  <div className="relative h-52 w-full overflow-hidden rounded-t-lg bg-university-mist">
                     <Image
                       src={item.coverImage.url}
                       alt={item.coverImage.altText || item.title}
@@ -292,7 +292,7 @@ export default async function HomePage() {
                   </div>
                 )}
                 <div className="p-5">
-                  <p className="text-sm font-semibold text-university-gold">{item.category} · {item.date}</p>
+                  <p className="text-sm font-semibold text-university-gold">{item.category} - {item.date}</p>
                   <h2 className="mt-3 text-xl font-bold text-university-navy group-hover:text-university-royal">{item.title}</h2>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{item.excerpt}</p>
                 </div>
@@ -302,11 +302,11 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <Container className="py-20">
-        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+      <Container className="py-14 sm:py-16 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <div>
             <SectionHeading eyebrow="Gallery" title={home.galleryTitle} body={home.galleryBody} />
-            <Link href="/gallery" className="mt-8 btn-primary">
+            <Link href="/gallery" className="mt-6 btn-primary w-full sm:mt-8 sm:w-auto">
               View Gallery <Images size={17} />
             </Link>
           </div>
@@ -314,7 +314,7 @@ export default async function HomePage() {
             {gallery[0] ? (
               <article className="group overflow-hidden rounded-lg bg-white shadow-sm">
                 {gallery[0].image?.url ? (
-                  <div className="relative h-[440px] w-full overflow-hidden">
+                  <div className="relative h-[300px] w-full overflow-hidden bg-university-mist sm:h-[380px] lg:h-[440px]">
                     <Image
                       src={gallery[0].image.url}
                       alt={gallery[0].image.altText || gallery[0].title}
@@ -324,7 +324,7 @@ export default async function HomePage() {
                     />
                   </div>
                 ) : (
-                  <div className="h-[440px] bg-university-mist" />
+                  <div className="h-[300px] bg-university-mist sm:h-[380px] lg:h-[440px]" />
                 )}
                 <div className="p-5">
                   <p className="text-sm font-semibold text-university-gold">{gallery[0].category}</p>
@@ -336,7 +336,7 @@ export default async function HomePage() {
               {gallery.slice(1, 3).map((item) => (
                 <article key={item._id || item.title} className="group overflow-hidden rounded-lg bg-white shadow-sm">
                   {item.image?.url ? (
-                    <div className="relative h-[190px] w-full overflow-hidden">
+                    <div className="relative h-[210px] w-full overflow-hidden bg-university-mist md:h-[190px]">
                       <Image
                         src={item.image.url}
                         alt={item.image.altText || item.title}
@@ -346,7 +346,7 @@ export default async function HomePage() {
                       />
                     </div>
                   ) : (
-                    <div className="h-[190px] bg-university-mist" />
+                    <div className="h-[210px] bg-university-mist md:h-[190px]" />
                   )}
                   <div className="p-4">
                     <p className="text-sm font-semibold text-university-gold">{item.category}</p>
@@ -360,17 +360,17 @@ export default async function HomePage() {
       </Container>
 
       <Container className="pb-4">
-        <section className="relative min-h-72 overflow-hidden rounded-lg bg-[linear-gradient(135deg,#0F6B57,#0B2341)] p-9 text-white shadow-soft md:p-14">
+        <section className="relative min-h-72 overflow-hidden rounded-lg bg-[linear-gradient(135deg,#0F6B57,#0B2341)] p-6 text-white shadow-soft sm:p-9 md:p-14">
           <div className="pointer-events-none absolute inset-0 opacity-10">
             <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[34px] border-white" />
             <div className="absolute -bottom-28 left-1/3 h-72 w-72 rounded-full border-[34px] border-white" />
           </div>
           <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <h2 className="text-3xl font-bold md:text-4xl">{home.ctaTitle}</h2>
-              <p className="mt-4 max-w-3xl leading-8 text-white/80">{home.ctaBody}</p>
+              <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">{home.ctaTitle}</h2>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">{home.ctaBody}</p>
             </div>
-            <Link href={home.ctaHref} className="inline-flex items-center justify-center gap-2 rounded-md bg-university-gold px-7 py-4 text-base font-bold text-university-navy transition hover:bg-white">
+            <Link href={home.ctaHref} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-university-gold px-6 py-3 text-sm font-bold text-university-navy transition hover:bg-white sm:px-7 sm:py-4 sm:text-base">
               {home.ctaButtonLabel}
               <ArrowRight size={18} />
             </Link>

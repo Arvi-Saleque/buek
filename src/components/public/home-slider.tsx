@@ -26,7 +26,7 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
   };
 
   return (
-    <section className="relative -mt-[124px] min-h-screen overflow-hidden bg-university-navy text-white">
+    <section className="relative -mt-[108px] min-h-[720px] overflow-hidden bg-university-navy text-white sm:-mt-[124px] sm:min-h-screen">
       {items.map((slide, index) => (
         <div
           key={`${slide.title}-${index}`}
@@ -51,28 +51,28 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
         </div>
       ))}
 
-      <Container className="relative flex min-h-screen items-center pb-24 pt-[190px]">
+      <Container className="relative flex min-h-[720px] items-center pb-28 pt-[168px] sm:min-h-screen sm:pb-24 sm:pt-[190px]">
         <div className="max-w-5xl">
-          <p className="mb-6 inline-flex rounded-md border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-bold uppercase tracking-[0.2em] text-university-gold backdrop-blur">
+          <p className="mb-4 inline-flex rounded-md border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-university-gold backdrop-blur sm:mb-6 sm:px-4 sm:text-sm sm:tracking-[0.2em]">
             {items[active].eyebrow}
           </p>
-          <h1 className="max-w-5xl text-5xl font-bold leading-[1.04] tracking-normal md:text-7xl lg:text-8xl">
+          <h1 className="max-w-5xl text-4xl font-bold leading-[1.08] tracking-normal sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
             {items[active].title}
           </h1>
-          <p className="mt-8 max-w-3xl text-lg leading-8 text-white/82 md:text-2xl md:leading-9">
+          <p className="mt-5 max-w-3xl text-base leading-7 text-white/82 sm:mt-8 sm:text-lg sm:leading-8 md:text-2xl md:leading-9">
             {items[active].subtitle}
           </p>
-          <div className="mt-12 flex flex-wrap items-center gap-4">
+          <div className="mt-8 grid gap-3 sm:mt-12 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href={items[active].buttonHref || "/academic"}
-              className="inline-flex items-center gap-3 rounded-md bg-university-gold px-7 py-4 text-base font-bold text-university-navy shadow-[0_18px_38px_rgba(200,155,60,0.28)] transition hover:-translate-y-0.5 hover:bg-university-goldDark"
+              className="inline-flex min-h-12 items-center justify-center gap-3 rounded-md bg-university-gold px-6 py-3 text-sm font-bold text-university-navy shadow-[0_18px_38px_rgba(200,155,60,0.28)] transition hover:-translate-y-0.5 hover:bg-university-goldDark sm:px-7 sm:py-4 sm:text-base"
             >
               {items[active].buttonLabel || "Learn More"}
               <ArrowRight size={18} />
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-md border border-white/40 bg-white/10 px-7 py-4 text-base font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white hover:text-university-navy"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-white/40 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white hover:text-university-navy sm:px-7 sm:py-4 sm:text-base"
             >
               Contact Office
             </Link>
@@ -81,7 +81,7 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
       </Container>
 
       {items.length > 1 ? (
-        <div className="absolute bottom-8 left-0 right-0">
+        <div className="absolute bottom-6 left-0 right-0 sm:bottom-8">
           <Container className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 rounded-full border border-white/15 bg-university-navy/20 px-3 py-2 backdrop-blur">
               {items.map((slide, index) => (

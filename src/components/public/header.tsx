@@ -50,7 +50,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
     >
       <div
         className={[
-          "transition-colors duration-300",
+          "hidden transition-colors duration-300 sm:block",
           topIsTransparent ? "bg-university-navy/28 text-white" : "bg-university-navy text-white",
         ].join(" ")}
       >
@@ -71,7 +71,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
           </Link>
         </Container>
       </div>
-      <Container className="flex min-h-20 items-center justify-between gap-4 py-3">
+      <Container className="flex min-h-16 items-center justify-between gap-3 py-2 sm:min-h-20 sm:gap-4 sm:py-3">
         <Link href="/" className="flex min-w-0 items-center gap-3">
           {settings.logo?.url ? (
             <Image
@@ -79,17 +79,17 @@ export function Header({ settings }: { settings: SiteSettings }) {
               alt={settings.logo.altText || settings.universityName}
               width={48}
               height={48}
-              className="h-12 w-12 rounded-md object-cover"
+              className="h-10 w-10 rounded-md object-cover sm:h-12 sm:w-12"
             />
           ) : (
-            <span className="grid h-12 w-12 place-items-center rounded-md bg-university-navy text-university-gold shadow-sm">
-              <BookOpen size={25} />
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-university-navy text-university-gold shadow-sm sm:h-12 sm:w-12">
+              <BookOpen className="h-5 w-5 sm:h-6 sm:w-6" />
             </span>
           )}
           <span className="min-w-0">
             <span
               className={[
-                "block truncate text-lg font-bold md:text-xl",
+                "block truncate text-base font-bold leading-tight sm:text-lg md:text-xl",
                 topIsTransparent ? "text-white" : "text-university-navy",
               ].join(" ")}
             >
@@ -97,7 +97,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
             </span>
             <span
               className={[
-                "block truncate text-sm",
+                "block truncate text-xs sm:text-sm",
                 topIsTransparent ? "text-white/75" : "text-slate-600",
               ].join(" ")}
             >
@@ -161,7 +161,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
           ))}
         </nav>
       </Container>
-      <Container className="flex gap-2 overflow-x-auto pb-3 lg:hidden">
+      <Container className="scrollbar-hide flex gap-2 overflow-x-auto pb-2 sm:pb-3 lg:hidden">
         <Link
           href="/"
           className={[
