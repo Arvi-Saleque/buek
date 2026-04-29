@@ -1,5 +1,6 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
 import { ObjectId } from "mongodb";
 import {
   defaultAbout,
@@ -33,6 +34,19 @@ const COLLECTIONS = {
   contactMessages: "contactMessages",
 };
 
+const CACHE_SECONDS = 300;
+export const CONTENT_TAGS = {
+  settings: "site-settings",
+  home: "page-home",
+  about: "page-about",
+  academic: "page-academic",
+  contact: "page-contact",
+  news: "news-events",
+  gallery: "gallery-items",
+  committee: "committee-members",
+  messages: "contact-messages",
+} as const;
+
 function cleanDoc<T>(doc: T & { _id?: unknown }): T {
   const { _id, ...rest } = doc;
   void _id;
@@ -50,7 +64,7 @@ function mergeContent<T extends object>(fallback: T, value?: Partial<T> | null):
   return { ...fallback, ...(value || {}) };
 }
 
-export async function getSiteSettings(): Promise<SiteSettings> {
+async function getSiteSettingsData(): Promise<SiteSettings> {
   try {
     const db = await getDb();
     if (!db) return defaultSettings;
@@ -60,6 +74,12 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return defaultSettings;
   }
 }
+
+export const getSiteSettings = unstable_cache(
+  getSiteSettingsData,
+  ["site-settings"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.settings] },
+);
 
 export async function saveSiteSettings(data: SiteSettings) {
   const db = await getDb();
@@ -92,12 +112,28 @@ export async function savePage<T extends object>(key: string, content: T) {
   );
 }
 
-export const getHomePage = () => getPage<HomePage>("home", defaultHome);
-export const getAboutPage = () => getPage<AboutPage>("about", defaultAbout);
-export const getAcademicPage = () => getPage<AcademicPage>("academic", defaultAcademic);
-export const getContactPage = () => getPage<ContactPage>("contact", defaultContact);
+export const getHomePage = unstable_cache(
+  () => getPage<HomePage>("home", defaultHome),
+  ["page-home"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.home] },
+);
+export const getAboutPage = unstable_cache(
+  () => getPage<AboutPage>("about", defaultAbout),
+  ["page-about"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.about] },
+);
+export const getAcademicPage = unstable_cache(
+  () => getPage<AcademicPage>("academic", defaultAcademic),
+  ["page-academic"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.academic] },
+);
+export const getContactPage = unstable_cache(
+  () => getPage<ContactPage>("contact", defaultContact),
+  ["page-contact"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.contact] },
+);
 
-export async function getCommitteeMembers(publishedOnly = true): Promise<CommitteeMember[]> {
+async function getCommitteeMembersData(publishedOnly = true): Promise<CommitteeMember[]> {
   try {
     const db = await getDb();
     if (!db) return defaultCommittee.filter((item) => !publishedOnly || item.published);
@@ -108,6 +144,12 @@ export async function getCommitteeMembers(publishedOnly = true): Promise<Committ
     return defaultCommittee.filter((item) => !publishedOnly || item.published);
   }
 }
+
+export const getCommitteeMembers = unstable_cache(
+  getCommitteeMembersData,
+  ["committee-members"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.committee] },
+);
 
 export async function getCommitteeMember(id: string): Promise<CommitteeMember | null> {
   const db = await getDb();
@@ -133,7 +175,7 @@ export async function deleteCommitteeMember(id: string) {
   await db.collection(COLLECTIONS.committee).deleteOne({ _id: new ObjectId(id) });
 }
 
-export async function getNewsEvents(publishedOnly = true): Promise<NewsEvent[]> {
+async function getNewsEventsData(publishedOnly = true): Promise<NewsEvent[]> {
   try {
     const db = await getDb();
     if (!db) return defaultNews.filter((item) => !publishedOnly || item.published);
@@ -145,12 +187,28 @@ export async function getNewsEvents(publishedOnly = true): Promise<NewsEvent[]> 
   }
 }
 
-export async function getNewsEventBySlug(slug: string): Promise<NewsEvent | null> {
-  const db = await getDb();
-  if (!db) return defaultNews.find((item) => item.slug === slug && item.published) || null;
-  const item = await db.collection(COLLECTIONS.news).findOne({ slug, published: true });
-  return item ? withId(item as NewsEvent & { _id?: ObjectId }) : null;
+export const getNewsEvents = unstable_cache(
+  getNewsEventsData,
+  ["news-events"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.news] },
+);
+
+async function getNewsEventBySlugData(slug: string): Promise<NewsEvent | null> {
+  try {
+    const db = await getDb();
+    if (!db) return defaultNews.find((item) => item.slug === slug && item.published) || null;
+    const item = await db.collection(COLLECTIONS.news).findOne({ slug, published: true });
+    return item ? withId(item as NewsEvent & { _id?: ObjectId }) : null;
+  } catch {
+    return defaultNews.find((item) => item.slug === slug && item.published) || null;
+  }
 }
+
+export const getNewsEventBySlug = unstable_cache(
+  getNewsEventBySlugData,
+  ["news-event-by-slug"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.news] },
+);
 
 export async function getNewsEventById(id: string): Promise<NewsEvent | null> {
   const db = await getDb();
@@ -176,7 +234,7 @@ export async function deleteNewsEvent(id: string) {
   await db.collection(COLLECTIONS.news).deleteOne({ _id: new ObjectId(id) });
 }
 
-export async function getGalleryItems(publishedOnly = true): Promise<GalleryItem[]> {
+async function getGalleryItemsData(publishedOnly = true): Promise<GalleryItem[]> {
   try {
     const db = await getDb();
     if (!db) return defaultGallery.filter((item) => !publishedOnly || item.published);
@@ -187,6 +245,12 @@ export async function getGalleryItems(publishedOnly = true): Promise<GalleryItem
     return defaultGallery.filter((item) => !publishedOnly || item.published);
   }
 }
+
+export const getGalleryItems = unstable_cache(
+  getGalleryItemsData,
+  ["gallery-items"],
+  { revalidate: CACHE_SECONDS, tags: [CONTENT_TAGS.gallery] },
+);
 
 export async function getGalleryItem(id: string): Promise<GalleryItem | null> {
   const db = await getDb();
@@ -218,7 +282,7 @@ export async function saveContactMessage(message: ContactMessage) {
   await db.collection(COLLECTIONS.contactMessages).insertOne(message);
 }
 
-export async function getContactMessages(): Promise<ContactMessage[]> {
+async function getContactMessagesData(): Promise<ContactMessage[]> {
   try {
     const db = await getDb();
     if (!db) return [];
@@ -228,3 +292,9 @@ export async function getContactMessages(): Promise<ContactMessage[]> {
     return [];
   }
 }
+
+export const getContactMessages = unstable_cache(
+  getContactMessagesData,
+  ["contact-messages"],
+  { revalidate: 60, tags: [CONTENT_TAGS.messages] },
+);

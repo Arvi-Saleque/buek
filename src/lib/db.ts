@@ -1,9 +1,15 @@
 import "server-only";
 
-import { Db, MongoClient } from "mongodb";
+import { Db, MongoClient, type MongoClientOptions } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB || "buek";
+const mongoOptions: MongoClientOptions = {
+  connectTimeoutMS: 5000,
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 15000,
+};
 
 let clientPromise: Promise<MongoClient> | undefined;
 
@@ -18,11 +24,11 @@ export async function getDb(): Promise<Db | null> {
 
   if (process.env.NODE_ENV === "development") {
     if (!global.__buekMongoClientPromise) {
-      global.__buekMongoClientPromise = new MongoClient(uri).connect();
+      global.__buekMongoClientPromise = new MongoClient(uri, mongoOptions).connect();
     }
     clientPromise = global.__buekMongoClientPromise;
   } else if (!clientPromise) {
-    clientPromise = new MongoClient(uri).connect();
+    clientPromise = new MongoClient(uri, mongoOptions).connect();
   }
 
   const client = await clientPromise;

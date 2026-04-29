@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import {
   clearAdminSession,
@@ -12,6 +12,7 @@ import {
   deleteCommitteeMember,
   deleteGalleryItem,
   deleteNewsEvent,
+  CONTENT_TAGS,
   getAboutPage,
   getHomePage,
   getSiteSettings,
@@ -45,6 +46,11 @@ function numberValue(formData: FormData, key: string) {
 
 function booleanValue(formData: FormData, key: string) {
   return formData.get(key) === "on" || formData.get(key) === "true";
+}
+
+function refreshPublicContent(...tags: string[]) {
+  tags.forEach((tag) => revalidateTag(tag));
+  revalidatePath("/", "layout");
 }
 
 function lines(formData: FormData, key: string) {
@@ -165,7 +171,7 @@ export async function saveSettingsAction(formData: FormData) {
   };
 
   await saveSiteSettings(settings);
-  revalidatePath("/", "layout");
+  refreshPublicContent(CONTENT_TAGS.settings);
   redirect("/admin/settings?saved=1");
 }
 
@@ -209,7 +215,7 @@ export async function saveHomeAction(formData: FormData) {
   };
 
   await savePage("home", content);
-  revalidatePath("/");
+  refreshPublicContent(CONTENT_TAGS.home);
   redirect("/admin/home?saved=1");
 }
 
@@ -232,7 +238,7 @@ export async function saveAboutAction(formData: FormData) {
   };
 
   await savePage("about", content);
-  revalidatePath("/about", "layout");
+  refreshPublicContent(CONTENT_TAGS.about);
   redirect("/admin/about?saved=1");
 }
 
@@ -247,7 +253,7 @@ export async function saveAcademicAction(formData: FormData) {
   };
 
   await savePage("academic", content);
-  revalidatePath("/academic");
+  refreshPublicContent(CONTENT_TAGS.academic);
   redirect("/admin/academic?saved=1");
 }
 
@@ -263,7 +269,7 @@ export async function saveContactPageAction(formData: FormData) {
   };
 
   await savePage("contact", content);
-  revalidatePath("/contact");
+  refreshPublicContent(CONTENT_TAGS.contact);
   redirect("/admin/contact?saved=1");
 }
 
@@ -284,13 +290,13 @@ export async function saveNewsEventAction(formData: FormData) {
     coverImage,
   });
 
-  revalidatePath("/news-events", "layout");
+  refreshPublicContent(CONTENT_TAGS.news);
   redirect("/admin/news-events?saved=1");
 }
 
 export async function deleteNewsEventAction(formData: FormData) {
   await deleteNewsEvent(value(formData, "id"));
-  revalidatePath("/news-events", "layout");
+  refreshPublicContent(CONTENT_TAGS.news);
   redirect("/admin/news-events?deleted=1");
 }
 
@@ -304,13 +310,13 @@ export async function saveGalleryItemAction(formData: FormData) {
     image: await imageFromForm(formData, "image", "university/gallery"),
   });
 
-  revalidatePath("/gallery");
+  refreshPublicContent(CONTENT_TAGS.gallery);
   redirect("/admin/gallery?saved=1");
 }
 
 export async function deleteGalleryItemAction(formData: FormData) {
   await deleteGalleryItem(value(formData, "id"));
-  revalidatePath("/gallery");
+  refreshPublicContent(CONTENT_TAGS.gallery);
   redirect("/admin/gallery?deleted=1");
 }
 
@@ -325,13 +331,13 @@ export async function saveCommitteeMemberAction(formData: FormData) {
     photo: await imageFromForm(formData, "photo", "university/committee"),
   });
 
-  revalidatePath("/about/committee");
+  refreshPublicContent(CONTENT_TAGS.committee);
   redirect("/admin/about?saved=1#committee");
 }
 
 export async function deleteCommitteeMemberAction(formData: FormData) {
   await deleteCommitteeMember(value(formData, "id"));
-  revalidatePath("/about/committee");
+  refreshPublicContent(CONTENT_TAGS.committee);
   redirect("/admin/about?deleted=1#committee");
 }
 
@@ -350,5 +356,6 @@ export async function submitContactAction(formData: FormData) {
     redirect("/contact?error=storage");
   }
 
+  revalidateTag(CONTENT_TAGS.messages);
   redirect("/contact?sent=1");
 }
