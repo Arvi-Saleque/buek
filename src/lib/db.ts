@@ -9,6 +9,7 @@ const mongoOptions: MongoClientOptions = {
   maxPoolSize: 10,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 15000,
+  tls: true,
 };
 
 let clientPromise: Promise<MongoClient> | undefined;

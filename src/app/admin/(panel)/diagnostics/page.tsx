@@ -21,12 +21,59 @@ function safeHost(uri?: string) {
   }
 }
 
+function inspectMongoUri(uri?: string) {
+  if (!uri) {
+    return {
+      protocol: "Missing",
+      databaseInUri: "Missing",
+      tlsFlag: "Missing",
+      warnings: ["MONGODB_URI is missing."],
+    };
+  }
+
+  try {
+    const parsed = new URL(uri);
+    const tlsFlag = parsed.searchParams.get("tls") || parsed.searchParams.get("ssl") || "not set";
+    const warnings = [];
+
+    if (parsed.protocol !== "mongodb+srv:" && parsed.protocol !== "mongodb:") {
+      warnings.push("MONGODB_URI should start with mongodb+srv:// or mongodb://.");
+    }
+
+    if (tlsFlag === "false") {
+      warnings.push("Remove tls=false or ssl=false from MONGODB_URI. MongoDB Atlas requires TLS.");
+    }
+
+    if (parsed.protocol === "mongodb:" && tlsFlag === "not set") {
+      warnings.push("Standard mongodb:// Atlas URLs should include tls=true.");
+    }
+
+    return {
+      protocol: parsed.protocol.replace(":", ""),
+      databaseInUri: parsed.pathname.replace("/", "") || "not set",
+      tlsFlag,
+      warnings,
+    };
+  } catch {
+    return {
+      protocol: "Could not parse",
+      databaseInUri: "Could not parse",
+      tlsFlag: "Could not parse",
+      warnings: ["MONGODB_URI is configured, but it could not be parsed as a URL."],
+    };
+  }
+}
+
 async function getMongoDiagnostics() {
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.MONGODB_DB || "buek";
+  const uriInfo = inspectMongoUri(uri);
   const rows: CheckRow[] = [
     { label: "MONGODB_URI", value: uri ? `Configured (${safeHost(uri)})` : "Missing", ok: Boolean(uri) },
     { label: "MONGODB_DB", value: dbName, ok: Boolean(process.env.MONGODB_DB) },
+    { label: "URI Protocol", value: uriInfo.protocol, ok: uriInfo.protocol === "mongodb+srv" || uriInfo.protocol === "mongodb" },
+    { label: "Database In URI", value: uriInfo.databaseInUri, ok: uriInfo.databaseInUri === dbName },
+    { label: "TLS Flag In URI", value: uriInfo.tlsFlag, ok: uriInfo.tlsFlag !== "false" },
     {
       label: "NEXT_PUBLIC_SITE_URL",
       value: process.env.NEXT_PUBLIC_SITE_URL || "Missing",
@@ -41,6 +88,7 @@ async function getMongoDiagnostics() {
       rows,
       connected: false,
       error: "MONGODB_URI is missing in this Vercel environment.",
+      warnings: uriInfo.warnings,
       database: dbName,
       settingsName: "",
       homeTitle: "",
@@ -49,7 +97,12 @@ async function getMongoDiagnostics() {
   }
 
   try {
-    const client = new MongoClient(uri, { serverSelectionTimeoutMS: 6000 });
+    const client = new MongoClient(uri, {
+      connectTimeoutMS: 6000,
+      serverSelectionTimeoutMS: 6000,
+      socketTimeoutMS: 15000,
+      tls: true,
+    });
     await client.connect();
     const db = client.db(dbName);
     const [settings, homePage] = await Promise.all([
@@ -68,6 +121,7 @@ async function getMongoDiagnostics() {
       rows,
       connected: true,
       error: "",
+      warnings: uriInfo.warnings,
       database: dbName,
       settingsName: settings?.universityName || "No siteSettings key=main document found",
       homeTitle: homePage?.content?.slides?.[0]?.title || "No pages key=home document found",
@@ -78,6 +132,7 @@ async function getMongoDiagnostics() {
       rows,
       connected: false,
       error: error instanceof Error ? error.message : "Unknown MongoDB connection error",
+      warnings: uriInfo.warnings,
       database: dbName,
       settingsName: "",
       homeTitle: "",
@@ -128,6 +183,13 @@ export default async function AdminDiagnosticsPage() {
         {diagnostics.error ? (
           <div className="mt-5 rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-800">
             {diagnostics.error}
+          </div>
+        ) : null}
+        {diagnostics.warnings.length ? (
+          <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
+            {diagnostics.warnings.map((warning) => (
+              <p key={warning}>{warning}</p>
+            ))}
           </div>
         ) : null}
       </section>
