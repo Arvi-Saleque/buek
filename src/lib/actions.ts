@@ -63,15 +63,6 @@ function downloads(formData: FormData) {
     .filter((item) => item.label && item.href);
 }
 
-function pairedRows(formData: FormData, firstKey: string, secondKey: string) {
-  const first = formData.getAll(firstKey).map((item) => String(item).trim());
-  const second = formData.getAll(secondKey).map((item) => String(item).trim());
-
-  return first
-    .map((value, index) => ({ value, label: second[index] || "" }))
-    .filter((item) => item.value && item.label);
-}
-
 function featureRows(formData: FormData) {
   const titles = formData.getAll("featureCardTitle").map((item) => String(item).trim());
   const bodies = formData.getAll("featureCardBody").map((item) => String(item).trim());
@@ -179,7 +170,6 @@ export async function saveHomeAction(formData: FormData) {
 
   const content: HomePage = {
     slides: slides.filter((slide) => slide.title && slide.subtitle),
-    stats: pairedRows(formData, "statValue", "statLabel"),
     introTitle: value(formData, "introTitle"),
     introBody: value(formData, "introBody"),
     introImage:

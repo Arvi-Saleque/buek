@@ -31,7 +31,6 @@ export default async function HomePage() {
   ]);
 
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
-  const stats = home.stats?.length ? home.stats : defaultHome.stats;
   const featureCards = home.featureCards?.length
     ? home.featureCards
     : defaultHome.featureCards;
@@ -39,19 +38,6 @@ export default async function HomePage() {
   return (
     <>
       <HomeSlider slides={slides} />
-
-      <section className="relative z-10 -mt-12">
-        <Container>
-          <div className="grid overflow-hidden rounded-lg border border-white/40 bg-white shadow-soft md:grid-cols-4">
-            {stats.map((item) => (
-              <div key={`${item.value}-${item.label}`} className="border-b border-slate-200 p-6 md:border-b-0 md:border-r last:border-r-0">
-                <p className="text-3xl font-bold text-university-green">{item.value}</p>
-                <p className="mt-2 text-sm font-semibold text-slate-600">{item.label}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
 
       <Container className="grid gap-12 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>

@@ -12,7 +12,6 @@ export default async function AdminHomePage({
 }) {
   const [home, params] = await Promise.all([getHomePage(), searchParams]);
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
-  const stats = home.stats?.length ? home.stats : defaultHome.stats;
   const featureCards = home.featureCards?.length
     ? home.featureCards
     : defaultHome.featureCards;
@@ -54,18 +53,6 @@ export default async function AdminHomePage({
               </div>
             </div>
           ))}
-        </section>
-
-        <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Stats Strip</h2>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {[0, 1, 2, 3].map((index) => (
-              <div key={index} className="grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
-                <input name="statValue" defaultValue={stats[index]?.value || ""} placeholder="Value, e.g. 25+" className="field bg-white" />
-                <input name="statLabel" defaultValue={stats[index]?.label || ""} placeholder="Label" className="field bg-white" />
-              </div>
-            ))}
-          </div>
         </section>
 
         <section className="admin-card grid gap-4">

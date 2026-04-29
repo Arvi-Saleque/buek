@@ -32,11 +32,6 @@ export type HomeSlide = {
   image?: ImageAsset;
 };
 
-export type HomeStat = {
-  value: string;
-  label: string;
-};
-
 export type HomeFeatureCard = {
   title: string;
   body: string;
@@ -45,7 +40,6 @@ export type HomeFeatureCard = {
 
 export type HomePage = {
   slides: HomeSlide[];
-  stats: HomeStat[];
   introTitle: string;
   introBody: string;
   introImage?: ImageAsset;

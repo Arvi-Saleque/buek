@@ -62,12 +62,6 @@ export const defaultHome: HomePage = {
       },
     },
   ],
-  stats: [
-    { value: "25+", label: "Academic programs" },
-    { value: "80+", label: "Faculty members" },
-    { value: "12k+", label: "Alumni network" },
-    { value: "40+", label: "Campus events yearly" },
-  ],
   introTitle: "Welcome to our academic community",
   introBody:
     "We prepare students with practical knowledge, ethical judgment, and the confidence to serve society through meaningful work.",
