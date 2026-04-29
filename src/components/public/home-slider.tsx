@@ -42,7 +42,7 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
               className="h-full w-full object-cover"
             />
           ) : null}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.94),rgba(11,35,65,0.70)_48%,rgba(15,93,80,0.36))]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.84),rgba(11,35,65,0.72)_48%,rgba(18,58,99,0.42))]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(201,154,46,0.22),transparent_32%)]" />
         </div>
       ))}
@@ -61,7 +61,7 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <Link
               href={items[active].buttonHref || "/academic"}
-              className="inline-flex items-center gap-2 rounded-md bg-university-gold px-5 py-3 text-sm font-bold text-university-navy shadow-soft transition hover:bg-white"
+              className="inline-flex items-center gap-2 rounded-md bg-university-gold px-5 py-3 text-sm font-bold text-university-navy shadow-soft transition hover:bg-university-goldDark"
             >
               {items[active].buttonLabel || "Learn More"}
               <ArrowRight size={18} />

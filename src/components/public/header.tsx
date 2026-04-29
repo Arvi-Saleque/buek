@@ -25,6 +25,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const isHome = pathname === "/";
+  const aboutActive = pathname.startsWith("/about");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -78,7 +79,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
               className="h-12 w-12 rounded-md object-cover"
             />
           ) : (
-            <span className="grid h-12 w-12 place-items-center rounded-md bg-university-green text-white shadow-sm">
+            <span className="grid h-12 w-12 place-items-center rounded-md bg-university-navy text-university-gold shadow-sm">
               <BookOpen size={25} />
             </span>
           )}
@@ -105,10 +106,11 @@ export function Header({ settings }: { settings: SiteSettings }) {
           <Link
             href="/"
             className={[
-              "rounded-md px-3 py-2 text-sm font-semibold transition",
+              "relative rounded-md px-3 py-2 text-sm font-semibold transition after:absolute after:bottom-0 after:left-3 after:h-0.5 after:rounded-full after:bg-university-gold after:transition-all",
+              pathname === "/" ? "after:w-[calc(100%-1.5rem)]" : "after:w-0",
               topIsTransparent
                 ? "text-white/80 hover:bg-white/10 hover:text-white"
-                : "text-slate-700 hover:bg-university-mist hover:text-university-green",
+                : "text-ink hover:bg-university-mist hover:text-university-navy",
             ].join(" ")}
           >
             Home
@@ -116,10 +118,11 @@ export function Header({ settings }: { settings: SiteSettings }) {
           <div className="group relative">
             <button
               className={[
-                "inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold transition",
+                "relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold transition after:absolute after:bottom-0 after:left-3 after:h-0.5 after:rounded-full after:bg-university-gold after:transition-all",
+                aboutActive ? "after:w-[calc(100%-1.5rem)]" : "after:w-0",
                 topIsTransparent
                   ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-slate-700 hover:bg-university-mist hover:text-university-green",
+                  : "text-ink hover:bg-university-mist hover:text-university-navy",
               ].join(" ")}
               type="button"
             >
@@ -131,7 +134,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block rounded-md px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-university-mist hover:text-university-green"
+                  className="block rounded-md px-3 py-2.5 text-sm font-semibold text-ink transition hover:bg-university-mist hover:text-university-navy"
                 >
                   {item.label}
                 </Link>
@@ -143,10 +146,11 @@ export function Header({ settings }: { settings: SiteSettings }) {
               key={item.href}
               href={item.href}
               className={[
-                "rounded-md px-3 py-2 text-sm font-semibold transition",
+                "relative rounded-md px-3 py-2 text-sm font-semibold transition after:absolute after:bottom-0 after:left-3 after:h-0.5 after:rounded-full after:bg-university-gold after:transition-all",
+                pathname === item.href ? "after:w-[calc(100%-1.5rem)]" : "after:w-0",
                 topIsTransparent
                   ? "text-white/80 hover:bg-white/10 hover:text-white"
-                  : "text-slate-700 hover:bg-university-mist hover:text-university-green",
+                  : "text-ink hover:bg-university-mist hover:text-university-navy",
               ].join(" ")}
             >
               {item.label}
@@ -159,7 +163,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
           href="/"
           className={[
             "shrink-0 rounded-md px-3 py-2 text-sm font-semibold",
-            topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-slate-700",
+            topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-ink",
           ].join(" ")}
         >
           Home
@@ -170,7 +174,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
             href={item.href}
             className={[
               "shrink-0 rounded-md px-3 py-2 text-sm font-semibold",
-              topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-slate-700",
+              topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-ink",
             ].join(" ")}
           >
             {item.label}
@@ -182,7 +186,7 @@ export function Header({ settings }: { settings: SiteSettings }) {
             href={item.href}
             className={[
               "shrink-0 rounded-md px-3 py-2 text-sm font-semibold",
-              topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-slate-700",
+              topIsTransparent ? "bg-white/10 text-white" : "bg-university-mist text-ink",
             ].join(" ")}
           >
             {item.label}

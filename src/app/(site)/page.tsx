@@ -91,8 +91,8 @@ export default async function HomePage() {
                   href={card.href || "#"}
                   className="group rounded-lg border border-university-line bg-university-mist p-7 transition hover:-translate-y-1 hover:bg-white hover:shadow-soft"
                 >
-                  <Icon className="text-university-green" size={32} />
-                  <h2 className="mt-5 text-xl font-bold text-university-navy group-hover:text-university-green">
+                  <Icon className="text-university-navy" size={32} />
+                  <h2 className="mt-5 text-xl font-bold text-university-navy group-hover:text-university-royal">
                     {card.title}
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-slate-600">{card.body}</p>
@@ -160,12 +160,12 @@ export default async function HomePage() {
                   <img src={item.coverImage.url} alt={item.coverImage.altText || item.title} className="h-52 w-full rounded-t-lg object-cover" />
                 ) : (
                   <div className="grid h-52 place-items-center rounded-t-lg bg-university-mist">
-                    <CalendarDays className="text-university-green" size={34} />
+                    <CalendarDays className="text-university-navy" size={34} />
                   </div>
                 )}
                 <div className="p-5">
-                  <p className="text-sm font-semibold text-university-green">{item.category} · {item.date}</p>
-                  <h2 className="mt-3 text-xl font-bold text-university-navy group-hover:text-university-green">{item.title}</h2>
+                  <p className="text-sm font-semibold text-university-gold">{item.category} · {item.date}</p>
+                  <h2 className="mt-3 text-xl font-bold text-university-navy group-hover:text-university-royal">{item.title}</h2>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{item.excerpt}</p>
                 </div>
               </Link>
@@ -191,7 +191,7 @@ export default async function HomePage() {
                   <div className="h-64 bg-university-mist" />
                 )}
                 <div className="p-4">
-                  <p className="text-sm font-semibold text-university-green">{item.category}</p>
+                  <p className="text-sm font-semibold text-university-gold">{item.category}</p>
                   <h2 className="mt-1 font-bold text-university-navy">{item.title}</h2>
                 </div>
               </article>
