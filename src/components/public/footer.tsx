@@ -50,7 +50,15 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         </div>
       </Container>
       <div className="border-t border-white/10 py-5 text-center text-sm text-white/60">
-        © {new Date().getFullYear()} {settings.universityName}. All rights reserved.
+        © {new Date().getFullYear()} {settings.universityName}. All rights reserved. &mdash; Developed by{" "}
+        <a
+          href="https://effy-tech.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-university-gold transition hover:text-white"
+        >
+          Effy Tech
+        </a>
       </div>
     </footer>
   );
