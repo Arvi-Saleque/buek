@@ -219,8 +219,12 @@ export async function saveContactMessage(message: ContactMessage) {
 }
 
 export async function getContactMessages(): Promise<ContactMessage[]> {
-  const db = await getDb();
-  if (!db) return [];
-  const messages = await db.collection<ContactMessage>(COLLECTIONS.contactMessages).find({}).sort({ createdAt: -1 }).limit(100).toArray();
-  return messages.map(cleanDoc);
+  try {
+    const db = await getDb();
+    if (!db) return [];
+    const messages = await db.collection<ContactMessage>(COLLECTIONS.contactMessages).find({}).sort({ createdAt: -1 }).limit(100).toArray();
+    return messages.map(cleanDoc);
+  } catch {
+    return [];
+  }
 }
