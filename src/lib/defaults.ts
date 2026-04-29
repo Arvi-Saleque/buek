@@ -12,7 +12,7 @@ import type {
 export const defaultSettings: SiteSettings = {
   universityName: "Bangladesh University of Engineering Knowledge",
   tagline: "Educating leaders for a changing world",
-  address: "University Avenue, Dhaka, Bangladesh",
+  address: "Khulna, Bangladesh",
   phone: "+880 1700-000000",
   email: "info@example.edu",
   facebook: "https://facebook.com",
@@ -100,9 +100,24 @@ export const defaultHome: HomePage = {
   galleryBody:
     "A glimpse of learning spaces, student life, ceremonies, and institutional moments.",
   notices: [
-    "Spring semester admission information will be published soon.",
-    "Academic calendar and class schedules are available from the registrar office.",
-    "Applications are open for research assistant positions.",
+    {
+      title: "Admission Notice",
+      body: "Spring semester admission information will be published soon.",
+      category: "Admission",
+      date: "2026-04-20",
+    },
+    {
+      title: "Academic Calendar",
+      body: "Academic calendar and class schedules are available from the registrar office.",
+      category: "Academic",
+      date: "2026-04-18",
+    },
+    {
+      title: "Research Assistant Positions",
+      body: "Applications are open for research assistant positions.",
+      category: "Research",
+      date: "2026-04-12",
+    },
   ],
   ctaTitle: "Begin your academic journey",
   ctaBody:
@@ -206,6 +221,20 @@ export const defaultNews: NewsEvent[] = [
       "Faculty researchers will present ongoing work in engineering, business, science, and social impact.",
     body: "The seminar series is open to students and faculty. Each session will include a presentation and moderated discussion.",
     published: true,
+  },
+  {
+    title: "Cultural week celebrates student creativity",
+    slug: "cultural-week-celebrates-student-creativity",
+    date: "2026-03-28",
+    category: "Campus",
+    excerpt:
+      "Students presented music, debate, theatre, and academic exhibitions during the annual cultural week.",
+    body: "The annual cultural week brought together students, faculty, and guests for a series of programs celebrating creativity, leadership, and campus collaboration.",
+    published: true,
+    coverImage: {
+      url: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1400&q=85",
+      altText: "University cultural event",
+    },
   },
 ];
 

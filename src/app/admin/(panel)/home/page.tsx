@@ -4,6 +4,30 @@ import { StatusNote } from "@/components/admin/status-note";
 import { saveHomeAction } from "@/lib/actions";
 import { getHomePage } from "@/lib/content";
 import { defaultHome } from "@/lib/defaults";
+import type { HomeNotice } from "@/lib/types";
+
+function normalizeAdminNotices(notices: unknown[]): HomeNotice[] {
+  const normalized = notices.map((notice, index) => {
+    if (typeof notice === "string") {
+      return {
+        title: index === 0 ? "Admission Notice" : "Campus Notice",
+        body: notice,
+        category: index === 0 ? "Admission" : "Notice",
+        date: "2026-04-20",
+      };
+    }
+
+    const item = notice as Partial<HomeNotice>;
+    return {
+      title: item.title || "",
+      body: item.body || "",
+      category: item.category || "Notice",
+      date: item.date || "",
+    };
+  });
+
+  return normalized.length ? normalized : defaultHome.notices;
+}
 
 export default async function AdminHomePage({
   searchParams,
@@ -15,6 +39,7 @@ export default async function AdminHomePage({
   const featureCards = home.featureCards?.length
     ? home.featureCards
     : defaultHome.featureCards;
+  const notices = normalizeAdminNotices(home.notices || []);
 
   return (
     <>
@@ -123,10 +148,46 @@ export default async function AdminHomePage({
             <span className="label">Gallery Body</span>
             <textarea name="galleryBody" defaultValue={home.galleryBody} rows={3} className="field" />
           </label>
-          <label>
-            <span className="label">Notices, one per line</span>
-            <textarea name="notices" defaultValue={home.notices.join("\n")} rows={5} className="field" />
-          </label>
+          <div>
+            <span className="label">Notice Board Items</span>
+            <div className="grid gap-4">
+              {[0, 1, 2].map((index) => {
+                const notice = notices[index] || defaultHome.notices[index];
+                return (
+                  <div key={index} className="grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                    <h3 className="font-bold text-slate-800">Notice {index + 1}</h3>
+                    <div className="grid gap-3 md:grid-cols-3">
+                      <input
+                        name="noticeItemTitle"
+                        defaultValue={notice?.title || ""}
+                        placeholder="Notice title"
+                        className="field bg-white"
+                      />
+                      <input
+                        name="noticeItemCategory"
+                        defaultValue={notice?.category || "Notice"}
+                        placeholder="Category"
+                        className="field bg-white"
+                      />
+                      <input
+                        name="noticeItemDate"
+                        type="date"
+                        defaultValue={notice?.date || ""}
+                        className="field bg-white"
+                      />
+                    </div>
+                    <textarea
+                      name="noticeItemBody"
+                      defaultValue={notice?.body || ""}
+                      placeholder="Notice details"
+                      rows={3}
+                      className="field bg-white"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </section>
         <section className="admin-card grid gap-4">
           <h2 className="text-lg font-bold text-university-navy">Call To Action</h2>

@@ -54,6 +54,22 @@ function lines(formData: FormData, key: string) {
     .filter(Boolean);
 }
 
+function notices(formData: FormData) {
+  const titles = formData.getAll("noticeItemTitle").map((item) => String(item).trim());
+  const bodies = formData.getAll("noticeItemBody").map((item) => String(item).trim());
+  const categories = formData.getAll("noticeItemCategory").map((item) => String(item).trim());
+  const dates = formData.getAll("noticeItemDate").map((item) => String(item).trim());
+
+  return titles
+    .map((title, index) => ({
+      title,
+      body: bodies[index] || "",
+      category: categories[index] || "Notice",
+      date: dates[index] || new Date().toISOString().slice(0, 10),
+    }))
+    .filter((item) => item.title && item.body);
+}
+
 function downloads(formData: FormData) {
   const labels = formData.getAll("downloadLabel").map((item) => String(item).trim());
   const hrefs = formData.getAll("downloadHref").map((item) => String(item).trim());
@@ -185,7 +201,7 @@ export async function saveHomeAction(formData: FormData) {
     newsBody: value(formData, "newsBody"),
     galleryTitle: value(formData, "galleryTitle"),
     galleryBody: value(formData, "galleryBody"),
-    notices: lines(formData, "notices"),
+    notices: notices(formData),
     ctaTitle: value(formData, "ctaTitle"),
     ctaBody: value(formData, "ctaBody"),
     ctaButtonLabel: value(formData, "ctaButtonLabel"),

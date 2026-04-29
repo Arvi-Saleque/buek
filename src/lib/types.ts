@@ -38,6 +38,13 @@ export type HomeFeatureCard = {
   href: string;
 };
 
+export type HomeNotice = {
+  title: string;
+  body: string;
+  category: string;
+  date: string;
+};
+
 export type HomePage = {
   slides: HomeSlide[];
   introTitle: string;
@@ -53,7 +60,7 @@ export type HomePage = {
   newsBody: string;
   galleryTitle: string;
   galleryBody: string;
-  notices: string[];
+  notices: HomeNotice[];
   ctaTitle: string;
   ctaBody: string;
   ctaButtonLabel: string;
