@@ -77,119 +77,120 @@ function MemberContact({
   );
 }
 
-function MemberCard({ member }: { member: CommitteeMember }) {
+function ProfilePhoto({
+  member,
+  featured = false,
+}: {
+  member: CommitteeMember;
+  featured?: boolean;
+}) {
   return (
-    <article className="flex min-h-full flex-col rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
-      <div className="relative h-32 w-32 overflow-hidden rounded-lg bg-university-mist">
-        {memberPhoto(member) ? (
-          <Image
-            src={memberPhoto(member)!}
-            alt={member.photo?.altText || member.name}
-            fill
-            sizes="128px"
-            className="object-cover"
-          />
-        ) : (
-          <div className="grid h-full place-items-center bg-university-navy text-university-gold">
-            <UserRound size={42} />
-          </div>
-        )}
-      </div>
-      <span className="mt-5 w-fit rounded-full bg-university-mist px-3 py-1 text-xs font-bold text-university-navy">
-        {member.committeeRole || "Member"}
-      </span>
-      <h3 className="mt-3 text-xl font-bold leading-snug text-university-navy">
+    <div
+      className={[
+        "relative min-h-[320px] overflow-hidden bg-[#d8d9d6]",
+        featured ? "lg:min-h-[420px]" : "lg:min-h-[360px]",
+      ].join(" ")}
+    >
+      {memberPhoto(member) ? (
+        <Image
+          src={memberPhoto(member)!}
+          alt={member.photo?.altText || member.name}
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+        />
+      ) : (
+        <div className="grid h-full min-h-[320px] place-items-center bg-university-navy text-university-gold">
+          <UserRound size={68} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProfileInfo({
+  member,
+  label,
+  featured = false,
+}: {
+  member: CommitteeMember;
+  label: string;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={[
+        "flex min-h-[320px] flex-col justify-center bg-[#eef0ed] p-7 text-center sm:p-10",
+        featured ? "lg:min-h-[420px]" : "lg:min-h-[360px]",
+      ].join(" ")}
+    >
+      <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+        {label}
+      </p>
+      <h2
+        className={[
+          "mx-auto mt-4 max-w-xl font-bold uppercase leading-tight text-university-navy",
+          featured ? "text-3xl sm:text-4xl" : "text-2xl",
+        ].join(" ")}
+      >
         {member.name}
-      </h3>
-      <p className="mt-1 text-sm font-semibold text-university-green">
+      </h2>
+      <p className="mt-2 text-sm font-bold lowercase text-[#9b3242]">
+        {member.committeeRole || "Member"}
+      </p>
+      <p className="mt-4 text-sm font-semibold text-university-navy">
         {member.role}
       </p>
-      <p className="mt-1 text-sm text-university-text">
+      <p className="mx-auto mt-1 max-w-md text-sm leading-6 text-university-text">
         {member.department || "General"}
       </p>
-      <MemberContact member={member} />
       {member.bio ? (
-        <p className="mt-4 line-clamp-3 text-sm leading-6 text-university-text">
+        <p className="mx-auto mt-5 max-w-lg text-sm italic leading-7 text-university-text">
           {member.bio}
         </p>
       ) : null}
+      <div className="mx-auto">
+        <MemberContact member={member} />
+      </div>
       {member.profileUrl ? (
         <Link
           href={member.profileUrl}
-          className="mt-5 inline-flex w-fit items-center gap-2 rounded-md border border-university-line px-4 py-2 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
+          className="mx-auto mt-6 inline-flex w-fit items-center gap-2 rounded-md border border-university-line bg-white px-4 py-2 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
         >
           View Profile <ArrowRight size={14} />
         </Link>
       ) : null}
-    </article>
+    </div>
   );
 }
 
-function HighlightCard({
+function SplitProfileCard({
   member,
   label,
-  tone = "navy",
+  imagePosition = "left",
+  featured = false,
 }: {
   member: CommitteeMember;
   label: string;
-  tone?: "navy" | "light";
+  imagePosition?: "left" | "right";
+  featured?: boolean;
 }) {
-  const dark = tone === "navy";
+  const image = <ProfilePhoto member={member} featured={featured} />;
+  const info = <ProfileInfo member={member} label={label} featured={featured} />;
 
   return (
-    <article
-      className={[
-        "grid gap-6 rounded-lg border p-5 shadow-soft md:grid-cols-[180px_1fr] md:items-center",
-        dark
-          ? "border-university-navy bg-university-navy text-white"
-          : "border-university-line bg-white text-university-navy",
-      ].join(" ")}
-    >
-      <div className="relative h-48 overflow-hidden rounded-lg bg-white/10">
-        {memberPhoto(member) ? (
-          <Image
-            src={memberPhoto(member)!}
-            alt={member.photo?.altText || member.name}
-            fill
-            sizes="180px"
-            className="object-cover"
-          />
-        ) : (
-          <div className="grid h-full place-items-center bg-university-mist text-university-gold">
-            <UserRound size={54} />
-          </div>
-        )}
-      </div>
-      <div>
-        <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-          {label}
-        </p>
-        <h2
-          className={[
-            "mt-3 text-3xl font-bold leading-tight",
-            dark ? "text-white" : "text-university-navy",
-          ].join(" ")}
-        >
-          {member.name}
-        </h2>
-        <p
-          className={[
-            "mt-2 text-sm font-bold",
-            dark ? "text-white/78" : "text-university-green",
-          ].join(" ")}
-        >
-          {member.role}
-        </p>
-        <p className={["mt-1 text-sm", dark ? "text-white/64" : "text-university-text"].join(" ")}>
-          {member.department || "General"}
-        </p>
-        {member.bio ? (
-          <p className={["mt-4 max-w-2xl text-sm leading-7", dark ? "text-white/72" : "text-university-text"].join(" ")}>
-            {member.bio}
-          </p>
-        ) : null}
-        <MemberContact member={member} inverse={dark} />
-      </div>
+    <article className="grid overflow-hidden rounded-lg border border-university-line bg-white shadow-sm lg:grid-cols-2">
+      {imagePosition === "left" ? (
+        <>
+          {image}
+          {info}
+        </>
+      ) : (
+        <>
+          <div className="lg:order-2">{image}</div>
+          <div className="lg:order-1">{info}</div>
+        </>
+      )}
     </article>
   );
 }
@@ -310,17 +311,32 @@ export default async function CommitteePage() {
 
           <div className="grid gap-6">
             {chairperson ? (
-              <HighlightCard member={chairperson} label="Committee Chairperson" />
+              <SplitProfileCard
+                member={chairperson}
+                label="Committee Chairperson"
+                imagePosition="left"
+                featured
+              />
             ) : null}
             {secretary ? (
-              <HighlightCard member={secretary} label="Committee Secretary" tone="light" />
+              <SplitProfileCard
+                member={secretary}
+                label="Committee Secretary"
+                imagePosition="right"
+                featured
+              />
             ) : null}
           </div>
 
           {otherMembers.length ? (
-            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {otherMembers.map((member) => (
-                <MemberCard key={member._id || member.name} member={member} />
+            <div className="mt-10 grid gap-6">
+              {otherMembers.map((member, index) => (
+                <SplitProfileCard
+                  key={member._id || member.name}
+                  member={member}
+                  label={member.committeeRole || "Committee Member"}
+                  imagePosition={index % 2 === 0 ? "left" : "right"}
+                />
               ))}
             </div>
           ) : null}
