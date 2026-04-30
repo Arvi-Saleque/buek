@@ -215,6 +215,77 @@ export default async function AdminAboutPage({
           </div>
           <ImageField name="chairmanPhoto" label="Chairman Photo" image={about.chairmanPhoto} />
         </section>
+        <section className="admin-card grid gap-4">
+          <h2 className="text-lg font-bold text-university-navy">Academic Committee Page</h2>
+          <label>
+            <span className="label">Hero Subtitle</span>
+            <textarea name="committeeSubtitle" defaultValue={about.committeeSubtitle || ""} rows={3} className="field" />
+          </label>
+          <label>
+            <span className="label">Short Introduction</span>
+            <textarea name="committeeIntro" defaultValue={about.committeeIntro || ""} rows={4} className="field" />
+          </label>
+          <label>
+            <span className="label">Committee Responsibilities</span>
+            <textarea
+              name="committeeResponsibilities"
+              defaultValue={editableRows(about.committeeResponsibilities)}
+              rows={6}
+              placeholder="Title | Short description"
+              className="field"
+            />
+          </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Meeting Section Title</span>
+              <input name="committeeMeetingTitle" defaultValue={about.committeeMeetingTitle || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Meeting Frequency</span>
+              <input name="committeeMeetingFrequency" defaultValue={about.committeeMeetingFrequency || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Academic Office</span>
+              <input name="committeeMeetingOffice" defaultValue={about.committeeMeetingOffice || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Academic Office Email</span>
+              <input name="committeeMeetingEmail" defaultValue={about.committeeMeetingEmail || ""} className="field" />
+            </label>
+          </div>
+          <label>
+            <span className="label">Meeting Section Body</span>
+            <textarea name="committeeMeetingBody" defaultValue={about.committeeMeetingBody || ""} rows={3} className="field" />
+          </label>
+          <label>
+            <span className="label">Related Documents</span>
+            <textarea
+              name="committeeDocuments"
+              defaultValue={editableRows(about.committeeDocuments)}
+              rows={4}
+              placeholder="Document label | /download-url"
+              className="field"
+            />
+          </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">CTA Title</span>
+              <input name="committeeCtaTitle" defaultValue={about.committeeCtaTitle || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">CTA Body</span>
+              <input name="committeeCtaBody" defaultValue={about.committeeCtaBody || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">CTA Button Label</span>
+              <input name="committeeCtaButtonLabel" defaultValue={about.committeeCtaButtonLabel || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">CTA Button Link</span>
+              <input name="committeeCtaButtonHref" defaultValue={about.committeeCtaButtonHref || ""} className="field" />
+            </label>
+          </div>
+        </section>
         <button className="btn-primary w-fit">Save About Content</button>
       </form>
 
@@ -228,8 +299,28 @@ export default async function AdminAboutPage({
               <input name="name" defaultValue={editing?.name || ""} required className="field" />
             </label>
             <label>
-              <span className="label">Role</span>
+              <span className="label">Designation</span>
               <input name="role" defaultValue={editing?.role || ""} required className="field" />
+            </label>
+            <label>
+              <span className="label">Committee Role</span>
+              <input name="committeeRole" defaultValue={editing?.committeeRole || "Member"} className="field" />
+            </label>
+            <label>
+              <span className="label">Department</span>
+              <input name="department" defaultValue={editing?.department || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Email</span>
+              <input name="email" type="email" defaultValue={editing?.email || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Office Phone</span>
+              <input name="officePhone" defaultValue={editing?.officePhone || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Profile Link</span>
+              <input name="profileUrl" defaultValue={editing?.profileUrl || ""} className="field" />
             </label>
             <label>
               <span className="label">Order</span>
@@ -252,7 +343,9 @@ export default async function AdminAboutPage({
             <thead className="bg-slate-100 text-slate-600">
               <tr>
                 <th className="px-3 py-2">Name</th>
-                <th className="px-3 py-2">Role</th>
+                <th className="px-3 py-2">Designation</th>
+                <th className="px-3 py-2">Committee Role</th>
+                <th className="px-3 py-2">Department</th>
                 <th className="px-3 py-2">Order</th>
                 <th className="px-3 py-2">Status</th>
                 <th className="px-3 py-2">Actions</th>
@@ -263,6 +356,8 @@ export default async function AdminAboutPage({
                 <tr key={member._id || member.name}>
                   <td className="px-3 py-3 font-semibold text-slate-800">{member.name}</td>
                   <td className="px-3 py-3">{member.role}</td>
+                  <td className="px-3 py-3">{member.committeeRole || "Member"}</td>
+                  <td className="px-3 py-3">{member.department || "General"}</td>
                   <td className="px-3 py-3">{member.order}</td>
                   <td className="px-3 py-3">{member.published ? "Published" : "Draft"}</td>
                   <td className="px-3 py-3">

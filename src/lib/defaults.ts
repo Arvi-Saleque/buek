@@ -229,6 +229,35 @@ export const defaultAbout: AboutPage = {
     { title: "Committee", body: "/about/committee" },
     { title: "Contact Us", body: "/contact" },
   ],
+  committeeSubtitle:
+    "Meet the members responsible for academic planning, quality assurance, curriculum development, and institutional excellence.",
+  committeeIntro:
+    "The Academic Committee oversees curriculum development, academic policies, examination standards, faculty coordination, and student academic progress. The committee ensures that the university maintains strong educational standards and follows its academic mission effectively.",
+  committeeResponsibilities: [
+    { title: "Curriculum Review", body: "Planning, reviewing, and improving academic programs." },
+    { title: "Academic Policy", body: "Developing policies that support quality teaching and learning." },
+    { title: "Examination Monitoring", body: "Maintaining fair evaluation and examination standards." },
+    { title: "Faculty Coordination", body: "Supporting collaboration among departments and faculty members." },
+    { title: "Student Progress", body: "Reviewing academic progress and student support needs." },
+    { title: "Quality Assurance", body: "Supporting accreditation, compliance, and institutional excellence." },
+  ],
+  committeeMeetingTitle: "Regular Meeting Schedule",
+  committeeMeetingBody:
+    "The Academic Committee meets regularly to review academic activities, curriculum progress, examination standards, and student-related academic matters.",
+  committeeMeetingFrequency: "Monthly / As required",
+  committeeMeetingOffice: "Academic Affairs Office",
+  committeeMeetingEmail: "academic@example.edu",
+  committeeDocuments: [
+    { title: "Academic Committee Policy", body: "#" },
+    { title: "Meeting Guidelines", body: "#" },
+    { title: "Academic Calendar", body: "#" },
+    { title: "Examination Policy", body: "#" },
+  ],
+  committeeCtaTitle: "Need Academic Committee Support?",
+  committeeCtaBody:
+    "For academic committee-related inquiries, please contact the Academic Affairs Office.",
+  committeeCtaButtonLabel: "Contact Academic Office",
+  committeeCtaButtonHref: "/contact",
 };
 
 export const defaultAcademic: AcademicPage = {
@@ -268,16 +297,35 @@ export const defaultContact: ContactPage = {
 export const defaultCommittee: CommitteeMember[] = [
   {
     name: "Dr. Nusrat Jahan",
-    role: "Academic Council Member",
+    role: "Professor & Head",
+    committeeRole: "Chairperson",
+    department: "Department of Computer Science & Engineering",
+    email: "nusrat@example.edu",
+    officePhone: "+880-XXX-XXXX",
     bio: "Oversees academic standards and curriculum development.",
     order: 1,
     published: true,
   },
   {
     name: "Engr. Mahmud Hasan",
-    role: "Infrastructure Committee Member",
+    role: "Associate Professor",
+    committeeRole: "Secretary",
+    department: "Department of Electrical & Electronic Engineering",
+    email: "mahmud@example.edu",
+    officePhone: "+880-XXX-XXXX",
     bio: "Guides campus planning and technology initiatives.",
     order: 2,
+    published: true,
+  },
+  {
+    name: "Dr. Farhana Kabir",
+    role: "Assistant Professor",
+    committeeRole: "Member",
+    department: "Department of Business Administration",
+    email: "farhana@example.edu",
+    officePhone: "+880-XXX-XXXX",
+    bio: "Supports policy review, academic planning, and student progress monitoring.",
+    order: 3,
     published: true,
   },
 ];

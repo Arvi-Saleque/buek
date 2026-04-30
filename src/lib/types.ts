@@ -103,6 +103,19 @@ export type AboutPage = {
   chairmanPriorities?: EditableListItem[];
   chairmanClosingNote?: string;
   chairmanRelatedLinks?: EditableListItem[];
+  committeeSubtitle?: string;
+  committeeIntro?: string;
+  committeeResponsibilities?: EditableListItem[];
+  committeeMeetingTitle?: string;
+  committeeMeetingBody?: string;
+  committeeMeetingFrequency?: string;
+  committeeMeetingOffice?: string;
+  committeeMeetingEmail?: string;
+  committeeDocuments?: EditableListItem[];
+  committeeCtaTitle?: string;
+  committeeCtaBody?: string;
+  committeeCtaButtonLabel?: string;
+  committeeCtaButtonHref?: string;
 };
 
 export type AcademicPage = {
@@ -128,6 +141,11 @@ export type CommitteeMember = {
   _id?: string;
   name: string;
   role: string;
+  committeeRole?: string;
+  department?: string;
+  email?: string;
+  officePhone?: string;
+  profileUrl?: string;
   bio?: string;
   order: number;
   published: boolean;
