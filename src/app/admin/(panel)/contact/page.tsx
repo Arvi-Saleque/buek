@@ -3,11 +3,20 @@ import { StatusNote } from "@/components/admin/status-note";
 import { saveContactPageAction } from "@/lib/actions";
 import { getContactMessages, getContactPage } from "@/lib/content";
 import { defaultContact } from "@/lib/defaults";
-import type { DepartmentContact } from "@/lib/types";
+import type { ContactMessage, DepartmentContact } from "@/lib/types";
 
 function contactDepartments(items?: DepartmentContact[]) {
   const departments = items?.length ? items : defaultContact.departments || [];
   return departments.length ? departments : defaultContact.departments || [];
+}
+
+function replyHref(message: ContactMessage) {
+  const subject = encodeURIComponent(`Re: ${message.subject}`);
+  const body = encodeURIComponent(
+    `Dear ${message.name},\n\nThank you for contacting BUEK regarding ${message.inquiryType || "your inquiry"}.\n\n`,
+  );
+
+  return `mailto:${message.email}?subject=${subject}&body=${body}`;
 }
 
 export default async function AdminContactPage({
@@ -169,6 +178,7 @@ export default async function AdminContactPage({
                 <th className="px-3 py-2">Inquiry</th>
                 <th className="px-3 py-2">Subject</th>
                 <th className="px-3 py-2">Message</th>
+                <th className="px-3 py-2">Reply</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -180,11 +190,19 @@ export default async function AdminContactPage({
                   <td className="px-3 py-3">{message.inquiryType || "General"}</td>
                   <td className="px-3 py-3">{message.subject}</td>
                   <td className="px-3 py-3 text-slate-600">{message.message}</td>
+                  <td className="px-3 py-3">
+                    <a
+                      href={replyHref(message)}
+                      className="inline-flex items-center justify-center rounded-md bg-university-gold px-3 py-2 text-xs font-bold text-university-navy transition hover:bg-university-goldDark"
+                    >
+                      Email Reply
+                    </a>
+                  </td>
                 </tr>
               ))}
               {!messages.length ? (
                 <tr>
-                  <td className="px-3 py-6 text-slate-500" colSpan={6}>
+                  <td className="px-3 py-6 text-slate-500" colSpan={7}>
                     No messages yet, or MongoDB is not configured.
                   </td>
                 </tr>
