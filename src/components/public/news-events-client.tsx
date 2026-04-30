@@ -280,9 +280,9 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
   };
 
   return (
-    <div className="bg-university-mist">
+    <div className="flex flex-col bg-university-mist">
       {featured ? (
-        <section className="bg-white py-14 sm:py-16 lg:py-20">
+        <section className="order-2 bg-white py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -361,7 +361,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
         </section>
       ) : null}
 
-      <section className="sticky top-[108px] z-20 border-y border-university-line bg-white/95 shadow-sm backdrop-blur sm:top-[124px]">
+      <section className="sticky top-[108px] z-20 order-1 border-y border-university-line bg-white/95 shadow-sm backdrop-blur sm:top-[124px]">
         <Container>
           <div className="scrollbar-hide flex gap-2 overflow-x-auto border-b border-university-line py-3">
             {CATEGORY_TABS.map((category) => (
@@ -496,7 +496,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
       </section>
 
       {filtered.length === 0 ? (
-        <section className="py-20">
+        <section className="order-3 py-20">
           <Container>
             <div className="rounded-lg border border-university-line bg-white p-10 text-center shadow-sm">
               <CalendarDays size={44} className="mx-auto text-university-navy/20" />
@@ -519,7 +519,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
       ) : null}
 
       {view === "grid" && cardItems.length > 0 ? (
-        <section className="py-14 sm:py-16 lg:py-20">
+        <section className="order-3 py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -634,7 +634,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
       ) : null}
 
       {view === "calendar" ? (
-        <section className="py-14 sm:py-16 lg:py-20">
+        <section className="order-3 py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
@@ -700,7 +700,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
       ) : null}
 
       {noticeItems.length > 0 ? (
-        <section className="bg-white py-14 sm:py-16 lg:py-20">
+        <section className="order-3 bg-white py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -763,7 +763,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
       ) : null}
 
       {eventItems.length > 0 ? (
-        <section className="py-14 sm:py-16 lg:py-20">
+        <section className="order-3 py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
@@ -809,7 +809,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
         </section>
       ) : null}
 
-      <section className="bg-university-navy py-14 sm:py-16">
+      <section className="order-3 bg-university-navy py-14 sm:py-16">
         <Container>
           <div className="grid gap-8 rounded-lg border border-white/10 bg-white/[0.04] p-6 text-white sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
