@@ -84,7 +84,7 @@ export function AlbumLightbox({
           <button
             type="button"
             onClick={() => setActive((activeIndex - 1 + images.length) % images.length)}
-            className="absolute left-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-white/10 transition hover:bg-university-gold hover:text-university-navy"
+            className="absolute left-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-university-gold bg-university-gold text-university-navy shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             aria-label="Previous image"
           >
             <ChevronLeft size={26} />
@@ -92,7 +92,7 @@ export function AlbumLightbox({
           <button
             type="button"
             onClick={() => setActive((activeIndex + 1) % images.length)}
-            className="absolute right-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-white/10 transition hover:bg-university-gold hover:text-university-navy"
+            className="absolute right-4 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-university-gold bg-university-gold text-university-navy shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             aria-label="Next image"
           >
             <ChevronRight size={26} />

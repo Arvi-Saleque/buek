@@ -163,9 +163,9 @@ export function GalleryClient({ items }: { items: GalleryItem[] }) {
   };
 
   return (
-    <div className="bg-university-mist">
+    <div className="flex flex-col bg-university-mist">
       {featured ? (
-        <section className="bg-white py-14 sm:py-16 lg:py-20">
+        <section className="order-2 bg-white py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -235,7 +235,7 @@ export function GalleryClient({ items }: { items: GalleryItem[] }) {
         </section>
       ) : null}
 
-      <section className="border-y border-university-line bg-white/95 shadow-sm backdrop-blur">
+      <section className="order-first border-y border-university-line bg-white/95 shadow-sm backdrop-blur mt-10">
         <Container>
           <div className="scrollbar-hide flex gap-2 overflow-x-auto border-b border-university-line py-3">
             {CATEGORY_TABS.map((item) => (
@@ -303,7 +303,7 @@ export function GalleryClient({ items }: { items: GalleryItem[] }) {
         </Container>
       </section>
 
-      <section className="py-14 sm:py-16 lg:py-20">
+      <section className="order-3 py-14 sm:py-16 lg:py-20">
         <Container>
           <div className="mb-8">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
@@ -392,7 +392,7 @@ export function GalleryClient({ items }: { items: GalleryItem[] }) {
         </Container>
       </section>
 
-      <section className="bg-university-navy py-14 sm:py-16">
+      <section className="order-3 bg-university-navy py-14 sm:py-16">
         <Container>
           <div className="grid gap-8 rounded-lg border border-white/10 bg-white/[0.04] p-6 text-white sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
