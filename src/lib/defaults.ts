@@ -159,6 +159,10 @@ export const defaultAcademic: AcademicPage = {
     "Faculty of Business and Economics",
     "Faculty of Arts and Social Sciences",
     "Faculty of Science",
+    "Faculty of Law",
+    "Faculty of Health Sciences",
+    "Faculty of Education",
+    "Faculty of Social Sciences",
   ],
   admissionTitle: "Admission Process",
   admissionBody:

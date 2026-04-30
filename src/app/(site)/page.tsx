@@ -1,13 +1,24 @@
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
   Bell,
   BookOpen,
+  Briefcase,
   CalendarDays,
+  ClipboardList,
+  Cpu,
+  FileText,
+  FlaskConical,
   GraduationCap,
+  HeartHandshake,
   Images,
   Landmark,
+  Microscope,
+  Scale,
+  Sprout,
+  Stethoscope,
   Users,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
@@ -21,7 +32,35 @@ import {
 } from "@/lib/content";
 import { defaultHome, defaultNews } from "@/lib/defaults";
 
-const featureIcons = [Landmark, GraduationCap, Users];
+// Maps program names (lower-cased substrings) to icons
+const programIconMap: [string, React.ElementType][] = [
+  ["engineer",   Cpu],
+  ["technology", Cpu],
+  ["business",   Briefcase],
+  ["econom",     Briefcase],
+  ["science",    Microscope],
+  ["social",     Users],
+  ["arts",       Scale],
+  ["law",        Scale],
+  ["health",     Stethoscope],
+  ["medical",    Stethoscope],
+  ["agricult",   Sprout],
+  ["education",  BookOpen],
+  ["landmark",   Landmark],
+];
+
+function getProgramIcon(name: string): React.ElementType {
+  const lower = name.toLowerCase();
+  return programIconMap.find(([key]) => lower.includes(key))?.[1] ?? FlaskConical;
+}
+
+const quickAccessItems = [
+  { href: "/contact",     icon: ClipboardList,  label: "Admissions",        sub: "How to apply" },
+  { href: "/academic",    icon: GraduationCap,  label: "Academic Programs",  sub: "Courses & faculty" },
+  { href: "/contact",    icon: HeartHandshake, label: "Student Support",    sub: "Guidance & welfare" },
+  { href: "/news-events", icon: Bell,           label: "Notice Board",       sub: "Latest notices" },
+  { href: "/contact",    icon: FileText,       label: "Apply Now",          sub: "Start your journey" },
+];
 
 function normalizeNotices(notices: unknown[]) {
   return notices
@@ -71,9 +110,6 @@ export default async function HomePage() {
   ]);
 
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
-  const featureCards = home.featureCards?.length
-    ? home.featureCards
-    : defaultHome.featureCards;
   const notices = normalizeNotices(home.notices || []);
   const visibleNews =
     news.length >= 3
@@ -150,32 +186,97 @@ export default async function HomePage() {
         </div>
       </Container>
 
-      <section className="bg-white py-14 sm:py-16 lg:py-20">
+      {/* ── Quick Access ── */}
+      <section
+        className="relative py-14 sm:py-16"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80')",
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-university-navy/75 backdrop-blur-[2px]" />
+
+        <Container className="relative">
+          {/* Label + thin gold rule */}
+          <div className="mb-7 flex items-center gap-4 sm:mb-8">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+              Quick Access
+            </p>
+            <span className="h-px flex-1 bg-university-gold/30" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
+            {quickAccessItems.map(({ href, icon: Icon, label, sub }) => (
+              <Link
+                key={label}
+                href={href}
+                className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm transition hover:-translate-y-1 hover:border-university-gold/60 hover:bg-white/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:flex-col md:items-start md:gap-2 md:px-5 md:py-5"
+              >
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-university-gold text-university-navy transition group-hover:bg-white md:h-10 md:w-10">
+                  <Icon size={18} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold leading-tight text-white">
+                    {label}
+                  </span>
+                  <span className="mt-0.5 hidden text-xs text-white/60 md:block">{sub}</span>
+                </span>
+                <ArrowRight
+                  size={14}
+                  className="ml-auto shrink-0 text-university-gold opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100 md:hidden"
+                />
+              </Link>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Our Programs grid ── */}
+      <section className="bg-white py-16 sm:py-20">
         <Container>
-          <div className="flex flex-wrap items-end justify-between gap-5">
-            <SectionHeading eyebrow="Explore" title={home.featureTitle} body={home.featureBody} />
-            <Link href="/contact" className="btn-secondary w-full sm:w-auto">
-              Need Help <ArrowRight size={17} />
+          {/* Heading */}
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+                Academics
+              </p>
+              <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Our Programs</h2>
+              <p className="mt-3 max-w-xl text-base leading-7 text-university-text">
+                Learn more about the faculties and courses we offer.
+              </p>
+            </div>
+            <Link
+              href="/academic"
+              className="inline-flex items-center gap-2 rounded-lg border border-university-line px-5 py-2.5 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
+            >
+              View all programs <ArrowRight size={15} />
             </Link>
           </div>
-          <div className="mt-8 grid gap-5 sm:mt-10 md:grid-cols-3 md:gap-6">
-            {featureCards.map((card, index) => {
-              const Icon = featureIcons[index] || Landmark;
+
+          {/* Programs grid — 2 rows × 4 cols */}
+          <div className="grid grid-cols-2 gap-px bg-university-line sm:grid-cols-3 lg:grid-cols-4">
+            {academic.programs.slice(0, 8).map((program) => {
+              const Icon = getProgramIcon(program);
+              // Shorten long faculty names for display
+              const short = program
+                .replace(/^Faculty of\s+/i, "")
+                .replace(/^Department of\s+/i, "");
               return (
                 <Link
-                  key={card.title}
-                  href={card.href || "#"}
-                  className="group min-h-60 rounded-lg border border-university-line bg-university-mist p-6 transition hover:-translate-y-1 hover:bg-white hover:shadow-lg sm:p-8 md:min-h-72"
+                  key={program}
+                  href="/academic"
+                  className="group flex flex-col items-center justify-center gap-4 bg-white px-6 py-10 text-center transition hover:bg-university-mist hover:shadow-inner"
                 >
-                  <span className="grid h-12 w-12 place-items-center rounded-md bg-university-navy text-university-gold">
-                    <Icon size={26} />
+                  {/* Icon circle */}
+                  <span className="grid h-16 w-16 place-items-center rounded-full border-2 border-university-line text-university-navy/40 transition group-hover:border-university-gold group-hover:text-university-gold">
+                    <Icon size={28} strokeWidth={1.5} />
                   </span>
-                  <h2 className="mt-5 text-xl font-bold text-university-navy group-hover:text-university-royal">
-                    {card.title}
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{card.body}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-university-gold">
-                    View Details <ArrowRight size={16} />
+                  <span className="text-sm font-semibold leading-snug text-ink transition group-hover:text-university-navy">
+                    {short}
                   </span>
                 </Link>
               );
@@ -184,199 +285,339 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-white py-14 sm:py-16 lg:py-20">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
-          <div className="absolute left-[8%] top-10 h-[520px] w-24 rounded-t-full border-x-[18px] border-university-navy" />
-          <div className="absolute left-[24%] top-20 h-[480px] w-24 rounded-t-full border-x-[18px] border-university-navy" />
-          <div className="absolute right-[16%] top-0 h-[560px] w-28 rounded-t-full border-x-[20px] border-university-navy" />
-        </div>
-        <Container className="relative grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-          <section className="rounded-lg border border-university-line bg-university-mist p-5 shadow-soft sm:p-8">
-            <div className="max-w-3xl">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-university-gold sm:mb-3 sm:text-sm sm:tracking-[0.18em]">
-                Academic
-              </p>
-              <h2 className="text-2xl font-bold leading-tight tracking-normal text-university-navy sm:text-3xl md:text-4xl">
-                {home.academicTitle}
-              </h2>
-              <p className="mt-4 text-base leading-7 text-university-text sm:text-lg sm:leading-8">{home.academicBody}</p>
-            </div>
-            <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2">
-              {academic.programs.slice(0, 4).map((program) => (
-                <Link
-                  key={program}
-                  href="/academic"
-                  className="group flex min-h-28 items-start justify-between gap-4 rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-university-gold hover:shadow-soft"
-                >
-                  <span>
-                    <span className="grid h-10 w-10 place-items-center rounded-md bg-university-navy text-university-gold">
-                      <GraduationCap size={22} />
-                    </span>
-                    <h2 className="mt-4 font-bold leading-6 text-university-navy">{program}</h2>
-                  </span>
-                  <ArrowRight className="mt-2 shrink-0 text-university-gold transition group-hover:translate-x-1" size={18} />
-                </Link>
-              ))}
-            </div>
-            <Link href="/academic" className="mt-7 inline-flex items-center gap-2 font-bold text-university-navy sm:mt-8">
-              Explore all programs <ArrowRight className="text-university-gold" size={18} />
-            </Link>
-          </section>
 
-          <aside className="rounded-lg border border-university-line bg-white p-5 shadow-sm sm:p-7">
-            <div className="flex items-start justify-between gap-4 border-b border-university-line pb-5">
-              <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center rounded-md bg-university-mist text-university-gold">
-                  <Bell size={23} />
-                </span>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-university-gold">
-                    Notice Board
-                  </p>
-                  <h2 className="mt-1 text-xl font-bold text-university-navy sm:text-2xl">{home.noticeTitle}</h2>
-                </div>
-              </div>
-            </div>
-            <div className="divide-y divide-university-line">
-              {notices.map((notice) => (
-                <article key={`${notice.title}-${notice.date}`} className="py-5">
-                  <div className="mb-3 flex flex-wrap items-center gap-3">
-                    <span className="rounded-full bg-university-mist px-3 py-1 text-xs font-bold text-university-gold">
-                      {notice.category}
-                    </span>
-                    <span className="text-xs font-semibold text-university-text">
-                      {formatNoticeDate(notice.date)}
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-university-navy">{notice.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-university-text">{notice.body}</p>
-                </article>
-              ))}
-            </div>
-            <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-md bg-university-mist px-4 py-3">
-              <p className="text-sm font-semibold text-university-navy">
-                Latest notices are updated from the university admin office.
-              </p>
-              <Link href="/contact" className="inline-flex items-center gap-2 text-sm font-bold text-university-gold">
-                View all notices <ArrowRight size={15} />
-              </Link>
-            </div>
-          </aside>
-        </Container>
-      </section>
-
-      <section className="bg-white py-14 sm:py-16 lg:py-20">
+      {/* ── Latest Updates (unified) ── */}
+      <section className="bg-white py-16 sm:py-20 lg:py-24">
         <Container>
-          <div className="flex flex-wrap items-end justify-between gap-5">
-            <SectionHeading eyebrow="Latest" title={home.newsTitle} body={home.newsBody} />
-            <Link href="/news-events" className="btn-secondary w-full sm:w-auto">
-              View all <ArrowRight size={17} />
+          {/* Section header */}
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+                Stay Informed
+              </p>
+              <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Latest Updates</h2>
+              <p className="mt-3 max-w-xl text-base leading-7 text-university-text">
+                News, events and important notices from the university — all in one place.
+              </p>
+            </div>
+            <Link
+              href="/news-events"
+              className="inline-flex items-center gap-2 rounded-lg border border-university-line px-5 py-2.5 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
+            >
+              All news &amp; events <ArrowRight size={15} />
             </Link>
           </div>
-          <div className="mt-8 grid gap-5 sm:mt-10 md:grid-cols-3 md:gap-6">
-            {visibleNews.slice(0, 3).map((item) => (
-              <Link key={item.slug} href={`/news-events/${item.slug}`} className="group rounded-lg border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
-                {item.coverImage?.url ? (
-                  <div className="relative h-52 w-full overflow-hidden rounded-t-lg bg-university-mist">
-                    <Image
-                      src={item.coverImage.url}
-                      alt={item.coverImage.altText || item.title}
-                      fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="grid h-52 place-items-center rounded-t-lg bg-university-mist">
-                    <CalendarDays className="text-university-navy" size={34} />
-                  </div>
-                )}
-                <div className="p-5">
-                  <p className="text-sm font-semibold text-university-gold">{item.category} - {item.date}</p>
-                  <h2 className="mt-3 text-xl font-bold text-university-navy group-hover:text-university-royal">{item.title}</h2>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.excerpt}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
 
-      <Container className="py-14 sm:py-16 lg:py-20">
-        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-          <div>
-            <SectionHeading eyebrow="Gallery" title={home.galleryTitle} body={home.galleryBody} />
-            <Link href="/gallery" className="mt-6 btn-primary w-full sm:mt-8 sm:w-auto">
-              View Gallery <Images size={17} />
-            </Link>
-          </div>
-          <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-            {gallery[0] ? (
-              <article className="group overflow-hidden rounded-lg bg-white shadow-sm">
-                {gallery[0].image?.url ? (
-                  <div className="relative h-[300px] w-full overflow-hidden bg-university-mist sm:h-[380px] lg:h-[440px]">
-                    <Image
-                      src={gallery[0].image.url}
-                      alt={gallery[0].image.altText || gallery[0].title}
-                      fill
-                      sizes="(min-width: 1024px) 50vw, 100vw"
-                      className="object-cover transition duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                ) : (
-                  <div className="h-[300px] bg-university-mist sm:h-[380px] lg:h-[440px]" />
-                )}
-                <div className="p-5">
-                  <p className="text-sm font-semibold text-university-gold">{gallery[0].category}</p>
-                  <h2 className="mt-1 text-xl font-bold text-university-navy">{gallery[0].title}</h2>
-                </div>
-              </article>
-            ) : null}
-            <div className="grid gap-4">
-              {gallery.slice(1, 3).map((item) => (
-                <article key={item._id || item.title} className="group overflow-hidden rounded-lg bg-white shadow-sm">
-                  {item.image?.url ? (
-                    <div className="relative h-[210px] w-full overflow-hidden bg-university-mist md:h-[190px]">
+          <div className="flex flex-col gap-5">
+
+            {/* ── Top row: Featured news LEFT + Notice board RIGHT ── */}
+            <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
+
+              {/* Featured card */}
+              {visibleNews[0] && (
+                <Link
+                  href={`/news-events/${visibleNews[0].slug}`}
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-university-line bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(16,32,51,0.13)]"
+                >
+                  {visibleNews[0].coverImage?.url ? (
+                    <div className="relative h-64 w-full shrink-0 overflow-hidden bg-university-mist sm:h-72">
                       <Image
-                        src={item.image.url}
-                        alt={item.image.altText || item.title}
+                        src={visibleNews[0].coverImage.url}
+                        alt={visibleNews[0].coverImage.altText || visibleNews[0].title}
                         fill
-                        sizes="(min-width: 1024px) 33vw, 100vw"
+                        sizes="(min-width: 1024px) 55vw, 100vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-university-navy/60 via-transparent to-transparent" />
+                    </div>
+                  ) : (
+                    <div className="grid h-64 shrink-0 place-items-center rounded-t-2xl bg-university-mist sm:h-72">
+                      <CalendarDays className="text-university-navy/30" size={48} />
+                    </div>
+                  )}
+                  <div className="flex flex-1 flex-col p-6 sm:p-7">
+                    <div className="mb-3 flex flex-wrap items-center gap-3">
+                      <span className="rounded-full bg-university-gold/15 px-3 py-1 text-xs font-bold text-university-gold">
+                        {visibleNews[0].category}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs text-university-text">
+                        <CalendarDays size={12} className="shrink-0" />
+                        {visibleNews[0].date}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold leading-snug text-university-navy group-hover:text-university-royal sm:text-2xl">
+                      {visibleNews[0].title}
+                    </h3>
+                    <p className="mt-3 line-clamp-2 flex-1 text-sm leading-7 text-university-text">
+                      {visibleNews[0].excerpt}
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-university-gold transition group-hover:gap-3">
+                      Read more <ArrowRight size={15} />
+                    </span>
+                  </div>
+                </Link>
+              )}
+
+              {/* Notice board — stretches to match featured card */}
+              <aside className="flex flex-col overflow-hidden rounded-2xl border border-university-line">
+                {/* Header */}
+                <div className="flex shrink-0 items-center gap-3 border-b border-university-line bg-university-navy px-5 py-4">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-university-gold/20 text-university-gold">
+                    <Bell size={17} />
+                  </span>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-university-gold/80">Notice Board</p>
+                    <h3 className="text-sm font-bold text-white">{home.noticeTitle}</h3>
+                  </div>
+                </div>
+
+                {/* Notices — fills remaining height */}
+                <div className="flex-1 divide-y divide-university-line overflow-y-auto bg-white">
+                  {notices.length > 0 ? notices.map((notice, i) => (
+                    <article
+                      key={`${notice.title}-${notice.date}`}
+                      className="flex gap-3.5 px-5 py-4 transition hover:bg-university-mist"
+                    >
+                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-university-navy text-[10px] font-black text-university-gold">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div className="min-w-0">
+                        <div className="mb-1 flex flex-wrap items-center gap-2">
+                          <span className="rounded-full bg-university-gold/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-university-gold">
+                            {notice.category}
+                          </span>
+                          <span className="flex items-center gap-1 text-[10px] text-university-text">
+                            <CalendarDays size={10} className="shrink-0" />
+                            {formatNoticeDate(notice.date)}
+                          </span>
+                        </div>
+                        <h4 className="text-sm font-bold leading-snug text-university-navy">{notice.title}</h4>
+                        <p className="mt-1 line-clamp-1 text-xs leading-5 text-university-text">{notice.body}</p>
+                      </div>
+                    </article>
+                  )) : (
+                    <p className="px-5 py-8 text-center text-sm text-university-text">No notices at this time.</p>
+                  )}
+                </div>
+
+                {/* Footer */}
+                <div className="shrink-0 border-t border-university-line bg-university-mist px-5 py-3">
+                  <Link
+                    href="/news-events"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-university-line bg-white px-4 py-2.5 text-xs font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
+                  >
+                    View all notices <ArrowRight size={13} />
+                  </Link>
+                </div>
+              </aside>
+            </div>
+
+            {/* ── Bottom row: 2 compact news cards ── */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {visibleNews.slice(1, 3).map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`/news-events/${item.slug}`}
+                  className="group flex gap-4 overflow-hidden rounded-xl border border-university-line bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-university-gold/40 hover:shadow-soft"
+                >
+                  {item.coverImage?.url ? (
+                    <div className="relative h-[84px] w-[84px] shrink-0 overflow-hidden rounded-xl bg-university-mist">
+                      <Image
+                        src={item.coverImage.url}
+                        alt={item.coverImage.altText || item.title}
+                        fill
+                        sizes="84px"
                         className="object-cover transition duration-300 group-hover:scale-105"
                       />
                     </div>
                   ) : (
-                    <div className="h-[210px] bg-university-mist md:h-[190px]" />
+                    <div className="grid h-[84px] w-[84px] shrink-0 place-items-center rounded-xl bg-university-mist">
+                      <CalendarDays size={22} className="text-university-navy/30" />
+                    </div>
                   )}
-                  <div className="p-4">
-                    <p className="text-sm font-semibold text-university-gold">{item.category}</p>
-                    <h2 className="mt-1 font-bold text-university-navy">{item.title}</h2>
+                  <div className="min-w-0 flex flex-col justify-center">
+                    <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-university-gold/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-university-gold">
+                        {item.category}
+                      </span>
+                      <span className="flex items-center gap-1 text-[10px] text-university-text">
+                        <CalendarDays size={10} className="shrink-0" />
+                        {item.date}
+                      </span>
+                    </div>
+                    <h4 className="line-clamp-2 text-sm font-bold leading-snug text-university-navy group-hover:text-university-royal">
+                      {item.title}
+                    </h4>
+                    <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-university-gold opacity-0 transition group-hover:opacity-100">
+                      Read more <ArrowRight size={11} />
+                    </span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
-          </div>
-        </div>
-      </Container>
 
-      <Container className="pb-4">
-        <section className="relative min-h-72 overflow-hidden rounded-lg bg-[linear-gradient(135deg,#0F6B57,#0B2341)] p-6 text-white shadow-soft sm:p-9 md:p-14">
-          <div className="pointer-events-none absolute inset-0 opacity-10">
-            <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[34px] border-white" />
-            <div className="absolute -bottom-28 left-1/3 h-72 w-72 rounded-full border-[34px] border-white" />
           </div>
-          <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+        </Container>
+      </section>
+
+      {/* ── Campus Life / Gallery ── */}
+      <section className="bg-white py-16 sm:py-20 lg:py-24">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.55fr] lg:gap-14 lg:items-center">
+
+            {/* Left: editorial copy */}
             <div>
-              <h2 className="text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">{home.ctaTitle}</h2>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8">{home.ctaBody}</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+                Campus Life
+              </p>
+              <h2 className="text-3xl font-bold leading-tight text-university-navy sm:text-4xl lg:text-5xl">
+                {home.galleryTitle}
+              </h2>
+              <p className="mt-5 text-base leading-7 text-university-text sm:text-lg sm:leading-8">
+                {home.galleryBody}
+              </p>
+              <blockquote className="mt-6 border-l-4 border-university-gold pl-5">
+                <p className="text-base font-medium italic leading-7 text-university-text">
+                  "A vibrant campus where students grow beyond the classroom — through culture, sport, research and community."
+                </p>
+              </blockquote>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/gallery"
+                  className="inline-flex items-center gap-2 rounded-lg bg-university-navy px-6 py-3 text-sm font-bold text-white transition hover:bg-university-gold hover:text-university-navy"
+                >
+                  <Images size={16} /> View Gallery
+                </Link>
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 rounded-lg border border-university-line px-6 py-3 text-sm font-bold text-university-navy transition hover:border-university-navy"
+                >
+                  About Campus <ArrowRight size={15} />
+                </Link>
+              </div>
             </div>
-            <Link href={home.ctaHref} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-university-gold px-6 py-3 text-sm font-bold text-university-navy transition hover:bg-white sm:px-7 sm:py-4 sm:text-base">
-              {home.ctaButtonLabel}
-              <ArrowRight size={18} />
-            </Link>
+
+            {/* Right: fixed-height photo mosaic */}
+            <div className="grid h-[340px] grid-cols-2 grid-rows-2 gap-3 sm:h-[420px] lg:h-[460px]">
+              {/* Featured — tall left column */}
+              <div className="group relative row-span-2 overflow-hidden rounded-2xl bg-university-royal">
+                {gallery[0]?.image?.url ? (
+                  <Image
+                    src={gallery[0].image.url}
+                    alt={gallery[0].image.altText || gallery[0].title}
+                    fill
+                    sizes="(min-width: 1024px) 28vw, 45vw"
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                  />
+                ) : null}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                  <span className="text-xs font-bold uppercase tracking-widest text-university-gold">
+                    {gallery[0]?.category ?? "Campus"}
+                  </span>
+                  <p className="mt-0.5 text-sm font-bold text-white">{gallery[0]?.title}</p>
+                </div>
+              </div>
+
+              {/* Top-right */}
+              <div className="group relative overflow-hidden rounded-2xl bg-university-royal/60">
+                {gallery[1]?.image?.url ? (
+                  <Image
+                    src={gallery[1].image.url}
+                    alt={gallery[1].image.altText || gallery[1].title}
+                    fill
+                    sizes="(min-width: 1024px) 18vw, 40vw"
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                  />
+                ) : null}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition duration-300 group-hover:opacity-100">
+                  <p className="text-xs font-bold text-white">{gallery[1]?.title}</p>
+                </div>
+              </div>
+
+              {/* Bottom-right */}
+              <div className="group relative overflow-hidden rounded-2xl bg-university-green/60">
+                {gallery[2]?.image?.url ? (
+                  <Image
+                    src={gallery[2].image.url}
+                    alt={gallery[2].image.altText || gallery[2].title}
+                    fill
+                    sizes="(min-width: 1024px) 18vw, 40vw"
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                  />
+                ) : null}
+                <div className="absolute inset-0 flex items-center justify-center bg-university-navy/50 opacity-0 transition duration-300 group-hover:opacity-100">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-university-gold px-4 py-1.5 text-xs font-bold text-university-navy">
+                    <Images size={12} /> View all
+                  </span>
+                </div>
+              </div>
+            </div>
+
           </div>
-        </section>
-      </Container>
+        </Container>
+      </section>
+
+      {/* ── Final CTA ── */}
+      <section
+        className="relative py-24 sm:py-32 lg:py-40"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80')",
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Darker overlay for better readability */}
+        <div className="absolute inset-0" style={{ background: "rgba(11,35,65,0.91)" }} />
+        {/* Subtle gold vignette at bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold/60 to-university-gold/0" />
+
+        <Container className="relative">
+          <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-24">
+
+            {/* Text */}
+            <div>
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-university-gold">
+                Begin Your Journey
+              </p>
+              <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+                {home.ctaTitle}
+              </h2>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-white/80 sm:text-xl sm:leading-9">
+                {home.ctaBody}
+              </p>
+
+              {/* Trust badges */}
+              <div className="mt-8 flex flex-wrap gap-x-7 gap-y-3">
+                {["Government Recognised", "Accredited Programs", "Expert Faculty", "Career Support"].map((b) => (
+                  <span key={b} className="flex items-center gap-2 text-sm font-medium text-white/65">
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-university-gold" />
+                    {b}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex shrink-0 flex-col gap-4 sm:flex-row lg:flex-col">
+              <Link
+                href={home.ctaHref}
+                className="inline-flex min-h-[56px] items-center justify-center gap-2.5 rounded-xl bg-university-gold px-10 py-4 text-base font-bold text-university-navy shadow-[0_8px_32px_rgba(200,155,60,0.45)] transition hover:bg-white hover:shadow-[0_8px_40px_rgba(255,255,255,0.2)]"
+              >
+                {home.ctaButtonLabel} <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex min-h-[56px] items-center justify-center gap-2.5 rounded-xl border-2 border-white/40 px-10 py-4 text-base font-bold text-white transition hover:border-white hover:bg-white/10"
+              >
+                Contact Admissions
+              </Link>
+            </div>
+
+          </div>
+        </Container>
+      </section>
     </>
   );
 }
