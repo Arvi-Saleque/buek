@@ -64,6 +64,18 @@ function lines(formData: FormData, key: string) {
     .filter(Boolean);
 }
 
+function listItems(formData: FormData, key: string) {
+  return lines(formData, key)
+    .map((line) => {
+      const [title = "", ...bodyParts] = line.split("|");
+      return {
+        title: title.trim(),
+        body: bodyParts.join("|").trim(),
+      };
+    })
+    .filter((item) => item.title && item.body);
+}
+
 function notices(formData: FormData) {
   const titles = formData.getAll("noticeItemTitle").map((item) => String(item).trim());
   const bodies = formData.getAll("noticeItemBody").map((item) => String(item).trim());
@@ -323,10 +335,23 @@ export async function saveAboutAction(formData: FormData) {
     aboutTitle: value(formData, "aboutTitle"),
     aboutBody: value(formData, "aboutBody"),
     aboutImage: (await imageFromForm(formData, "aboutImage", "university/about")) || current.aboutImage,
+    missionIntroTitle: value(formData, "missionIntroTitle"),
+    missionIntroBody: value(formData, "missionIntroBody"),
     missionTitle: value(formData, "missionTitle"),
     missionBody: value(formData, "missionBody"),
+    missionPoints: listItems(formData, "missionPoints"),
     visionTitle: value(formData, "visionTitle"),
     visionBody: value(formData, "visionBody"),
+    coreValues: listItems(formData, "coreValues"),
+    strategicFocus: listItems(formData, "strategicFocus"),
+    missionQuote: value(formData, "missionQuote"),
+    missionQuoteSource: value(formData, "missionQuoteSource"),
+    missionCtaTitle: value(formData, "missionCtaTitle"),
+    missionCtaBody: value(formData, "missionCtaBody"),
+    missionCtaPrimaryLabel: value(formData, "missionCtaPrimaryLabel"),
+    missionCtaPrimaryHref: value(formData, "missionCtaPrimaryHref"),
+    missionCtaSecondaryLabel: value(formData, "missionCtaSecondaryLabel"),
+    missionCtaSecondaryHref: value(formData, "missionCtaSecondaryHref"),
     chairmanName: value(formData, "chairmanName"),
     chairmanRole: value(formData, "chairmanRole"),
     chairmanMessage: value(formData, "chairmanMessage"),

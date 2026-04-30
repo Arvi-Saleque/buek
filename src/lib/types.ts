@@ -8,6 +8,11 @@ export type ImageAsset = {
   altText?: string;
 };
 
+export type EditableListItem = {
+  title: string;
+  body: string;
+};
+
 export type SiteSettings = {
   universityName: string;
   tagline: string;
@@ -71,10 +76,23 @@ export type AboutPage = {
   aboutTitle: string;
   aboutBody: string;
   aboutImage?: ImageAsset;
+  missionIntroTitle?: string;
+  missionIntroBody?: string;
   missionTitle: string;
   missionBody: string;
+  missionPoints?: EditableListItem[];
   visionTitle: string;
   visionBody: string;
+  coreValues?: EditableListItem[];
+  strategicFocus?: EditableListItem[];
+  missionQuote?: string;
+  missionQuoteSource?: string;
+  missionCtaTitle?: string;
+  missionCtaBody?: string;
+  missionCtaPrimaryLabel?: string;
+  missionCtaPrimaryHref?: string;
+  missionCtaSecondaryLabel?: string;
+  missionCtaSecondaryHref?: string;
   chairmanName: string;
   chairmanRole: string;
   chairmanMessage: string;

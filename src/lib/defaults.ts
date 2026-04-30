@@ -134,12 +134,67 @@ export const defaultAbout: AboutPage = {
     url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=85",
     altText: "Graduates celebrating on campus",
   },
+  missionIntroTitle: "Shaping the Future Through Knowledge and Values",
+  missionIntroBody:
+    "Bangladesh University of Engineering Knowledge is committed to building a learning environment where students gain knowledge, develop practical skills, and grow as responsible citizens. Our mission and vision guide every academic, administrative, and development activity of the university.",
   missionTitle: "Mission",
   missionBody:
     "To deliver excellent education, create useful knowledge, and develop graduates who serve with competence, integrity, and compassion.",
+  missionPoints: [
+    {
+      title: "Quality Higher Education",
+      body: "Provide modern curriculum, experienced faculty, and strong academic standards.",
+    },
+    {
+      title: "Student Development",
+      body: "Develop academic knowledge, practical skill, communication, and ethical values.",
+    },
+    {
+      title: "Research & Innovation",
+      body: "Promote discovery, applied projects, and problem-solving for society and industry.",
+    },
+    {
+      title: "Supportive Environment",
+      body: "Create an inclusive, disciplined, and student-centered learning culture.",
+    },
+    {
+      title: "Partnerships",
+      body: "Build meaningful links with industry, community, and academic institutions.",
+    },
+    {
+      title: "Future Readiness",
+      body: "Prepare graduates for leadership, employment, entrepreneurship, and lifelong learning.",
+    },
+  ],
   visionTitle: "Vision",
   visionBody:
     "To become a respected center of learning and research that contributes to national and global progress.",
+  coreValues: [
+    { title: "Academic Excellence", body: "We pursue high standards in teaching, learning, and assessment." },
+    { title: "Integrity", body: "We uphold honesty, transparency, and ethical responsibility." },
+    { title: "Innovation", body: "We encourage creative thinking, research, and practical solutions." },
+    { title: "Inclusiveness", body: "We value respect, opportunity, and belonging for every learner." },
+    { title: "Discipline", body: "We maintain a focused, responsible, and professional academic culture." },
+    { title: "Social Responsibility", body: "We prepare students to serve society with purpose and care." },
+    { title: "Leadership", body: "We build confidence, judgment, and the capacity to guide positive change." },
+    { title: "Lifelong Learning", body: "We inspire continuous growth beyond graduation." },
+  ],
+  strategicFocus: [
+    { title: "Student-Centered Learning", body: "Modern teaching, mentoring, advising, and academic support." },
+    { title: "Research & Innovation", body: "Encouraging discovery, projects, and applied research." },
+    { title: "Industry Readiness", body: "Skill development, internships, and career preparation." },
+    { title: "Community Impact", body: "Social responsibility, outreach, and national development." },
+  ],
+  missionQuote:
+    "Education is not only about earning a degree; it is about building character, confidence, and the ability to serve society.",
+  missionQuoteSource: "Bangladesh University of Engineering Knowledge",
+  missionCtaTitle: "Be Part of Our Academic Journey",
+  missionCtaBody:
+    "Explore our academic programs and discover how BUEK can help you build a meaningful future.",
+  missionCtaPrimaryLabel: "Explore Academic Programs",
+  missionCtaPrimaryHref: "/academic",
+  missionCtaSecondaryLabel: "Contact Us",
+  missionCtaSecondaryHref: "/contact",
   chairmanName: "Professor A. Rahman",
   chairmanRole: "Chairman, Board of Trustees",
   chairmanMessage:

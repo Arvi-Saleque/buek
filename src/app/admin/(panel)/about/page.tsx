@@ -11,6 +11,13 @@ import {
   getCommitteeMember,
   getCommitteeMembers,
 } from "@/lib/content";
+import type { EditableListItem } from "@/lib/types";
+
+function editableRows(items?: EditableListItem[]) {
+  return (items || [])
+    .map((item) => `${item.title} | ${item.body}`)
+    .join("\n");
+}
 
 export default async function AdminAboutPage({
   searchParams,
@@ -41,25 +48,106 @@ export default async function AdminAboutPage({
           </label>
           <ImageField name="aboutImage" label="About Image" image={about.aboutImage} />
         </section>
-        <section className="admin-card grid gap-4 md:grid-cols-2">
+        <section className="admin-card grid gap-4">
+          <h2 className="text-lg font-bold text-university-navy">Mission &amp; Vision Page</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Mission Page Intro Title</span>
+              <input name="missionIntroTitle" defaultValue={about.missionIntroTitle || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Mission Quote Source</span>
+              <input name="missionQuoteSource" defaultValue={about.missionQuoteSource || ""} className="field" />
+            </label>
+          </div>
+          <label>
+            <span className="label">Mission Page Intro Body</span>
+            <textarea name="missionIntroBody" defaultValue={about.missionIntroBody || ""} rows={4} className="field" />
+          </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label>
+                <span className="label">Mission Title</span>
+                <input name="missionTitle" defaultValue={about.missionTitle} required className="field" />
+              </label>
+              <label className="mt-4 block">
+                <span className="label">Mission Body</span>
+                <textarea name="missionBody" defaultValue={about.missionBody} required rows={5} className="field" />
+              </label>
+            </div>
+            <div>
+              <label>
+                <span className="label">Vision Title</span>
+                <input name="visionTitle" defaultValue={about.visionTitle} required className="field" />
+              </label>
+              <label className="mt-4 block">
+                <span className="label">Vision Body</span>
+                <textarea name="visionBody" defaultValue={about.visionBody} required rows={5} className="field" />
+              </label>
+            </div>
+          </div>
           <div>
             <label>
-              <span className="label">Mission Title</span>
-              <input name="missionTitle" defaultValue={about.missionTitle} required className="field" />
-            </label>
-            <label className="mt-4 block">
-              <span className="label">Mission Body</span>
-              <textarea name="missionBody" defaultValue={about.missionBody} required rows={5} className="field" />
+              <span className="label">Mission Points</span>
+              <textarea
+                name="missionPoints"
+                defaultValue={editableRows(about.missionPoints)}
+                rows={7}
+                placeholder="Title | Short description"
+                className="field"
+              />
             </label>
           </div>
           <div>
             <label>
-              <span className="label">Vision Title</span>
-              <input name="visionTitle" defaultValue={about.visionTitle} required className="field" />
+              <span className="label">Core Values</span>
+              <textarea
+                name="coreValues"
+                defaultValue={editableRows(about.coreValues)}
+                rows={8}
+                placeholder="Title | One-line explanation"
+                className="field"
+              />
             </label>
-            <label className="mt-4 block">
-              <span className="label">Vision Body</span>
-              <textarea name="visionBody" defaultValue={about.visionBody} required rows={5} className="field" />
+          </div>
+          <label>
+            <span className="label">Strategic Focus</span>
+            <textarea
+              name="strategicFocus"
+              defaultValue={editableRows(about.strategicFocus)}
+              rows={5}
+              placeholder="Title | Short description"
+              className="field"
+            />
+          </label>
+          <label>
+            <span className="label">Institutional Quote</span>
+            <textarea name="missionQuote" defaultValue={about.missionQuote || ""} rows={3} className="field" />
+          </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">CTA Title</span>
+              <input name="missionCtaTitle" defaultValue={about.missionCtaTitle || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">CTA Body</span>
+              <input name="missionCtaBody" defaultValue={about.missionCtaBody || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Primary Button Label</span>
+              <input name="missionCtaPrimaryLabel" defaultValue={about.missionCtaPrimaryLabel || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Primary Button Link</span>
+              <input name="missionCtaPrimaryHref" defaultValue={about.missionCtaPrimaryHref || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Secondary Button Label</span>
+              <input name="missionCtaSecondaryLabel" defaultValue={about.missionCtaSecondaryLabel || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Secondary Button Link</span>
+              <input name="missionCtaSecondaryHref" defaultValue={about.missionCtaSecondaryHref || ""} className="field" />
             </label>
           </div>
         </section>
