@@ -291,11 +291,54 @@ export const defaultContact: ContactPage = {
   title: "Contact Us",
   intro:
     "Reach the university office for admission, academic, media, and general inquiries.",
+  heroLabel: "Contact the University",
+  heroTitle: "Get in Touch with BUEK",
+  heroSubtitle:
+    "Reach the right office for admissions, academic support, media inquiries, and general information.",
   address: defaultSettings.address,
+  addressNote: "View on Google Maps",
   phone: defaultSettings.phone,
+  phoneNote: "Sun-Thu, 9:00 AM - 5:00 PM",
   email: defaultSettings.email,
+  emailNote: "General inquiry desk",
   officeHours: "Sunday to Thursday, 9:00 AM - 5:00 PM",
-  mapEmbedUrl: "",
+  officeHoursNote: "Weekend offices are closed",
+  formTitle: "Send Us a Message",
+  formBody:
+    "Share your question with the university office. The right team will review your message and respond during official hours.",
+  mapTitle: "Visit Our Campus",
+  mapEmbedUrl: "https://www.google.com/maps?q=Khulna%2C%20Bangladesh&output=embed",
+  mapDirectionUrl: "https://www.google.com/maps/search/?api=1&query=Khulna%2C%20Bangladesh",
+  mapNote: "Visitors are encouraged to contact the office before arriving for admission or administrative support.",
+  departments: [
+    {
+      title: "Admission Office",
+      body: "For admission, eligibility, application, and result-related queries.",
+      email: "admission@example.edu",
+      phone: "+880 1700-000001",
+    },
+    {
+      title: "Registrar Office",
+      body: "For certificates, records, academic documents, and official notices.",
+      email: "registrar@example.edu",
+      phone: "+880 1700-000002",
+    },
+    {
+      title: "Academic Office",
+      body: "For class routine, exam schedule, academic programs, and faculty support.",
+      email: "academic@example.edu",
+      phone: "+880 1700-000003",
+    },
+    {
+      title: "Media & Communication",
+      body: "For press, events, publications, and institutional communication.",
+      email: "media@example.edu",
+      phone: "+880 1700-000004",
+    },
+  ],
+  urgentTitle: "Need urgent academic assistance?",
+  urgentBody:
+    "For urgent academic or administrative matters, please contact the university office during official hours.",
 };
 
 export const defaultCommittee: CommitteeMember[] = [

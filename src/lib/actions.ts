@@ -29,6 +29,7 @@ import type {
   AcademicPage,
   AboutPage,
   ContactPage,
+  DepartmentContact,
   GalleryImage,
   HomePage,
   ImageAsset,
@@ -111,6 +112,22 @@ function featureRows(formData: FormData) {
       title,
       body: bodies[index] || "",
       href: hrefs[index] || "#",
+    }))
+    .filter((item) => item.title && item.body);
+}
+
+function departmentContacts(formData: FormData): DepartmentContact[] {
+  const titles = formData.getAll("departmentTitle").map((item) => String(item).trim());
+  const bodies = formData.getAll("departmentBody").map((item) => String(item).trim());
+  const emails = formData.getAll("departmentEmail").map((item) => String(item).trim());
+  const phones = formData.getAll("departmentPhone").map((item) => String(item).trim());
+
+  return titles
+    .map((title, index) => ({
+      title,
+      body: bodies[index] || "",
+      email: emails[index] || "",
+      phone: phones[index] || "",
     }))
     .filter((item) => item.title && item.body);
 }
@@ -440,11 +457,26 @@ export async function saveContactPageAction(formData: FormData) {
   const content: ContactPage = {
     title: value(formData, "title"),
     intro: value(formData, "intro"),
+    heroLabel: value(formData, "heroLabel"),
+    heroTitle: value(formData, "heroTitle"),
+    heroSubtitle: value(formData, "heroSubtitle"),
     address: value(formData, "address"),
+    addressNote: value(formData, "addressNote"),
     phone: value(formData, "phone"),
+    phoneNote: value(formData, "phoneNote"),
     email: value(formData, "email"),
+    emailNote: value(formData, "emailNote"),
     officeHours: value(formData, "officeHours"),
+    officeHoursNote: value(formData, "officeHoursNote"),
+    formTitle: value(formData, "formTitle"),
+    formBody: value(formData, "formBody"),
+    mapTitle: value(formData, "mapTitle"),
     mapEmbedUrl: value(formData, "mapEmbedUrl"),
+    mapDirectionUrl: value(formData, "mapDirectionUrl"),
+    mapNote: value(formData, "mapNote"),
+    departments: departmentContacts(formData),
+    urgentTitle: value(formData, "urgentTitle"),
+    urgentBody: value(formData, "urgentBody"),
   };
 
   await savePage("contact", content);
@@ -586,6 +618,7 @@ export async function submitContactAction(formData: FormData) {
       name: value(formData, "name"),
       email: value(formData, "email"),
       phone: value(formData, "phone"),
+      inquiryType: value(formData, "inquiryType"),
       subject: value(formData, "subject"),
       message: value(formData, "message"),
       createdAt: new Date().toISOString(),

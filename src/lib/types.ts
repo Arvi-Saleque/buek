@@ -133,11 +133,33 @@ export type AcademicPage = {
 export type ContactPage = {
   title: string;
   intro: string;
+  heroLabel?: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
   address: string;
+  addressNote?: string;
   phone: string;
+  phoneNote?: string;
   email: string;
+  emailNote?: string;
   officeHours: string;
+  officeHoursNote?: string;
+  formTitle?: string;
+  formBody?: string;
+  mapTitle?: string;
   mapEmbedUrl?: string;
+  mapDirectionUrl?: string;
+  mapNote?: string;
+  departments?: DepartmentContact[];
+  urgentTitle?: string;
+  urgentBody?: string;
+};
+
+export type DepartmentContact = {
+  title: string;
+  body: string;
+  email: string;
+  phone: string;
 };
 
 export type CommitteeMember = {
@@ -211,6 +233,7 @@ export type ContactMessage = {
   name: string;
   email: string;
   phone?: string;
+  inquiryType?: string;
   subject: string;
   message: string;
   createdAt: string;

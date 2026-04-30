@@ -1,8 +1,36 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Building2,
+  Clock3,
+  ExternalLink,
+  HelpCircle,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Send,
+} from "lucide-react";
 import { Container } from "@/components/public/container";
-import { SectionHeading } from "@/components/public/section-heading";
 import { submitContactAction } from "@/lib/actions";
 import { getContactPage } from "@/lib/content";
+import { defaultContact } from "@/lib/defaults";
+import type { DepartmentContact } from "@/lib/types";
+
+const inquiryTypes = [
+  "General Information",
+  "Admission Inquiry",
+  "Academic Office",
+  "Registrar Office",
+  "Media / Press",
+  "Student Support",
+  "Partnership / Collaboration",
+];
+
+function resolveDepartments(items?: DepartmentContact[]) {
+  return items?.length ? items : defaultContact.departments || [];
+}
 
 export default async function ContactPage({
   searchParams,
@@ -10,77 +38,270 @@ export default async function ContactPage({
   searchParams: Promise<{ sent?: string; error?: string }>;
 }) {
   const [contact, params] = await Promise.all([getContactPage(), searchParams]);
+  const departments = resolveDepartments(contact.departments);
+  const heroLabel = contact.heroLabel || "Contact the University";
+  const heroTitle = contact.heroTitle || contact.title;
+  const heroSubtitle = contact.heroSubtitle || contact.intro;
+  const mapEmbedUrl = contact.mapEmbedUrl || defaultContact.mapEmbedUrl;
+  const directionUrl = contact.mapDirectionUrl || defaultContact.mapDirectionUrl || "#";
+
+  const quickContacts = [
+    {
+      icon: MapPin,
+      label: "Campus Address",
+      value: contact.address,
+      note: contact.addressNote || "View on Google Maps",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: contact.phone,
+      note: contact.phoneNote || "Sun-Thu, 9:00 AM - 5:00 PM",
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: contact.email,
+      note: contact.emailNote || "General inquiry desk",
+    },
+    {
+      icon: Clock3,
+      label: "Office Hours",
+      value: contact.officeHours,
+      note: contact.officeHoursNote || "Weekend offices are closed",
+    },
+  ];
 
   return (
-    <Container className="py-16">
-      <SectionHeading eyebrow="Contact Us" title={contact.title} body={contact.intro} />
-      <div className="mt-10 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <aside className="space-y-4">
-          {[
-            { icon: MapPin, label: "Address", value: contact.address },
-            { icon: Phone, label: "Phone", value: contact.phone },
-            { icon: Mail, label: "Email", value: contact.email },
-          ].map((item) => (
-            <div key={item.label} className="rounded-lg border border-university-line bg-white p-5 shadow-sm">
-              <item.icon className="text-university-green" size={24} />
-              <p className="mt-4 text-sm font-semibold text-slate-500">{item.label}</p>
-              <p className="mt-1 font-bold text-university-navy">{item.value}</p>
-            </div>
-          ))}
-          <div className="rounded-lg bg-university-navy p-5 text-white">
-            <p className="text-sm font-semibold text-university-gold">Office Hours</p>
-            <p className="mt-2">{contact.officeHours}</p>
+    <div className="bg-[#F7F9F8]">
+      <section className="relative isolate overflow-hidden bg-university-navy py-20 text-white sm:py-24 lg:py-28">
+        <Image
+          src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
+          alt="University campus"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-[0.24]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-university-navy via-university-navy/90 to-university-royal/70" />
+        <Container className="relative">
+          <div className="max-w-3xl">
+            <nav className="mb-7 flex items-center gap-2 text-sm font-semibold text-white/75">
+              <Link href="/" className="transition hover:text-university-gold">Home</Link>
+              <span>/</span>
+              <span className="text-university-gold">Contact Us</span>
+            </nav>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
+              {heroLabel}
+            </p>
+            <div className="mt-4 h-1 w-20 rounded-full bg-university-gold" />
+            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-normal sm:text-5xl lg:text-6xl">
+              {heroTitle}
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
+              {heroSubtitle}
+            </p>
           </div>
-        </aside>
-        <section className="rounded-lg border border-university-line bg-white p-6 shadow-sm">
-          {params.sent ? (
-            <div className="mb-5 rounded-md border border-green-200 bg-green-50 p-3 text-sm font-semibold text-green-800">
-              Your message has been submitted.
+        </Container>
+      </section>
+
+      <Container className="py-16 sm:py-20">
+        <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {quickContacts.map((item) => (
+            <article
+              key={item.label}
+              className="group rounded-[18px] border border-university-line border-t-[3px] border-t-university-gold bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(8,33,61,0.14)]"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-university-navy text-university-gold transition group-hover:bg-university-gold group-hover:text-university-navy">
+                <item.icon size={22} />
+              </div>
+              <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-university-green">
+                {item.label}
+              </p>
+              <p className="mt-2 text-lg font-bold leading-7 text-university-navy">
+                {item.value}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">{item.note}</p>
+            </article>
+          ))}
+        </section>
+
+        <section className="mt-14 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="rounded-[18px] border border-university-line bg-white p-6 shadow-[0_20px_50px_rgba(8,33,61,0.08)] sm:p-8">
+            <div className="flex items-start gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-university-gold/15 text-university-gold">
+                <MessageSquare size={24} />
+              </span>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-university-gold">
+                  Contact Form
+                </p>
+                <h2 className="mt-2 text-2xl font-bold tracking-normal text-university-navy sm:text-3xl">
+                  {contact.formTitle || "Send Us a Message"}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
+                  {contact.formBody || defaultContact.formBody}
+                </p>
+              </div>
             </div>
-          ) : null}
-          {params.error ? (
-            <div className="mb-5 rounded-md border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">
-              Message storage is not configured yet. Please try again after MongoDB is connected.
-            </div>
-          ) : null}
-          <form action={submitContactAction} className="grid gap-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              <label>
-                <span className="label">Name</span>
-                <input name="name" required className="field" />
-              </label>
-              <label>
-                <span className="label">Email</span>
-                <input name="email" type="email" required className="field" />
-              </label>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <label>
-                <span className="label">Phone</span>
-                <input name="phone" className="field" />
-              </label>
+
+            {params.sent ? (
+              <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-4 text-sm font-semibold text-green-800">
+                Your message has been submitted.
+              </div>
+            ) : null}
+            {params.error ? (
+              <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-800">
+                Message storage is not configured yet. Please try again after MongoDB is connected.
+              </div>
+            ) : null}
+
+            <form action={submitContactAction} className="mt-7 grid gap-5">
+              <div className="grid gap-5 md:grid-cols-2">
+                <label>
+                  <span className="label">Full Name</span>
+                  <input name="name" required className="field h-12 rounded-[10px] bg-white" />
+                </label>
+                <label>
+                  <span className="label">Email Address</span>
+                  <input name="email" type="email" required className="field h-12 rounded-[10px] bg-white" />
+                </label>
+              </div>
+              <div className="grid gap-5 md:grid-cols-2">
+                <label>
+                  <span className="label">Phone Number</span>
+                  <input name="phone" className="field h-12 rounded-[10px] bg-white" />
+                </label>
+                <label>
+                  <span className="label">Inquiry Type</span>
+                  <select name="inquiryType" className="field h-12 rounded-[10px] bg-white">
+                    {inquiryTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
               <label>
                 <span className="label">Subject</span>
-                <input name="subject" required className="field" />
+                <input name="subject" required className="field h-12 rounded-[10px] bg-white" />
               </label>
+              <label>
+                <span className="label">Message</span>
+                <textarea name="message" required rows={6} className="field rounded-[10px] bg-white" />
+              </label>
+              <button className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[10px] bg-university-navy px-5 text-sm font-bold text-white shadow-[0_14px_32px_rgba(8,33,61,0.22)] transition hover:bg-university-gold hover:text-university-navy sm:w-fit">
+                Send Message <Send size={18} />
+              </button>
+            </form>
+          </div>
+
+          <aside className="rounded-[18px] border border-university-line bg-white p-5 shadow-[0_20px_50px_rgba(8,33,61,0.08)] sm:p-6">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-university-gold/40 bg-university-gold/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-university-gold">
+              <MapPin size={15} />
+              Location
             </div>
-            <label>
-              <span className="label">Message</span>
-              <textarea name="message" required rows={6} className="field" />
-            </label>
-            <button className="btn-primary w-fit">Submit Message</button>
-          </form>
-          {contact.mapEmbedUrl ? (
-            <iframe
-              src={contact.mapEmbedUrl}
-              className="mt-8 h-80 w-full rounded-lg border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="University map"
-            />
-          ) : null}
+            <h2 className="text-2xl font-bold text-university-navy">
+              {contact.mapTitle || "Visit Our Campus"}
+            </h2>
+            <div className="mt-5 overflow-hidden rounded-2xl border border-university-line bg-slate-100">
+              {mapEmbedUrl ? (
+                <iframe
+                  src={mapEmbedUrl}
+                  className="h-[300px] w-full border-0 lg:h-[420px]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="University map"
+                />
+              ) : (
+                <div className="flex h-[300px] items-center justify-center bg-university-navy/5 text-center text-sm font-semibold text-slate-500 lg:h-[420px]">
+                  Add a Google Map embed URL from the admin contact editor.
+                </div>
+              )}
+            </div>
+            <div className="mt-6 rounded-2xl bg-[#F7F9F8] p-5">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-university-green">
+                Bangladesh University of Engineering Knowledge
+              </p>
+              <p className="mt-3 text-lg font-bold text-university-navy">{contact.address}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {contact.mapNote || defaultContact.mapNote}
+              </p>
+              <a
+                href={directionUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-[10px] bg-university-gold px-5 py-3 text-sm font-bold text-university-navy transition hover:bg-university-goldDark"
+              >
+                Get Direction <ExternalLink size={16} />
+              </a>
+            </div>
+          </aside>
         </section>
-      </div>
-    </Container>
+
+        <section className="mt-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-university-gold">
+              Department Contacts
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-normal text-university-navy sm:text-4xl">
+              Contact the Right Office
+            </h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              Choose the office that matches your inquiry so your message reaches the right university team.
+            </p>
+          </div>
+          <div className="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {departments.map((department) => (
+              <article
+                key={department.title}
+                className="rounded-[18px] border border-university-line bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.07)] transition hover:-translate-y-1 hover:border-university-gold/60"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-university-green/10 text-university-green">
+                  <Building2 size={21} />
+                </div>
+                <h3 className="mt-5 text-xl font-bold text-university-navy">{department.title}</h3>
+                <p className="mt-3 min-h-[72px] text-sm leading-6 text-slate-600">{department.body}</p>
+                <div className="mt-5 space-y-3 border-t border-university-line pt-5 text-sm text-slate-600">
+                  <p className="flex items-center gap-3">
+                    <Mail size={16} className="shrink-0 text-university-gold" />
+                    <span>{department.email}</span>
+                  </p>
+                  <p className="flex items-center gap-3">
+                    <Phone size={16} className="shrink-0 text-university-gold" />
+                    <span>{department.phone}</span>
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-14 rounded-[18px] border border-university-gold/40 bg-university-navy p-6 text-white shadow-[0_20px_50px_rgba(8,33,61,0.16)] sm:p-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-university-gold text-university-navy">
+                <HelpCircle size={23} />
+              </span>
+              <div>
+                <h2 className="text-2xl font-bold">
+                  {contact.urgentTitle || "Need urgent academic assistance?"}
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm leading-7 text-white/80 sm:text-base">
+                  {contact.urgentBody || defaultContact.urgentBody}
+                </p>
+              </div>
+            </div>
+            <a
+              href={`tel:${contact.phone}`}
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[10px] border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:border-university-gold hover:text-university-gold"
+            >
+              Call Office <ArrowRight size={17} />
+            </a>
+          </div>
+        </section>
+      </Container>
+    </div>
   );
 }
