@@ -164,9 +164,55 @@ export default async function AdminAboutPage({
             </label>
           </div>
           <label>
-            <span className="label">Message</span>
-            <textarea name="chairmanMessage" defaultValue={about.chairmanMessage} required rows={7} className="field" />
+            <span className="label">Short Leadership Quote</span>
+            <textarea name="chairmanQuote" defaultValue={about.chairmanQuote || ""} rows={3} className="field" />
           </label>
+          <label>
+            <span className="label">Profile Intro</span>
+            <textarea name="chairmanIntro" defaultValue={about.chairmanIntro || ""} rows={3} className="field" />
+          </label>
+          <label>
+            <span className="label">Full Official Message</span>
+            <textarea name="chairmanMessage" defaultValue={about.chairmanMessage} required rows={10} className="field" />
+          </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Leadership Commitments</span>
+              <textarea
+                name="chairmanCommitments"
+                defaultValue={editableRows(about.chairmanCommitments)}
+                rows={6}
+                placeholder="Title | Short description"
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Priorities for the Future</span>
+              <textarea
+                name="chairmanPriorities"
+                defaultValue={editableRows(about.chairmanPriorities)}
+                rows={6}
+                placeholder="Title | Short description"
+                className="field"
+              />
+            </label>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Closing Note</span>
+              <input name="chairmanClosingNote" defaultValue={about.chairmanClosingNote || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Related Links</span>
+              <textarea
+                name="chairmanRelatedLinks"
+                defaultValue={editableRows(about.chairmanRelatedLinks)}
+                rows={4}
+                placeholder="Label | /page-url"
+                className="field"
+              />
+            </label>
+          </div>
           <ImageField name="chairmanPhoto" label="Chairman Photo" image={about.chairmanPhoto} />
         </section>
         <button className="btn-primary w-fit">Save About Content</button>

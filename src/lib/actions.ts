@@ -354,10 +354,16 @@ export async function saveAboutAction(formData: FormData) {
     missionCtaSecondaryHref: value(formData, "missionCtaSecondaryHref"),
     chairmanName: value(formData, "chairmanName"),
     chairmanRole: value(formData, "chairmanRole"),
+    chairmanQuote: value(formData, "chairmanQuote"),
+    chairmanIntro: value(formData, "chairmanIntro"),
     chairmanMessage: value(formData, "chairmanMessage"),
     chairmanPhoto:
       (await imageFromForm(formData, "chairmanPhoto", "university/about")) ||
       current.chairmanPhoto,
+    chairmanCommitments: listItems(formData, "chairmanCommitments"),
+    chairmanPriorities: listItems(formData, "chairmanPriorities"),
+    chairmanClosingNote: value(formData, "chairmanClosingNote"),
+    chairmanRelatedLinks: listItems(formData, "chairmanRelatedLinks"),
   };
 
   await savePage("about", content);

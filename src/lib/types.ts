@@ -95,8 +95,14 @@ export type AboutPage = {
   missionCtaSecondaryHref?: string;
   chairmanName: string;
   chairmanRole: string;
+  chairmanQuote?: string;
+  chairmanIntro?: string;
   chairmanMessage: string;
   chairmanPhoto?: ImageAsset;
+  chairmanCommitments?: EditableListItem[];
+  chairmanPriorities?: EditableListItem[];
+  chairmanClosingNote?: string;
+  chairmanRelatedLinks?: EditableListItem[];
 };
 
 export type AcademicPage = {
