@@ -16,6 +16,7 @@ import {
   deleteNewsEvent,
   CONTENT_TAGS,
   getAboutPage,
+  getAcademicPage,
   getHomePage,
   getSiteSettings,
   saveContactMessage,
@@ -356,6 +357,9 @@ export async function saveHomeAction(formData: FormData) {
     newsBody: value(formData, "newsBody"),
     newsButtonLabel: value(formData, "newsButtonLabel"),
     newsButtonHref: value(formData, "newsButtonHref") || "/news-events",
+    newsPageEyebrow: value(formData, "newsPageEyebrow"),
+    newsPageTitle: value(formData, "newsPageTitle"),
+    newsPageBody: value(formData, "newsPageBody"),
     selectedNewsSlugs: selectedValues(formData, "selectedNewsSlugs"),
     selectedNoticeSlugs: selectedValues(formData, "selectedNoticeSlugs"),
     galleryEyebrow: value(formData, "galleryEyebrow"),
@@ -366,6 +370,9 @@ export async function saveHomeAction(formData: FormData) {
     galleryPrimaryHref: value(formData, "galleryPrimaryHref") || "/gallery",
     gallerySecondaryLabel: value(formData, "gallerySecondaryLabel"),
     gallerySecondaryHref: value(formData, "gallerySecondaryHref") || "/about",
+    galleryPageEyebrow: value(formData, "galleryPageEyebrow"),
+    galleryPageTitle: value(formData, "galleryPageTitle"),
+    galleryPageBody: value(formData, "galleryPageBody"),
     selectedGallerySlugs: selectedValues(formData, "selectedGallerySlugs"),
     notices: formData.has("noticeItemTitle") ? notices(formData) : current.notices,
     ctaEyebrow: value(formData, "ctaEyebrow"),
@@ -390,9 +397,64 @@ export async function saveAboutAction(formData: FormData) {
   const current = await getAboutPage();
   const content: AboutPage = {
     ...current,
+    aboutHeroEyebrow: value(formData, "aboutHeroEyebrow"),
+    aboutHeroTitle: value(formData, "aboutHeroTitle"),
+    aboutHeroBody: value(formData, "aboutHeroBody"),
+    aboutIntroEyebrow: value(formData, "aboutIntroEyebrow"),
     aboutTitle: value(formData, "aboutTitle"),
     aboutBody: value(formData, "aboutBody"),
+    aboutIntroExtra: value(formData, "aboutIntroExtra"),
     aboutImage: (await imageFromForm(formData, "aboutImage", "university/about")) || current.aboutImage,
+    aboutImageBadgeEyebrow: value(formData, "aboutImageBadgeEyebrow"),
+    aboutImageBadgeText: value(formData, "aboutImageBadgeText"),
+    aboutPrimaryButtonLabel: value(formData, "aboutPrimaryButtonLabel"),
+    aboutPrimaryButtonHref: value(formData, "aboutPrimaryButtonHref"),
+    aboutSecondaryButtonLabel: value(formData, "aboutSecondaryButtonLabel"),
+    aboutSecondaryButtonHref: value(formData, "aboutSecondaryButtonHref"),
+    aboutPillarsEyebrow: value(formData, "aboutPillarsEyebrow"),
+    aboutPillarsTitle: value(formData, "aboutPillarsTitle"),
+    aboutPillars: listItems(formData, "aboutPillars"),
+    aboutStatsEyebrow: value(formData, "aboutStatsEyebrow"),
+    aboutStatsTitle: value(formData, "aboutStatsTitle"),
+    aboutStats: listItems(formData, "aboutStats"),
+    aboutJourneyEyebrow: value(formData, "aboutJourneyEyebrow"),
+    aboutJourneyTitle: value(formData, "aboutJourneyTitle"),
+    aboutJourneyBody: value(formData, "aboutJourneyBody"),
+    aboutJourneyItems: listItems(formData, "aboutJourneyItems"),
+    aboutWhyEyebrow: value(formData, "aboutWhyEyebrow"),
+    aboutWhyTitle: value(formData, "aboutWhyTitle"),
+    aboutWhyBody: value(formData, "aboutWhyBody"),
+    aboutWhyItems: listItems(formData, "aboutWhyItems"),
+    aboutCampusEyebrow: value(formData, "aboutCampusEyebrow"),
+    aboutCampusTitle: value(formData, "aboutCampusTitle"),
+    aboutCampusBody: value(formData, "aboutCampusBody"),
+    aboutCampusFeatures: lines(formData, "aboutCampusFeatures"),
+    aboutCampusMainImage:
+      (await imageFromForm(formData, "aboutCampusMainImage", "university/about")) ||
+      current.aboutCampusMainImage,
+    aboutCampusTopImage:
+      (await imageFromForm(formData, "aboutCampusTopImage", "university/about")) ||
+      current.aboutCampusTopImage,
+    aboutCampusBottomImage:
+      (await imageFromForm(formData, "aboutCampusBottomImage", "university/about")) ||
+      current.aboutCampusBottomImage,
+    aboutLeadershipEyebrow: value(formData, "aboutLeadershipEyebrow"),
+    aboutLeadershipTitle: value(formData, "aboutLeadershipTitle"),
+    aboutLeadershipBody: value(formData, "aboutLeadershipBody"),
+    aboutLeadershipPrimaryLabel: value(formData, "aboutLeadershipPrimaryLabel"),
+    aboutLeadershipPrimaryHref: value(formData, "aboutLeadershipPrimaryHref"),
+    aboutLeadershipSecondaryLabel: value(formData, "aboutLeadershipSecondaryLabel"),
+    aboutLeadershipSecondaryHref: value(formData, "aboutLeadershipSecondaryHref"),
+    aboutCtaEyebrow: value(formData, "aboutCtaEyebrow"),
+    aboutCtaTitle: value(formData, "aboutCtaTitle"),
+    aboutCtaBody: value(formData, "aboutCtaBody"),
+    aboutCtaPrimaryLabel: value(formData, "aboutCtaPrimaryLabel"),
+    aboutCtaPrimaryHref: value(formData, "aboutCtaPrimaryHref"),
+    aboutCtaSecondaryLabel: value(formData, "aboutCtaSecondaryLabel"),
+    aboutCtaSecondaryHref: value(formData, "aboutCtaSecondaryHref"),
+    aboutCtaImage:
+      (await imageFromForm(formData, "aboutCtaImage", "university/about")) ||
+      current.aboutCtaImage,
   };
 
   await savePage("about", content);
@@ -479,9 +541,15 @@ export async function saveCommitteePageAction(formData: FormData) {
 }
 
 export async function saveAcademicAction(formData: FormData) {
+  const current = await getAcademicPage();
   const content: AcademicPage = {
     title: value(formData, "title"),
     overview: value(formData, "overview"),
+    heroEyebrow: value(formData, "heroEyebrow"),
+    heroImage:
+      (await imageFromForm(formData, "heroImage", "university/academic")) ||
+      current.heroImage,
+    programCardBody: value(formData, "programCardBody"),
     programs: lines(formData, "programs"),
     admissionTitle: value(formData, "admissionTitle"),
     admissionBody: value(formData, "admissionBody"),

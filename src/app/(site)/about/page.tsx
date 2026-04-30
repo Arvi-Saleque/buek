@@ -17,58 +17,37 @@ import {
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage } from "@/lib/content";
+import { defaultAbout } from "@/lib/defaults";
 
-const stats = [
-  { value: "10+",   label: "Years of Excellence" },
-  { value: "8+",    label: "Academic Programs" },
-  { value: "2000+", label: "Students Enrolled" },
-  { value: "100+",  label: "Faculty Members" },
-];
+const pillarIcons = [BookOpen, Users, BriefcaseBusiness];
+const whyIcons = [GraduationCap, LayoutGrid, Microscope, Building2, Shield, Landmark];
 
-const whoWeAre = [
-  {
-    icon: BookOpen,
-    title: "Academic Excellence",
-    body: "Quality education built on a structured curriculum, experienced educators, and industry-relevant standards.",
-  },
-  {
-    icon: Users,
-    title: "Student Development",
-    body: "Clubs, co-curricular activities, leadership training, and communication skills for holistic growth.",
-  },
-  {
-    icon: BriefcaseBusiness,
-    title: "Career Preparation",
-    body: "Practical learning, industry partnerships, internship guidance, and career counselling for every student.",
-  },
-];
-
-const timeline = [
-  { year: "2015", event: "University foundation established by visionary academic leaders." },
-  { year: "2018", event: "Academic expansion with new departments and modern facilities." },
-  { year: "2021", event: "State-of-the-art laboratories and digital classrooms introduced." },
-  { year: "2025", event: "New digital learning platform launched for online and blended education." },
-];
-
-const whyChooseUs = [
-  { icon: GraduationCap, text: "Experienced and dedicated faculty members" },
-  { icon: LayoutGrid,    text: "Modern, industry-aligned academic curriculum" },
-  { icon: Microscope,    text: "Practical and career-oriented learning approach" },
-  { icon: Building2,     text: "Digital classrooms, computer labs, and facilities" },
-  { icon: Shield,        text: "Safe, disciplined, and inclusive campus environment" },
-  { icon: Landmark,      text: "Government recognised and accredited programs" },
-];
+function paragraphs(text?: string) {
+  return (text || "")
+    .split(/\n{2,}/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
 
 export default async function AboutPage() {
   const about = await getAboutPage();
+  const pillars = about.aboutPillars?.length ? about.aboutPillars : defaultAbout.aboutPillars || [];
+  const stats = about.aboutStats?.length ? about.aboutStats : defaultAbout.aboutStats || [];
+  const journeyItems = about.aboutJourneyItems?.length ? about.aboutJourneyItems : defaultAbout.aboutJourneyItems || [];
+  const whyItems = about.aboutWhyItems?.length ? about.aboutWhyItems : defaultAbout.aboutWhyItems || [];
+  const campusFeatures = about.aboutCampusFeatures?.length ? about.aboutCampusFeatures : defaultAbout.aboutCampusFeatures || [];
+  const campusMainImage = about.aboutCampusMainImage || defaultAbout.aboutCampusMainImage;
+  const campusTopImage = about.aboutCampusTopImage || defaultAbout.aboutCampusTopImage;
+  const campusBottomImage = about.aboutCampusBottomImage || defaultAbout.aboutCampusBottomImage;
+  const ctaImage = about.aboutCtaImage || defaultAbout.aboutCtaImage;
 
   return (
     <>
       {/* ── 1. Hero ── */}
       <PageHero
-        eyebrow="Institution Profile"
-        title="Bangladesh University of Engineering Knowledge"
-        body="A leading institution committed to academic excellence, innovation, and career-focused education."
+        eyebrow={about.aboutHeroEyebrow || defaultAbout.aboutHeroEyebrow || "Institution Profile"}
+        title={about.aboutHeroTitle || defaultAbout.aboutHeroTitle || about.aboutTitle}
+        body={about.aboutHeroBody || defaultAbout.aboutHeroBody}
         image={about.aboutImage?.url || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"}
         imageAlt={about.aboutImage?.altText || "University campus"}
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
@@ -79,33 +58,28 @@ export default async function AboutPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">Who We Are</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutIntroEyebrow || defaultAbout.aboutIntroEyebrow}</p>
               <h2 className="text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
                 {about.aboutTitle}
               </h2>
               <div className="mt-5 space-y-4 text-base leading-8 text-university-text">
                 <p>{about.aboutBody}</p>
-                <p>
-                  Our programs are designed to equip students with strong academic foundations, practical skills,
-                  and the ethical values needed to contribute meaningfully to society and industry.
-                </p>
-                <p>
-                  With a student-centered approach, experienced faculty, and modern facilities, we are dedicated
-                  to shaping confident, capable graduates ready for the challenges of tomorrow.
-                </p>
+                {paragraphs(about.aboutIntroExtra || defaultAbout.aboutIntroExtra).map((item) => (
+                  <p key={item}>{item}</p>
+                ))}
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/about/mission-vision"
+                  href={about.aboutPrimaryButtonHref || defaultAbout.aboutPrimaryButtonHref || "/about/mission-vision"}
                   className="inline-flex items-center gap-2 rounded-lg bg-university-navy px-6 py-3 text-sm font-bold text-white transition hover:bg-university-gold hover:text-university-navy"
                 >
-                  Mission &amp; Vision <ArrowRight size={16} />
+                  {about.aboutPrimaryButtonLabel || defaultAbout.aboutPrimaryButtonLabel} <ArrowRight size={16} />
                 </Link>
                 <Link
-                  href="/about/chairman-message"
+                  href={about.aboutSecondaryButtonHref || defaultAbout.aboutSecondaryButtonHref || "/about/chairman-message"}
                   className="inline-flex items-center gap-2 rounded-lg border border-university-line px-6 py-3 text-sm font-bold text-university-navy transition hover:border-university-navy"
                 >
-                  Chairman&apos;s Message
+                  {about.aboutSecondaryButtonLabel || defaultAbout.aboutSecondaryButtonLabel}
                 </Link>
               </div>
             </div>
@@ -122,8 +96,8 @@ export default async function AboutPage() {
                 <div className="h-full w-full bg-university-mist" />
               )}
               <div className="absolute bottom-5 left-5 rounded-xl bg-university-navy/90 px-5 py-3 backdrop-blur-sm">
-                <p className="text-xs font-bold uppercase tracking-widest text-university-gold">Est. 2015</p>
-                <p className="mt-0.5 text-sm font-bold text-white">Decade of Excellence</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-university-gold">{about.aboutImageBadgeEyebrow || defaultAbout.aboutImageBadgeEyebrow}</p>
+                <p className="mt-0.5 text-sm font-bold text-white">{about.aboutImageBadgeText || defaultAbout.aboutImageBadgeText}</p>
               </div>
             </div>
           </div>
@@ -134,22 +108,25 @@ export default async function AboutPage() {
       <section className="bg-university-mist py-16 sm:py-20">
         <Container>
           <div className="mb-12 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">Our Pillars</p>
-            <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Built on Three Foundations</h2>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutPillarsEyebrow || defaultAbout.aboutPillarsEyebrow}</p>
+            <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">{about.aboutPillarsTitle || defaultAbout.aboutPillarsTitle}</h2>
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
-            {whoWeAre.map(({ icon: Icon, title, body }) => (
-              <div
-                key={title}
-                className="rounded-2xl border border-university-line bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-soft"
-              >
-                <span className="mb-5 grid h-14 w-14 place-items-center rounded-xl bg-university-navy text-university-gold">
-                  <Icon size={26} />
-                </span>
-                <h3 className="text-lg font-bold text-university-navy">{title}</h3>
-                <p className="mt-3 text-sm leading-7 text-university-text">{body}</p>
-              </div>
-            ))}
+            {pillars.map(({ title, body }, index) => {
+              const Icon = pillarIcons[index % pillarIcons.length];
+              return (
+                <div
+                  key={title}
+                  className="rounded-2xl border border-university-line bg-white p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-soft"
+                >
+                  <span className="mb-5 grid h-14 w-14 place-items-center rounded-xl bg-university-navy text-university-gold">
+                    <Icon size={26} />
+                  </span>
+                  <h3 className="text-lg font-bold text-university-navy">{title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-university-text">{body}</p>
+                </div>
+              );
+            })}
           </div>
         </Container>
       </section>
@@ -165,17 +142,17 @@ export default async function AboutPage() {
         </div>
         <Container className="relative">
           <div className="mb-12 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">By the Numbers</p>
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">Key Highlights</h2>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutStatsEyebrow || defaultAbout.aboutStatsEyebrow}</p>
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">{about.aboutStatsTitle || defaultAbout.aboutStatsTitle}</h2>
           </div>
           <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-            {stats.map(({ value, label }) => (
+            {stats.map(({ title, body }) => (
               <div
-                key={label}
+                key={`${title}-${body}`}
                 className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm"
               >
-                <p className="text-4xl font-black text-university-gold sm:text-5xl">{value}</p>
-                <p className="mt-2 text-sm font-medium text-white/70">{label}</p>
+                <p className="text-4xl font-black text-university-gold sm:text-5xl">{title}</p>
+                <p className="mt-2 text-sm font-medium text-white/70">{body}</p>
               </div>
             ))}
           </div>
@@ -188,34 +165,32 @@ export default async function AboutPage() {
           <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start lg:gap-20">
             <div className="max-w-xl">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Our Journey
+                {about.aboutJourneyEyebrow || defaultAbout.aboutJourneyEyebrow}
               </p>
               <h2 className="text-4xl font-bold leading-tight text-university-navy sm:text-5xl">
-                A Decade of Growth &amp; Progress
+                {about.aboutJourneyTitle || defaultAbout.aboutJourneyTitle}
               </h2>
               <p className="mt-6 text-base leading-8 text-university-text">
-                From a bold founding vision to a thriving academic community, our
-                institution has grown steadily — expanding programs, upgrading
-                facilities, and earning the trust of thousands of students.
+                {about.aboutJourneyBody || defaultAbout.aboutJourneyBody}
               </p>
             </div>
             <div className="relative pt-1">
               <div className="absolute left-[13px] top-2 h-[calc(100%-1rem)] w-0.5 bg-university-gold/70" />
-              {timeline.map(({ year, event }, i) => (
+              {journeyItems.map(({ title, body }, i) => (
                 <div
-                  key={year}
+                  key={`${title}-${body}`}
                   className={`relative grid gap-5 pl-12 sm:grid-cols-[70px_1fr] sm:gap-8 ${
-                    i < timeline.length - 1 ? "pb-10" : ""
+                    i < journeyItems.length - 1 ? "pb-10" : ""
                   }`}
                 >
                   <span className="absolute left-0 top-1 flex h-7 w-7 items-center justify-center rounded-full border-2 border-university-gold bg-white shadow-[0_0_0_5px_rgba(200,155,60,0.1)]">
                     <span className="h-2.5 w-2.5 rounded-full bg-university-gold" />
                   </span>
                   <p className="text-2xl font-black leading-none text-university-navy">
-                    {year}
+                    {title}
                   </p>
                   <p className="text-sm font-medium leading-7 text-university-text">
-                    {event}
+                    {body}
                   </p>
                 </div>
               ))}
@@ -228,24 +203,27 @@ export default async function AboutPage() {
       <section className="bg-university-mist py-16 sm:py-20">
         <Container>
           <div className="mb-12 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">Why BUEK</p>
-            <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Why Choose Us</h2>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutWhyEyebrow || defaultAbout.aboutWhyEyebrow}</p>
+            <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">{about.aboutWhyTitle || defaultAbout.aboutWhyTitle}</h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-university-text">
-              We combine academic rigour with a supportive environment to help every student thrive.
+              {about.aboutWhyBody || defaultAbout.aboutWhyBody}
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {whyChooseUs.map(({ icon: Icon, text }) => (
+            {whyItems.map(({ title, body }, index) => {
+              const Icon = whyIcons[index % whyIcons.length];
+              return (
               <div
-                key={text}
+                key={`${title}-${body}`}
                 className="flex items-start gap-4 rounded-xl border border-university-line bg-white p-5 shadow-sm transition hover:border-university-gold/40 hover:shadow-soft"
               >
                 <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-university-navy text-university-gold">
                   <Icon size={18} />
                 </span>
-                <p className="text-sm font-semibold leading-6 text-university-navy">{text}</p>
+                <p className="text-sm font-semibold leading-6 text-university-navy">{body || title}</p>
               </div>
-            ))}
+              );
+            })}
           </div>
         </Container>
       </section>
@@ -254,30 +232,30 @@ export default async function AboutPage() {
       <section className="bg-white py-16 sm:py-20 lg:py-24">
         <Container>
           <div className="mb-12 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">Campus Life</p>
-            <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Our Learning Environment</h2>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutCampusEyebrow || defaultAbout.aboutCampusEyebrow}</p>
+            <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">{about.aboutCampusTitle || defaultAbout.aboutCampusTitle}</h2>
             <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-university-text">
-              Modern classrooms, well-equipped labs, a rich library, and vibrant student spaces — all designed for success.
+              {about.aboutCampusBody || defaultAbout.aboutCampusBody}
             </p>
           </div>
           <div className="grid h-[420px] grid-cols-3 grid-rows-2 gap-3 sm:h-[500px]">
             <div className="group relative col-span-2 row-span-2 overflow-hidden rounded-2xl bg-university-royal">
               <Image
-                src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&q=80"
-                alt="Campus"
+                src={campusMainImage?.url || ""}
+                alt={campusMainImage?.altText || about.aboutCampusTitle || "Campus"}
                 fill
                 sizes="(min-width: 640px) 66vw, 100vw"
                 className="object-cover transition duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5">
-                <p className="text-sm font-bold text-white">Academic Campus</p>
-                <p className="text-xs text-white/70">Modern facilities for tomorrow&apos;s leaders</p>
+                <p className="text-sm font-bold text-white">{about.aboutCampusTitle || defaultAbout.aboutCampusTitle}</p>
+                <p className="text-xs text-white/70">{about.aboutCampusEyebrow || defaultAbout.aboutCampusEyebrow}</p>
               </div>
             </div>
             <div className="group relative overflow-hidden rounded-2xl bg-university-royal/70">
               <Image
-                src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80"
-                alt="Library"
+                src={campusTopImage?.url || ""}
+                alt={campusTopImage?.altText || "Campus"}
                 fill
                 sizes="33vw"
                 className="object-cover transition duration-500 group-hover:scale-105"
@@ -285,8 +263,8 @@ export default async function AboutPage() {
             </div>
             <div className="group relative overflow-hidden rounded-2xl bg-university-green/60">
               <Image
-                src="https://images.unsplash.com/photo-1581093458791-9d09d43c81f3?w=600&q=80"
-                alt="Laboratory"
+                src={campusBottomImage?.url || ""}
+                alt={campusBottomImage?.altText || "Laboratory"}
                 fill
                 sizes="33vw"
                 className="object-cover transition duration-500 group-hover:scale-105"
@@ -294,7 +272,7 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {["Modern Classrooms", "Computer Labs", "Library & Resources", "Student Activity Spaces"].map((f) => (
+            {campusFeatures.map((f) => (
               <div key={f} className="flex items-center gap-2 rounded-lg border border-university-line bg-university-mist px-4 py-3">
                 <CheckCircle2 size={15} className="shrink-0 text-university-gold" />
                 <span className="text-xs font-semibold text-university-navy">{f}</span>
@@ -309,26 +287,25 @@ export default async function AboutPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">Leadership</p>
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutLeadershipEyebrow || defaultAbout.aboutLeadershipEyebrow}</p>
               <h2 className="text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
-                Leadership &amp; Governance
+                {about.aboutLeadershipTitle || defaultAbout.aboutLeadershipTitle}
               </h2>
               <p className="mt-5 text-base leading-8 text-university-text">
-                Our institution is guided by experienced academic leaders and administrative members who work
-                together to ensure quality education, institutional integrity, and continuous growth.
+                {about.aboutLeadershipBody || defaultAbout.aboutLeadershipBody}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/about/chairman-message"
+                  href={about.aboutLeadershipPrimaryHref || defaultAbout.aboutLeadershipPrimaryHref || "/about/chairman-message"}
                   className="inline-flex items-center gap-2 rounded-lg bg-university-navy px-6 py-3 text-sm font-bold text-white transition hover:bg-university-gold hover:text-university-navy"
                 >
-                  <MessageSquareQuote size={16} /> Chairman&apos;s Message
+                  <MessageSquareQuote size={16} /> {about.aboutLeadershipPrimaryLabel || defaultAbout.aboutLeadershipPrimaryLabel}
                 </Link>
                 <Link
-                  href="/about/committee"
+                  href={about.aboutLeadershipSecondaryHref || defaultAbout.aboutLeadershipSecondaryHref || "/about/committee"}
                   className="inline-flex items-center gap-2 rounded-lg border border-university-line bg-white px-6 py-3 text-sm font-bold text-university-navy transition hover:border-university-navy"
                 >
-                  View Committee <ArrowRight size={15} />
+                  {about.aboutLeadershipSecondaryLabel || defaultAbout.aboutLeadershipSecondaryLabel} <ArrowRight size={15} />
                 </Link>
               </div>
             </div>
@@ -363,7 +340,7 @@ export default async function AboutPage() {
                 href="/about/chairman-message"
                 className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-university-gold transition hover:gap-2.5"
               >
-                Read full message <ArrowRight size={13} />
+                {about.aboutLeadershipPrimaryLabel || defaultAbout.aboutLeadershipPrimaryLabel} <ArrowRight size={13} />
               </Link>
             </div>
           </div>
@@ -374,8 +351,7 @@ export default async function AboutPage() {
       <section
         className="relative py-24 sm:py-28"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=1600&q=80')",
+          backgroundImage: `url('${ctaImage?.url || ""}')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -383,25 +359,25 @@ export default async function AboutPage() {
         <div className="absolute inset-0" style={{ background: "rgba(11,35,65,0.88)" }} />
         <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold/60 to-university-gold/0" />
         <Container className="relative text-center">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-university-gold">Take the Next Step</p>
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-university-gold">{about.aboutCtaEyebrow || defaultAbout.aboutCtaEyebrow}</p>
           <h2 className="mx-auto max-w-3xl text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-            Start Your Academic Journey With Us
+            {about.aboutCtaTitle || defaultAbout.aboutCtaTitle}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-white/75">
-            Explore our academic programs and learn how BUEK can help you build a purposeful future.
+            {about.aboutCtaBody || defaultAbout.aboutCtaBody}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/academic"
+              href={about.aboutCtaPrimaryHref || defaultAbout.aboutCtaPrimaryHref || "/academic"}
               className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl bg-university-gold px-8 py-3.5 text-base font-bold text-university-navy shadow-[0_8px_32px_rgba(200,155,60,0.4)] transition hover:bg-white"
             >
-              Explore Academic Programs <ArrowRight size={18} />
+              {about.aboutCtaPrimaryLabel || defaultAbout.aboutCtaPrimaryLabel} <ArrowRight size={18} />
             </Link>
             <Link
-              href="/contact"
+              href={about.aboutCtaSecondaryHref || defaultAbout.aboutCtaSecondaryHref || "/contact"}
               className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl border-2 border-white/40 px-8 py-3.5 text-base font-bold text-white transition hover:border-white hover:bg-white/10"
             >
-              Contact Us
+              {about.aboutCtaSecondaryLabel || defaultAbout.aboutCtaSecondaryLabel}
             </Link>
           </div>
         </Container>
@@ -409,3 +385,5 @@ export default async function AboutPage() {
     </>
   );
 }
+
+

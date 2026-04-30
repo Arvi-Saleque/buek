@@ -1,7 +1,9 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveAcademicAction } from "@/lib/actions";
 import { getAcademicPage } from "@/lib/content";
+import { defaultAcademic } from "@/lib/defaults";
 
 export default async function AdminAcademicPage({
   searchParams,
@@ -23,6 +25,10 @@ export default async function AdminAcademicPage({
       <form action={saveAcademicAction} className="grid gap-5">
         <section className="admin-card grid gap-4">
           <label>
+            <span className="label">Hero Eyebrow</span>
+            <input name="heroEyebrow" defaultValue={academic.heroEyebrow || defaultAcademic.heroEyebrow} className="field" />
+          </label>
+          <label>
             <span className="label">Page Title</span>
             <input name="title" defaultValue={academic.title} required className="field" />
           </label>
@@ -34,6 +40,11 @@ export default async function AdminAcademicPage({
             <span className="label">Programs, one per line</span>
             <textarea name="programs" defaultValue={academic.programs.join("\n")} rows={7} className="field" />
           </label>
+          <label>
+            <span className="label">Program Card Body</span>
+            <textarea name="programCardBody" defaultValue={academic.programCardBody || defaultAcademic.programCardBody} rows={3} className="field" />
+          </label>
+          <ImageField name="heroImage" label="Hero Image" image={academic.heroImage || defaultAcademic.heroImage} />
         </section>
         <section className="admin-card grid gap-4">
           <h2 className="text-lg font-bold text-university-navy">Admission</h2>

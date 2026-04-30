@@ -115,6 +115,10 @@ export const defaultHome: HomePage = {
     "Stay connected with university announcements, academic updates, events, and campus stories.",
   newsButtonLabel: "All news & events",
   newsButtonHref: "/news-events",
+  newsPageEyebrow: "Campus Updates",
+  newsPageTitle: "News & Events",
+  newsPageBody:
+    "Stay updated with the latest academic news, campus events, notices, and institutional announcements.",
   selectedNewsSlugs: [],
   selectedNoticeSlugs: [],
   galleryEyebrow: "Campus Life",
@@ -127,6 +131,10 @@ export const defaultHome: HomePage = {
   galleryPrimaryHref: "/gallery",
   gallerySecondaryLabel: "About Campus",
   gallerySecondaryHref: "/about",
+  galleryPageEyebrow: "Campus Moments",
+  galleryPageTitle: "Gallery",
+  galleryPageBody:
+    "Explore moments from our campus, academic events, student activities, and institutional achievements.",
   selectedGallerySlugs: [],
   notices: [
     {
@@ -169,12 +177,104 @@ export const defaultHome: HomePage = {
 };
 
 export const defaultAbout: AboutPage = {
+  aboutHeroEyebrow: "Institution Profile",
+  aboutHeroTitle: "Bangladesh University of Engineering Knowledge",
+  aboutHeroBody:
+    "A leading institution committed to academic excellence, innovation, and career-focused education.",
+  aboutIntroEyebrow: "Who We Are",
   aboutTitle: "About the University",
   aboutBody:
     "Our university combines rigorous academic standards with a supportive environment for students, faculty, and the wider community. We value research, innovation, cultural understanding, and public service.",
+  aboutIntroExtra:
+    "Our programs are designed to equip students with strong academic foundations, practical skills, and the ethical values needed to contribute meaningfully to society and industry.\n\nWith a student-centered approach, experienced faculty, and modern facilities, we are dedicated to shaping confident, capable graduates ready for the challenges of tomorrow.",
   aboutImage: {
     url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=85",
     altText: "Graduates celebrating on campus",
+  },
+  aboutImageBadgeEyebrow: "Est. 2015",
+  aboutImageBadgeText: "Decade of Excellence",
+  aboutPrimaryButtonLabel: "Mission & Vision",
+  aboutPrimaryButtonHref: "/about/mission-vision",
+  aboutSecondaryButtonLabel: "Chairman's Message",
+  aboutSecondaryButtonHref: "/about/chairman-message",
+  aboutPillarsEyebrow: "Our Pillars",
+  aboutPillarsTitle: "Built on Three Foundations",
+  aboutPillars: [
+    { title: "Academic Excellence", body: "Quality education built on a structured curriculum, experienced educators, and industry-relevant standards." },
+    { title: "Student Development", body: "Clubs, co-curricular activities, leadership training, and communication skills for holistic growth." },
+    { title: "Career Preparation", body: "Practical learning, industry partnerships, internship guidance, and career counselling for every student." },
+  ],
+  aboutStatsEyebrow: "By the Numbers",
+  aboutStatsTitle: "Key Highlights",
+  aboutStats: [
+    { title: "10+", body: "Years of Excellence" },
+    { title: "8+", body: "Academic Programs" },
+    { title: "2000+", body: "Students Enrolled" },
+    { title: "100+", body: "Faculty Members" },
+  ],
+  aboutJourneyEyebrow: "Our Journey",
+  aboutJourneyTitle: "A Decade of Growth & Progress",
+  aboutJourneyBody:
+    "From a bold founding vision to a thriving academic community, our institution has grown steadily - expanding programs, upgrading facilities, and earning the trust of thousands of students.",
+  aboutJourneyItems: [
+    { title: "2015", body: "University foundation established by visionary academic leaders." },
+    { title: "2018", body: "Academic expansion with new departments and modern facilities." },
+    { title: "2021", body: "State-of-the-art laboratories and digital classrooms introduced." },
+    { title: "2025", body: "New digital learning platform launched for online and blended education." },
+  ],
+  aboutWhyEyebrow: "Why BUEK",
+  aboutWhyTitle: "Why Choose Us",
+  aboutWhyBody:
+    "We combine academic rigour with a supportive environment to help every student thrive.",
+  aboutWhyItems: [
+    { title: "Experienced faculty", body: "Experienced and dedicated faculty members" },
+    { title: "Modern curriculum", body: "Modern, industry-aligned academic curriculum" },
+    { title: "Practical learning", body: "Practical and career-oriented learning approach" },
+    { title: "Digital facilities", body: "Digital classrooms, computer labs, and facilities" },
+    { title: "Safe campus", body: "Safe, disciplined, and inclusive campus environment" },
+    { title: "Recognised programs", body: "Government recognised and accredited programs" },
+  ],
+  aboutCampusEyebrow: "Campus Life",
+  aboutCampusTitle: "Our Learning Environment",
+  aboutCampusBody:
+    "Modern classrooms, well-equipped labs, a rich library, and vibrant student spaces - all designed for success.",
+  aboutCampusFeatures: [
+    "Modern Classrooms",
+    "Computer Labs",
+    "Library & Resources",
+    "Student Activity Spaces",
+  ],
+  aboutCampusMainImage: {
+    url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+    altText: "Campus",
+  },
+  aboutCampusTopImage: {
+    url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80",
+    altText: "Library",
+  },
+  aboutCampusBottomImage: {
+    url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80",
+    altText: "Laboratory",
+  },
+  aboutLeadershipEyebrow: "Leadership",
+  aboutLeadershipTitle: "Leadership & Governance",
+  aboutLeadershipBody:
+    "Our institution is guided by experienced academic leaders and administrative members who work together to ensure quality education, institutional integrity, and continuous growth.",
+  aboutLeadershipPrimaryLabel: "Chairman's Message",
+  aboutLeadershipPrimaryHref: "/about/chairman-message",
+  aboutLeadershipSecondaryLabel: "View Committee",
+  aboutLeadershipSecondaryHref: "/about/committee",
+  aboutCtaEyebrow: "Take the Next Step",
+  aboutCtaTitle: "Start Your Academic Journey With Us",
+  aboutCtaBody:
+    "Explore our academic programs and learn how BUEK can help you build a purposeful future.",
+  aboutCtaPrimaryLabel: "Explore Academic Programs",
+  aboutCtaPrimaryHref: "/academic",
+  aboutCtaSecondaryLabel: "Contact Us",
+  aboutCtaSecondaryHref: "/contact",
+  aboutCtaImage: {
+    url: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80",
+    altText: "Students celebrating graduation",
   },
   missionIntroTitle: "Shaping the Future Through Knowledge and Values",
   missionIntroBody:
@@ -310,6 +410,13 @@ export const defaultAcademic: AcademicPage = {
   title: "Academic Programs",
   overview:
     "Our academic programs are designed around strong foundations, practical learning, and opportunities for research and industry engagement.",
+  heroEyebrow: "Academic",
+  heroImage: {
+    url: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1800&q=85",
+    altText: "University classroom",
+  },
+  programCardBody:
+    "Program information, departments, curriculum details, and admission requirements can be updated from the admin panel.",
   programs: [
     "Faculty of Engineering and Technology",
     "Faculty of Business and Economics",

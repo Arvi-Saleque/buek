@@ -3,6 +3,7 @@ import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { Prose } from "@/components/public/prose";
 import { getAcademicPage } from "@/lib/content";
+import { defaultAcademic } from "@/lib/defaults";
 
 export default async function AcademicPage() {
   const academic = await getAcademicPage();
@@ -10,11 +11,11 @@ export default async function AcademicPage() {
   return (
     <>
       <PageHero
-        eyebrow="Academic"
+        eyebrow={academic.heroEyebrow || defaultAcademic.heroEyebrow || "Academic"}
         title={academic.title}
         body={academic.overview}
-        image="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="University classroom"
+        image={academic.heroImage?.url || defaultAcademic.heroImage?.url}
+        imageAlt={academic.heroImage?.altText || defaultAcademic.heroImage?.altText || "University classroom"}
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Academic" }]}
       />
       <Container className="py-16">
@@ -24,7 +25,7 @@ export default async function AcademicPage() {
               <GraduationCap className="text-university-green" size={30} />
               <h2 className="mt-4 text-xl font-bold text-university-navy">{program}</h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">
-                Program information, departments, curriculum details, and admission requirements can be updated from the admin panel.
+                {academic.programCardBody || defaultAcademic.programCardBody}
               </p>
             </article>
           ))}

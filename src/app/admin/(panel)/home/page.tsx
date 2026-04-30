@@ -190,6 +190,14 @@ export default async function AdminHomePage({
             <textarea name="newsBody" defaultValue={home.newsBody} rows={3} className="field" />
           </label>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="font-bold text-slate-800">News & Events Listing Hero</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <input name="newsPageEyebrow" defaultValue={home.newsPageEyebrow || defaultHome.newsPageEyebrow} placeholder="Listing hero label" className="field bg-white" />
+              <input name="newsPageTitle" defaultValue={home.newsPageTitle || defaultHome.newsPageTitle} placeholder="Listing hero title" className="field bg-white" />
+            </div>
+            <textarea name="newsPageBody" defaultValue={home.newsPageBody || defaultHome.newsPageBody} rows={3} placeholder="Listing hero body" className="field mt-4 bg-white" />
+          </div>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <p className="font-bold text-slate-800">Select Existing News / Events</p>
             <p className="mt-1 text-sm text-slate-600">Choose up to three items for the homepage featured and compact news cards.</p>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -281,6 +289,14 @@ export default async function AdminHomePage({
             <span className="label">Quote</span>
             <textarea name="galleryQuote" defaultValue={home.galleryQuote || defaultHome.galleryQuote} rows={2} className="field" />
           </label>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="font-bold text-slate-800">Gallery Listing Hero</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <input name="galleryPageEyebrow" defaultValue={home.galleryPageEyebrow || defaultHome.galleryPageEyebrow} placeholder="Listing hero label" className="field bg-white" />
+              <input name="galleryPageTitle" defaultValue={home.galleryPageTitle || defaultHome.galleryPageTitle} placeholder="Listing hero title" className="field bg-white" />
+            </div>
+            <textarea name="galleryPageBody" defaultValue={home.galleryPageBody || defaultHome.galleryPageBody} rows={3} placeholder="Listing hero body" className="field mt-4 bg-white" />
+          </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <p className="font-bold text-slate-800">Select Existing Gallery Albums</p>
             <p className="mt-1 text-sm text-slate-600">Choose albums to appear in the homepage gallery mosaic. No gallery item is created here.</p>
