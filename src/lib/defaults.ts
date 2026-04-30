@@ -62,13 +62,23 @@ export const defaultHome: HomePage = {
       },
     },
   ],
+  introEyebrow: "Academic Community",
   introTitle: "Welcome to our academic community",
   introBody:
     "We prepare students with practical knowledge, ethical judgment, and the confidence to serve society through meaningful work.",
+  introHighlight:
+    "A modern academic environment focused on practical knowledge, discipline, research, and professional growth.",
   introImage: {
     url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=85",
     altText: "Graduates celebrating on campus",
   },
+  introImageEyebrow: "Campus Focus",
+  introImageCaption:
+    "Quality education, disciplined learning, and practical growth.",
+  statProgramsLabel: "Academic programs",
+  statProgramsDetail: "Academic Programs",
+  statUpdatesLabel: "Published updates",
+  statUpdatesDetail: "News, events, and campus notices",
   featureTitle: "Important Campus Information",
   featureBody:
     "Quick access to the areas students, guardians, and visitors need most.",
@@ -89,16 +99,35 @@ export const defaultHome: HomePage = {
       href: "/contact",
     },
   ],
+  academicEyebrow: "Academics",
   academicTitle: "Academic Excellence With Purpose",
   academicBody:
     "Programs are organized to build strong foundations, professional skill, ethical judgment, and leadership capacity.",
+  academicButtonLabel: "View all programs",
+  academicButtonHref: "/academic",
   noticeTitle: "Important Notices",
+  noticeEyebrow: "Notice Board",
+  noticeButtonLabel: "View all notices",
+  noticeButtonHref: "/news-events",
+  newsEyebrow: "Stay Informed",
   newsTitle: "Latest News & Events",
   newsBody:
     "Stay connected with university announcements, academic updates, events, and campus stories.",
+  newsButtonLabel: "All news & events",
+  newsButtonHref: "/news-events",
+  selectedNewsSlugs: [],
+  selectedNoticeSlugs: [],
+  galleryEyebrow: "Campus Life",
   galleryTitle: "Life On Campus",
   galleryBody:
     "A glimpse of learning spaces, student life, ceremonies, and institutional moments.",
+  galleryQuote:
+    "A vibrant campus where students grow beyond the classroom - through culture, sport, research and community.",
+  galleryPrimaryLabel: "View Gallery",
+  galleryPrimaryHref: "/gallery",
+  gallerySecondaryLabel: "About Campus",
+  gallerySecondaryHref: "/about",
+  selectedGallerySlugs: [],
   notices: [
     {
       title: "Admission Notice",
@@ -119,11 +148,24 @@ export const defaultHome: HomePage = {
       date: "2026-04-12",
     },
   ],
+  ctaEyebrow: "Begin Your Journey",
   ctaTitle: "Begin your academic journey",
   ctaBody:
     "Learn about programs, admission steps, and the support available to every student.",
   ctaButtonLabel: "Contact Admission Office",
   ctaHref: "/academic",
+  ctaSecondaryLabel: "Contact Admissions",
+  ctaSecondaryHref: "/contact",
+  ctaTrustBadges: [
+    "Government Recognised",
+    "Accredited Programs",
+    "Expert Faculty",
+    "Career Support",
+  ],
+  ctaBackgroundImage: {
+    url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=85",
+    altText: "Students on campus",
+  },
 };
 
 export const defaultAbout: AboutPage = {

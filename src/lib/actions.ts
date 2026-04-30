@@ -65,6 +65,13 @@ function lines(formData: FormData, key: string) {
     .filter(Boolean);
 }
 
+function selectedValues(formData: FormData, key: string) {
+  return formData
+    .getAll(key)
+    .map((item) => String(item).trim())
+    .filter(Boolean);
+}
+
 function listItems(formData: FormData, key: string) {
   return lines(formData, key)
     .map((line) => {
@@ -319,26 +326,59 @@ export async function saveHomeAction(formData: FormData) {
 
   const content: HomePage = {
     slides: slides.filter((slide) => slide.title && slide.subtitle),
+    introEyebrow: value(formData, "introEyebrow"),
     introTitle: value(formData, "introTitle"),
     introBody: value(formData, "introBody"),
+    introHighlight: value(formData, "introHighlight"),
     introImage:
       (await imageFromForm(formData, "introImage", "university/home")) ||
       current.introImage,
-    featureTitle: value(formData, "featureTitle"),
-    featureBody: value(formData, "featureBody"),
-    featureCards: featureRows(formData),
+    introImageEyebrow: value(formData, "introImageEyebrow"),
+    introImageCaption: value(formData, "introImageCaption"),
+    statProgramsLabel: value(formData, "statProgramsLabel"),
+    statProgramsDetail: value(formData, "statProgramsDetail"),
+    statUpdatesLabel: value(formData, "statUpdatesLabel"),
+    statUpdatesDetail: value(formData, "statUpdatesDetail"),
+    featureTitle: value(formData, "featureTitle") || current.featureTitle,
+    featureBody: value(formData, "featureBody") || current.featureBody,
+    featureCards: formData.has("featureCardTitle") ? featureRows(formData) : current.featureCards,
+    academicEyebrow: value(formData, "academicEyebrow"),
     academicTitle: value(formData, "academicTitle"),
     academicBody: value(formData, "academicBody"),
+    academicButtonLabel: value(formData, "academicButtonLabel"),
+    academicButtonHref: value(formData, "academicButtonHref") || "/academic",
     noticeTitle: value(formData, "noticeTitle"),
+    noticeEyebrow: value(formData, "noticeEyebrow"),
+    noticeButtonLabel: value(formData, "noticeButtonLabel"),
+    noticeButtonHref: value(formData, "noticeButtonHref") || "/news-events",
+    newsEyebrow: value(formData, "newsEyebrow"),
     newsTitle: value(formData, "newsTitle"),
     newsBody: value(formData, "newsBody"),
+    newsButtonLabel: value(formData, "newsButtonLabel"),
+    newsButtonHref: value(formData, "newsButtonHref") || "/news-events",
+    selectedNewsSlugs: selectedValues(formData, "selectedNewsSlugs"),
+    selectedNoticeSlugs: selectedValues(formData, "selectedNoticeSlugs"),
+    galleryEyebrow: value(formData, "galleryEyebrow"),
     galleryTitle: value(formData, "galleryTitle"),
     galleryBody: value(formData, "galleryBody"),
-    notices: notices(formData),
+    galleryQuote: value(formData, "galleryQuote"),
+    galleryPrimaryLabel: value(formData, "galleryPrimaryLabel"),
+    galleryPrimaryHref: value(formData, "galleryPrimaryHref") || "/gallery",
+    gallerySecondaryLabel: value(formData, "gallerySecondaryLabel"),
+    gallerySecondaryHref: value(formData, "gallerySecondaryHref") || "/about",
+    selectedGallerySlugs: selectedValues(formData, "selectedGallerySlugs"),
+    notices: formData.has("noticeItemTitle") ? notices(formData) : current.notices,
+    ctaEyebrow: value(formData, "ctaEyebrow"),
     ctaTitle: value(formData, "ctaTitle"),
     ctaBody: value(formData, "ctaBody"),
     ctaButtonLabel: value(formData, "ctaButtonLabel"),
     ctaHref: value(formData, "ctaHref") || "/academic",
+    ctaSecondaryLabel: value(formData, "ctaSecondaryLabel"),
+    ctaSecondaryHref: value(formData, "ctaSecondaryHref") || "/contact",
+    ctaTrustBadges: lines(formData, "ctaTrustBadges"),
+    ctaBackgroundImage:
+      (await imageFromForm(formData, "ctaBackgroundImage", "university/home")) ||
+      current.ctaBackgroundImage,
   };
 
   await savePage("home", content);

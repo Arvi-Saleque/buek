@@ -52,24 +52,55 @@ export type HomeNotice = {
 
 export type HomePage = {
   slides: HomeSlide[];
+  introEyebrow?: string;
   introTitle: string;
   introBody: string;
+  introHighlight?: string;
   introImage?: ImageAsset;
+  introImageEyebrow?: string;
+  introImageCaption?: string;
+  statProgramsLabel?: string;
+  statProgramsDetail?: string;
+  statUpdatesLabel?: string;
+  statUpdatesDetail?: string;
   featureTitle: string;
   featureBody: string;
   featureCards: HomeFeatureCard[];
   academicTitle: string;
   academicBody: string;
+  academicEyebrow?: string;
+  academicButtonLabel?: string;
+  academicButtonHref?: string;
   noticeTitle: string;
+  noticeEyebrow?: string;
+  noticeButtonLabel?: string;
+  noticeButtonHref?: string;
   newsTitle: string;
   newsBody: string;
+  newsEyebrow?: string;
+  newsButtonLabel?: string;
+  newsButtonHref?: string;
+  selectedNewsSlugs?: string[];
+  selectedNoticeSlugs?: string[];
   galleryTitle: string;
   galleryBody: string;
+  galleryEyebrow?: string;
+  galleryQuote?: string;
+  galleryPrimaryLabel?: string;
+  galleryPrimaryHref?: string;
+  gallerySecondaryLabel?: string;
+  gallerySecondaryHref?: string;
+  selectedGallerySlugs?: string[];
   notices: HomeNotice[];
+  ctaEyebrow?: string;
   ctaTitle: string;
   ctaBody: string;
   ctaButtonLabel: string;
   ctaHref: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
+  ctaTrustBadges?: string[];
+  ctaBackgroundImage?: ImageAsset;
 };
 
 export type AboutPage = {

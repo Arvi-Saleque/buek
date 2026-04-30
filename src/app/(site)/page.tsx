@@ -31,6 +31,7 @@ import {
   getNewsEvents,
 } from "@/lib/content";
 import { defaultHome, defaultNews } from "@/lib/defaults";
+import type { GalleryItem, HomeNotice, NewsEvent } from "@/lib/types";
 
 // Maps program names (lower-cased substrings) to icons
 const programIconMap: [string, React.ElementType][] = [
@@ -101,6 +102,42 @@ function formatNoticeDate(date: string) {
   });
 }
 
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
+
+function gallerySlug(item: GalleryItem) {
+  return item.slug || slugify(item.title);
+}
+
+function selectedNews(items: NewsEvent[], slugs?: string[]) {
+  if (!slugs?.length) return [];
+  const bySlug = new Map(items.map((item) => [item.slug, item]));
+  return slugs.map((slug) => bySlug.get(slug)).filter((item): item is NewsEvent => Boolean(item));
+}
+
+function selectedGallery(items: GalleryItem[], slugs?: string[]) {
+  if (!slugs?.length) return [];
+  const bySlug = new Map(items.map((item) => [gallerySlug(item), item]));
+  return slugs.map((slug) => bySlug.get(slug)).filter((item): item is GalleryItem => Boolean(item));
+}
+
+function galleryCover(item?: GalleryItem) {
+  return item?.coverImage || item?.image || item?.images?.[0];
+}
+
+function noticeEvents(items: NewsEvent[], slugs?: string[]): HomeNotice[] {
+  return selectedNews(items, slugs).map((item) => ({
+    title: item.title,
+    body: item.excerpt,
+    category: item.category,
+    date: item.eventDate || item.date,
+  }));
+}
+
 export default async function HomePage() {
   const [home, academic, news, gallery] = await Promise.all([
     getHomePage(),
@@ -110,16 +147,27 @@ export default async function HomePage() {
   ]);
 
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
-  const notices = normalizeNotices(home.notices || []);
-  const visibleNews =
-    news.length >= 3
-      ? news
-      : [
-          ...news,
-          ...defaultNews.filter(
-            (item) => !news.some((existing) => existing.slug === item.slug),
-          ),
-        ].slice(0, 3);
+  const selectedHomeNews = selectedNews(news, home.selectedNewsSlugs);
+  const selectedNoticeItems = noticeEvents(news, home.selectedNoticeSlugs);
+  const notices = selectedNoticeItems.length
+    ? selectedNoticeItems
+    : normalizeNotices(home.notices || []);
+  const visibleNews = selectedHomeNews.length
+    ? selectedHomeNews
+    : (news.length >= 3
+        ? news
+        : [
+            ...news,
+            ...defaultNews.filter(
+              (item) => !news.some((existing) => existing.slug === item.slug),
+            ),
+          ]).slice(0, 3);
+  const selectedHomeGallery = selectedGallery(gallery, home.selectedGallerySlugs);
+  const visibleGallery = selectedHomeGallery.length ? selectedHomeGallery : gallery;
+  const galleryCovers = visibleGallery.map((item) => galleryCover(item));
+  const ctaBackground =
+    home.ctaBackgroundImage?.url ||
+    "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=85";
 
   return (
     <>
@@ -127,25 +175,24 @@ export default async function HomePage() {
 
       <Container className="grid gap-10 py-14 sm:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-12 lg:py-20">
         <div>
-          <SectionHeading eyebrow="Academic Community" title={home.introTitle} />
+          <SectionHeading eyebrow={home.introEyebrow || "Academic Community"} title={home.introTitle} />
           <p className="mt-5 text-base leading-7 text-slate-700 sm:mt-6 sm:text-lg sm:leading-8">{home.introBody}</p>
           <p className="mt-5 border-l-4 border-university-gold pl-4 text-lg font-bold leading-8 text-university-navy sm:pl-5 sm:text-xl">
-            A modern academic environment focused on practical knowledge,
-            discipline, research, and professional growth.
+            {home.introHighlight || defaultHome.introHighlight}
           </p>
           <div className="mt-9 grid gap-4 sm:grid-cols-2">
             {[
               {
                 icon: BookOpen,
                 value: `${academic.programs.length}+`,
-                label: "Academic programs",
-                detail: academic.programs[0] || "Academic Programs",
+                label: home.statProgramsLabel || "Academic programs",
+                detail: home.statProgramsDetail || academic.programs[0] || "Academic Programs",
               },
               {
                 icon: CalendarDays,
                 value: `${news.length}+`,
-                label: "Published updates",
-                detail: "News, events, and campus notices",
+                label: home.statUpdatesLabel || "Published updates",
+                detail: home.statUpdatesDetail || "News, events, and campus notices",
               },
             ].map((item) => (
               <div key={item.label} className="rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
@@ -177,10 +224,10 @@ export default async function HomePage() {
           ) : null}
           <div className="absolute bottom-4 left-4 right-4 rounded-lg border border-white/30 bg-white/90 p-4 shadow-soft backdrop-blur sm:bottom-5 sm:left-5 sm:right-5 sm:p-5">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-university-gold sm:text-sm">
-              Campus Focus
+              {home.introImageEyebrow || "Campus Focus"}
             </p>
             <p className="mt-2 text-base font-bold text-university-navy sm:text-lg">
-              Quality education, disciplined learning, and practical growth.
+              {home.introImageCaption || defaultHome.introImageCaption}
             </p>
           </div>
         </div>
@@ -242,18 +289,18 @@ export default async function HomePage() {
           <div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
             <div>
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Academics
+                {home.academicEyebrow || "Academics"}
               </p>
-              <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Our Programs</h2>
+              <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">{home.academicTitle}</h2>
               <p className="mt-3 max-w-xl text-base leading-7 text-university-text">
-                Learn more about the faculties and courses we offer.
+                {home.academicBody}
               </p>
             </div>
             <Link
-              href="/academic"
+              href={home.academicButtonHref || "/academic"}
               className="inline-flex items-center gap-2 rounded-lg border border-university-line px-5 py-2.5 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
             >
-              View all programs <ArrowRight size={15} />
+              {home.academicButtonLabel || "View all programs"} <ArrowRight size={15} />
             </Link>
           </div>
 
@@ -293,18 +340,18 @@ export default async function HomePage() {
           <div className="mb-10 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
             <div>
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Stay Informed
+                {home.newsEyebrow || "Stay Informed"}
               </p>
-              <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">Latest Updates</h2>
+              <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">{home.newsTitle}</h2>
               <p className="mt-3 max-w-xl text-base leading-7 text-university-text">
-                News, events and important notices from the university — all in one place.
+                {home.newsBody}
               </p>
             </div>
             <Link
-              href="/news-events"
+              href={home.newsButtonHref || "/news-events"}
               className="inline-flex items-center gap-2 rounded-lg border border-university-line px-5 py-2.5 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
             >
-              All news &amp; events <ArrowRight size={15} />
+              {home.newsButtonLabel || "All news & events"} <ArrowRight size={15} />
             </Link>
           </div>
 
@@ -366,7 +413,7 @@ export default async function HomePage() {
                     <Bell size={17} />
                   </span>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-university-gold/80">Notice Board</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-university-gold/80">{home.noticeEyebrow || "Notice Board"}</p>
                     <h3 className="text-sm font-bold text-white">{home.noticeTitle}</h3>
                   </div>
                 </div>
@@ -403,10 +450,10 @@ export default async function HomePage() {
                 {/* Footer */}
                 <div className="shrink-0 border-t border-university-line bg-university-mist px-5 py-3">
                   <Link
-                    href="/news-events"
+                    href={home.noticeButtonHref || "/news-events"}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-university-line bg-white px-4 py-2.5 text-xs font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
                   >
-                    View all notices <ArrowRight size={13} />
+                    {home.noticeButtonLabel || "View all notices"} <ArrowRight size={13} />
                   </Link>
                 </div>
               </aside>
@@ -468,7 +515,7 @@ export default async function HomePage() {
             {/* Left: editorial copy */}
             <div>
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Campus Life
+                {home.galleryEyebrow || "Campus Life"}
               </p>
               <h2 className="text-3xl font-bold leading-tight text-university-navy sm:text-4xl lg:text-5xl">
                 {home.galleryTitle}
@@ -478,21 +525,21 @@ export default async function HomePage() {
               </p>
               <blockquote className="mt-6 border-l-4 border-university-gold pl-5">
                 <p className="text-base font-medium italic leading-7 text-university-text">
-                  &ldquo;A vibrant campus where students grow beyond the classroom — through culture, sport, research and community.&rdquo;
+                  &ldquo;{home.galleryQuote || defaultHome.galleryQuote}&rdquo;
                 </p>
               </blockquote>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/gallery"
+                  href={home.galleryPrimaryHref || "/gallery"}
                   className="inline-flex items-center gap-2 rounded-lg bg-university-navy px-6 py-3 text-sm font-bold text-white transition hover:bg-university-gold hover:text-university-navy"
                 >
-                  <Images size={16} /> View Gallery
+                  <Images size={16} /> {home.galleryPrimaryLabel || "View Gallery"}
                 </Link>
                 <Link
-                  href="/about"
+                  href={home.gallerySecondaryHref || "/about"}
                   className="inline-flex items-center gap-2 rounded-lg border border-university-line px-6 py-3 text-sm font-bold text-university-navy transition hover:border-university-navy"
                 >
-                  About Campus <ArrowRight size={15} />
+                  {home.gallerySecondaryLabel || "About Campus"} <ArrowRight size={15} />
                 </Link>
               </div>
             </div>
@@ -501,10 +548,10 @@ export default async function HomePage() {
             <div className="grid h-[340px] grid-cols-2 grid-rows-2 gap-3 sm:h-[420px] lg:h-[460px]">
               {/* Featured — tall left column */}
               <div className="group relative row-span-2 overflow-hidden rounded-2xl bg-university-royal">
-                {gallery[0]?.image?.url ? (
+                {galleryCovers[0]?.url ? (
                   <Image
-                    src={gallery[0].image.url}
-                    alt={gallery[0].image.altText || gallery[0].title}
+                    src={galleryCovers[0].url}
+                    alt={galleryCovers[0].altText || visibleGallery[0].title}
                     fill
                     sizes="(min-width: 1024px) 28vw, 45vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
@@ -512,34 +559,34 @@ export default async function HomePage() {
                 ) : null}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5 opacity-0 transition-all duration-300 group-hover:opacity-100">
                   <span className="text-xs font-bold uppercase tracking-widest text-university-gold">
-                    {gallery[0]?.category ?? "Campus"}
+                    {visibleGallery[0]?.category ?? "Campus"}
                   </span>
-                  <p className="mt-0.5 text-sm font-bold text-white">{gallery[0]?.title}</p>
+                  <p className="mt-0.5 text-sm font-bold text-white">{visibleGallery[0]?.title}</p>
                 </div>
               </div>
 
               {/* Top-right */}
               <div className="group relative overflow-hidden rounded-2xl bg-university-royal/60">
-                {gallery[1]?.image?.url ? (
+                {galleryCovers[1]?.url ? (
                   <Image
-                    src={gallery[1].image.url}
-                    alt={gallery[1].image.altText || gallery[1].title}
+                    src={galleryCovers[1].url}
+                    alt={galleryCovers[1].altText || visibleGallery[1].title}
                     fill
                     sizes="(min-width: 1024px) 18vw, 40vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
                   />
                 ) : null}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition duration-300 group-hover:opacity-100">
-                  <p className="text-xs font-bold text-white">{gallery[1]?.title}</p>
+                  <p className="text-xs font-bold text-white">{visibleGallery[1]?.title}</p>
                 </div>
               </div>
 
               {/* Bottom-right */}
               <div className="group relative overflow-hidden rounded-2xl bg-university-green/60">
-                {gallery[2]?.image?.url ? (
+                {galleryCovers[2]?.url ? (
                   <Image
-                    src={gallery[2].image.url}
-                    alt={gallery[2].image.altText || gallery[2].title}
+                    src={galleryCovers[2].url}
+                    alt={galleryCovers[2].altText || visibleGallery[2].title}
                     fill
                     sizes="(min-width: 1024px) 18vw, 40vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
@@ -561,8 +608,7 @@ export default async function HomePage() {
       <section
         className="relative py-24 sm:py-32 lg:py-40"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80')",
+          backgroundImage: `url('${ctaBackground}')`,
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -579,7 +625,7 @@ export default async function HomePage() {
             {/* Text */}
             <div>
               <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-university-gold">
-                Begin Your Journey
+                {home.ctaEyebrow || "Begin Your Journey"}
               </p>
               <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
                 {home.ctaTitle}
@@ -590,7 +636,7 @@ export default async function HomePage() {
 
               {/* Trust badges */}
               <div className="mt-8 flex flex-wrap gap-x-7 gap-y-3">
-                {["Government Recognised", "Accredited Programs", "Expert Faculty", "Career Support"].map((b) => (
+                {(home.ctaTrustBadges?.length ? home.ctaTrustBadges : defaultHome.ctaTrustBadges || []).map((b) => (
                   <span key={b} className="flex items-center gap-2 text-sm font-medium text-white/65">
                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-university-gold" />
                     {b}
@@ -608,10 +654,10 @@ export default async function HomePage() {
                 {home.ctaButtonLabel} <ArrowRight size={18} />
               </Link>
               <Link
-                href="/contact"
+                href={home.ctaSecondaryHref || "/contact"}
                 className="inline-flex min-h-[56px] items-center justify-center gap-2.5 rounded-xl border-2 border-white/40 px-10 py-4 text-base font-bold text-white transition hover:border-white hover:bg-white/10"
               >
-                Contact Admissions
+                {home.ctaSecondaryLabel || "Contact Admissions"}
               </Link>
             </div>
 
@@ -621,3 +667,5 @@ export default async function HomePage() {
     </>
   );
 }
+
+
