@@ -12,7 +12,6 @@ import {
   Mail,
   Phone,
   ShieldCheck,
-  UserRound,
   Users,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
@@ -28,6 +27,15 @@ const responsibilityIcons = [
   ShieldCheck,
 ];
 
+const fallbackMemberPhotos = [
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=85",
+];
+
 function roleKey(member: CommitteeMember) {
   return (member.committeeRole || member.role || "").toLowerCase();
 }
@@ -41,8 +49,8 @@ function isSecretary(member: CommitteeMember) {
   return roleKey(member).includes("secretary");
 }
 
-function memberPhoto(member: CommitteeMember) {
-  return member.photo?.url;
+function memberPhoto(member: CommitteeMember, index = 0) {
+  return member.photo?.url || fallbackMemberPhotos[index % fallbackMemberPhotos.length];
 }
 
 function items(value?: EditableListItem[]) {
@@ -51,107 +59,77 @@ function items(value?: EditableListItem[]) {
 
 function MemberContact({
   member,
-  inverse = false,
 }: {
   member: CommitteeMember;
-  inverse?: boolean;
 }) {
   return (
-    <div className={["mt-4 grid gap-2 text-sm", inverse ? "text-white/72" : "text-university-text"].join(" ")}>
+    <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-university-text">
       {member.email ? (
         <a
           href={`mailto:${member.email}`}
-          className="flex items-center gap-2 transition hover:text-university-gold"
+          className="grid h-8 w-8 place-items-center rounded-full transition hover:bg-white hover:text-university-gold"
+          aria-label={`Email ${member.name}`}
         >
-          <Mail size={14} className="text-university-gold" />
-          {member.email}
+          <Mail size={15} />
         </a>
       ) : null}
       {member.officePhone ? (
-        <span className="flex items-center gap-2">
-          <Phone size={14} className="text-university-gold" />
-          Office: {member.officePhone}
+        <span
+          className="grid h-8 w-8 place-items-center rounded-full"
+          title={`Office: ${member.officePhone}`}
+          aria-label={`Office phone ${member.officePhone}`}
+        >
+          <Phone size={15} />
         </span>
       ) : null}
     </div>
   );
 }
 
-function ProfilePhoto({
-  member,
-  featured = false,
-}: {
-  member: CommitteeMember;
-  featured?: boolean;
-}) {
+function ProfilePhotoTile({ member, index }: { member: CommitteeMember; index: number }) {
   return (
-    <div
-      className={[
-        "relative min-h-[320px] overflow-hidden bg-[#d8d9d6]",
-        featured ? "lg:min-h-[420px]" : "lg:min-h-[360px]",
-      ].join(" ")}
-    >
-      {memberPhoto(member) ? (
-        <Image
-          src={memberPhoto(member)!}
-          alt={member.photo?.altText || member.name}
-          fill
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover"
-        />
-      ) : (
-        <div className="grid h-full min-h-[320px] place-items-center bg-university-navy text-university-gold">
-          <UserRound size={68} />
-        </div>
-      )}
+    <div className="relative aspect-square min-h-[260px] overflow-hidden bg-[#d3d4d0]">
+      <Image
+        src={memberPhoto(member, index)}
+        alt={member.photo?.altText || member.name}
+        fill
+        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+        className="object-cover"
+      />
     </div>
   );
 }
 
-function ProfileInfo({
+function ProfileInfoTile({
   member,
   label,
-  featured = false,
 }: {
   member: CommitteeMember;
   label: string;
-  featured?: boolean;
 }) {
   return (
-    <div
-      className={[
-        "flex min-h-[320px] flex-col justify-center bg-[#eef0ed] p-7 text-center sm:p-10",
-        featured ? "lg:min-h-[420px]" : "lg:min-h-[360px]",
-      ].join(" ")}
-    >
-      <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+    <div className="flex aspect-square min-h-[260px] flex-col justify-center bg-[#dedfdb] p-7 text-center sm:p-9">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
         {label}
       </p>
-      <h2
-        className={[
-          "mx-auto mt-4 max-w-xl font-bold uppercase leading-tight text-university-navy",
-          featured ? "text-3xl sm:text-4xl" : "text-2xl",
-        ].join(" ")}
-      >
+      <h3 className="mx-auto mt-3 max-w-sm text-2xl font-black uppercase leading-tight text-university-navy">
         {member.name}
-      </h2>
+      </h3>
       <p className="mt-2 text-sm font-bold lowercase text-[#9b3242]">
         {member.committeeRole || "Member"}
       </p>
-      <p className="mt-4 text-sm font-semibold text-university-navy">
+      <p className="mt-4 text-sm font-bold text-university-navy">
         {member.role}
       </p>
-      <p className="mx-auto mt-1 max-w-md text-sm leading-6 text-university-text">
+      <p className="mx-auto mt-1 max-w-xs text-sm leading-6 text-university-text">
         {member.department || "General"}
       </p>
       {member.bio ? (
-        <p className="mx-auto mt-5 max-w-lg text-sm italic leading-7 text-university-text">
+        <p className="mx-auto mt-5 max-w-sm text-sm italic leading-7 text-university-text">
           {member.bio}
         </p>
       ) : null}
-      <div className="mx-auto">
-        <MemberContact member={member} />
-      </div>
+      <MemberContact member={member} />
       {member.profileUrl ? (
         <Link
           href={member.profileUrl}
@@ -160,39 +138,36 @@ function ProfileInfo({
           View Profile <ArrowRight size={14} />
         </Link>
       ) : null}
+      <span className="mx-auto mt-5 h-1 w-10 rounded-full bg-university-gold/70" />
     </div>
   );
 }
 
-function SplitProfileCard({
-  member,
-  label,
-  imagePosition = "left",
-  featured = false,
-}: {
-  member: CommitteeMember;
-  label: string;
-  imagePosition?: "left" | "right";
-  featured?: boolean;
-}) {
-  const image = <ProfilePhoto member={member} featured={featured} />;
-  const info = <ProfileInfo member={member} label={label} featured={featured} />;
+function buildMosaicMembers(members: CommitteeMember[]) {
+  const [first, second, third, ...rest] = members;
+  const arranged = [
+    first ? { member: first, type: "photo" as const, label: first.committeeRole || "Committee Member" } : null,
+    first ? { member: first, type: "info" as const, label: "Committee Chairperson" } : null,
+    third ? { member: third, type: "photo" as const, label: third.committeeRole || "Committee Member" } : null,
+    second ? { member: second, type: "info" as const, label: second.committeeRole || "Committee Member" } : null,
+    second ? { member: second, type: "photo" as const, label: second.committeeRole || "Committee Member" } : null,
+    third ? { member: third, type: "info" as const, label: "Committee Secretary" } : null,
+  ].filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-  return (
-    <article className="grid overflow-hidden rounded-lg border border-university-line bg-white shadow-sm lg:grid-cols-2">
-      {imagePosition === "left" ? (
-        <>
-          {image}
-          {info}
-        </>
-      ) : (
-        <>
-          <div className="lg:order-2">{image}</div>
-          <div className="lg:order-1">{info}</div>
-        </>
-      )}
-    </article>
-  );
+  return [
+    ...arranged,
+    ...rest.flatMap((member, offset) =>
+      offset % 2 === 0
+        ? [
+            { member, type: "photo" as const, label: member.committeeRole || "Committee Member" },
+            { member, type: "info" as const, label: member.committeeRole || "Committee Member" },
+          ]
+        : [
+            { member, type: "info" as const, label: member.committeeRole || "Committee Member" },
+            { member, type: "photo" as const, label: member.committeeRole || "Committee Member" },
+          ],
+    ),
+  ];
 }
 
 export default async function CommitteePage() {
@@ -205,6 +180,12 @@ export default async function CommitteePage() {
   const otherMembers = members.filter(
     (member) => member !== chairperson && member !== secretary,
   );
+  const mosaicMembers = [
+    chairperson,
+    otherMembers[0],
+    secretary,
+    ...otherMembers.slice(1),
+  ].filter((member): member is CommitteeMember => Boolean(member));
   const responsibilities = items(about.committeeResponsibilities);
   const documents = items(about.committeeDocuments);
 
@@ -309,37 +290,23 @@ export default async function CommitteePage() {
             </h2>
           </div>
 
-          <div className="grid gap-6">
-            {chairperson ? (
-              <SplitProfileCard
-                member={chairperson}
-                label="Committee Chairperson"
-                imagePosition="left"
-                featured
-              />
-            ) : null}
-            {secretary ? (
-              <SplitProfileCard
-                member={secretary}
-                label="Committee Secretary"
-                imagePosition="right"
-                featured
-              />
-            ) : null}
-          </div>
-
-          {otherMembers.length ? (
-            <div className="mt-10 grid gap-6">
-              {otherMembers.map((member, index) => (
-                <SplitProfileCard
-                  key={member._id || member.name}
-                  member={member}
-                  label={member.committeeRole || "Committee Member"}
-                  imagePosition={index % 2 === 0 ? "left" : "right"}
+          <div className="mx-auto grid max-w-6xl overflow-hidden rounded-lg border border-university-line bg-white shadow-soft md:grid-cols-2 lg:grid-cols-3">
+            {buildMosaicMembers(mosaicMembers).map((item, index) =>
+              item.type === "photo" ? (
+                <ProfilePhotoTile
+                  key={`${item.member.name}-${item.type}-${index}`}
+                  member={item.member}
+                  index={index}
                 />
-              ))}
-            </div>
-          ) : null}
+              ) : (
+                <ProfileInfoTile
+                  key={`${item.member.name}-${item.type}-${index}`}
+                  member={item.member}
+                  label={item.label}
+                />
+              ),
+            )}
+          </div>
         </Container>
       </section>
 

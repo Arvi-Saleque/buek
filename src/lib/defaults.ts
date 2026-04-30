@@ -305,6 +305,10 @@ export const defaultCommittee: CommitteeMember[] = [
     bio: "Oversees academic standards and curriculum development.",
     order: 1,
     published: true,
+    photo: {
+      url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85",
+      altText: "Academic committee chairperson",
+    },
   },
   {
     name: "Engr. Mahmud Hasan",
@@ -316,6 +320,10 @@ export const defaultCommittee: CommitteeMember[] = [
     bio: "Guides campus planning and technology initiatives.",
     order: 2,
     published: true,
+    photo: {
+      url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85",
+      altText: "Academic committee secretary",
+    },
   },
   {
     name: "Dr. Farhana Kabir",
@@ -327,6 +335,10 @@ export const defaultCommittee: CommitteeMember[] = [
     bio: "Supports policy review, academic planning, and student progress monitoring.",
     order: 3,
     published: true,
+    photo: {
+      url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=900&q=85",
+      altText: "Academic committee member",
+    },
   },
 ];
 
