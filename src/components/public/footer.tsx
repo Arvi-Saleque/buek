@@ -151,7 +151,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
       </Container>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/8">
+      <div className="border-t border-yellow-500  ">
         <Container className="flex flex-wrap items-center justify-between gap-4 py-5">
           <p className="text-xs text-white/40">
             © {new Date().getFullYear()} {settings.universityName}. All rights reserved.
