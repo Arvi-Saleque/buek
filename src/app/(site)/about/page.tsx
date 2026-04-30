@@ -203,25 +203,38 @@ export default async function AboutPage() {
       {/* ── 5. Timeline ── */}
       <section className="bg-white py-16 sm:py-20 lg:py-24">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-16">
-            <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">Our Journey</p>
-              <h2 className="text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
+          <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-start lg:gap-20">
+            <div className="max-w-xl">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+                Our Journey
+              </p>
+              <h2 className="text-4xl font-bold leading-tight text-university-navy sm:text-5xl">
                 A Decade of Growth &amp; Progress
               </h2>
-              <p className="mt-5 text-base leading-8 text-university-text">
-                From a bold founding vision to a thriving academic community, our institution has grown
-                steadily — expanding programs, upgrading facilities, and serving thousands of students.
+              <p className="mt-6 text-base leading-8 text-university-text">
+                From a bold founding vision to a thriving academic community, our
+                institution has grown steadily — expanding programs, upgrading
+                facilities, and earning the trust of thousands of students.
               </p>
             </div>
-            <div className="border-l-2 border-university-line pl-8">
+            <div className="relative pt-1">
+              <div className="absolute left-[13px] top-2 h-[calc(100%-1rem)] w-0.5 bg-university-gold/70" />
               {timeline.map(({ year, event }, i) => (
-                <div key={year} className={`relative ${i < timeline.length - 1 ? "pb-8" : ""}`}>
-                  <span className="absolute -left-[25px] flex h-6 w-6 items-center justify-center rounded-full bg-university-navy ring-4 ring-white">
-                    <span className="h-2 w-2 rounded-full bg-university-gold" />
+                <div
+                  key={year}
+                  className={`relative grid gap-5 pl-12 sm:grid-cols-[70px_1fr] sm:gap-8 ${
+                    i < timeline.length - 1 ? "pb-10" : ""
+                  }`}
+                >
+                  <span className="absolute left-0 top-1 flex h-7 w-7 items-center justify-center rounded-full border-2 border-university-gold bg-white shadow-[0_0_0_5px_rgba(200,155,60,0.1)]">
+                    <span className="h-2.5 w-2.5 rounded-full bg-university-gold" />
                   </span>
-                  <p className="mb-1 text-xs font-black uppercase tracking-widest text-university-gold">{year}</p>
-                  <p className="text-sm leading-7 text-university-text">{event}</p>
+                  <p className="text-2xl font-black leading-none text-university-navy">
+                    {year}
+                  </p>
+                  <p className="text-sm font-medium leading-7 text-university-text">
+                    {event}
+                  </p>
                 </div>
               ))}
             </div>
