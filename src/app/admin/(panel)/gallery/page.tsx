@@ -11,6 +11,7 @@ import {
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ConfirmDangerButton } from "@/components/admin/confirm-danger-button";
 import { ImageField } from "@/components/admin/image-field";
+import { MultiMediaPicker } from "@/components/admin/media-library-picker";
 import { StatusNote } from "@/components/admin/status-note";
 import {
   deleteAllGalleryItemsAction,
@@ -191,11 +192,11 @@ export default async function AdminGalleryPage({
                 Upload multiple photos at once. They will be stored in Cloudinary
                 and shown in the album lightbox.
               </p>
-              <div className="mt-4 grid gap-3">
-                <input name="newImages" type="file" accept="image/*" multiple className="field bg-white" />
-                <input name="newImagesTitle" placeholder="Optional title for new uploads" className="field bg-white" />
-                <input name="newImagesCaption" placeholder="Optional caption for new uploads" className="field bg-white" />
-              </div>
+              <MultiMediaPicker
+                inputName="newImages"
+                titleName="newImagesTitle"
+                captionName="newImagesCaption"
+              />
             </div>
           </div>
 

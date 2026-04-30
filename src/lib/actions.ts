@@ -183,6 +183,52 @@ function existingGalleryImages(formData: FormData): GalleryImage[] {
   return images;
 }
 
+function selectedLibraryGalleryImages(formData: FormData): GalleryImage[] {
+  const urls = formData.getAll("newLibraryImageUrl").map((item) => String(item).trim());
+  const secureUrls = formData.getAll("newLibraryImageSecureUrl").map((item) => String(item).trim());
+  const publicIds = formData.getAll("newLibraryImagePublicId").map((item) => String(item).trim());
+  const widths = formData.getAll("newLibraryImageWidth").map((item) => Number(item) || undefined);
+  const heights = formData.getAll("newLibraryImageHeight").map((item) => Number(item) || undefined);
+  const formats = formData.getAll("newLibraryImageFormat").map((item) => String(item).trim());
+  const altTexts = formData.getAll("newLibraryImageAltText").map((item) => String(item).trim());
+  const orders = formData.getAll("newLibraryImageOrder").map((item) => Number(item) || 0);
+  const title = value(formData, "newImagesTitle");
+  const caption = value(formData, "newImagesCaption");
+
+  return urls
+    .map((url, index) => {
+      if (!url) return null;
+
+      const image: GalleryImage = {
+        url,
+        secureUrl: secureUrls[index] || url,
+        publicId: publicIds[index] || undefined,
+        width: widths[index],
+        height: heights[index],
+        format: formats[index] || undefined,
+        altText: altTexts[index] || undefined,
+        title: title || altTexts[index] || undefined,
+        caption: caption || undefined,
+        order: orders[index] || index + 1,
+        uploadedAt: new Date().toISOString(),
+      };
+
+      return image;
+    })
+    .filter((image): image is GalleryImage => image !== null);
+}
+
+function dedupeGalleryImages(images: GalleryImage[]) {
+  const seen = new Set<string>();
+
+  return images.filter((image) => {
+    const key = image.publicId || image.url;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export async function loginAction(_: LoginState, formData: FormData): Promise<LoginState> {
   const email = value(formData, "email").toLowerCase();
   const password = value(formData, "password");
@@ -378,15 +424,16 @@ export async function saveGalleryItemAction(formData: FormData) {
   const coverImage = await imageFromForm(formData, "coverImage", "university/gallery/covers");
   const legacyImage = await imageFromForm(formData, "image", "university/gallery");
   const existingImages = existingGalleryImages(formData);
+  const libraryImages = selectedLibraryGalleryImages(formData);
   const uploadedImages = await imagesFromForm(formData, "newImages", "university/gallery/albums", title);
   const newImages: GalleryImage[] = uploadedImages.map((image, index) => ({
     ...image,
     title: value(formData, "newImagesTitle") || title,
     caption: value(formData, "newImagesCaption") || undefined,
-    order: existingImages.length + index + 1,
+    order: existingImages.length + libraryImages.length + index + 1,
     uploadedAt: new Date().toISOString(),
   }));
-  const images = [...existingImages, ...newImages].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const images = dedupeGalleryImages([...existingImages, ...libraryImages, ...newImages]).sort((a, b) => (a.order || 0) - (b.order || 0));
   const resolvedCover = coverImage || legacyImage || existingImage(formData, "coverImage") || existingImage(formData, "image") || images[0];
 
   await upsertGalleryItem({
