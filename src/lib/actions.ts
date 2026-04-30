@@ -10,6 +10,7 @@ import {
 import { uploadFormImage } from "@/lib/cloudinary";
 import {
   deleteCommitteeMember,
+  deleteAllNewsEvents,
   deleteGalleryItem,
   deleteNewsEvent,
   CONTENT_TAGS,
@@ -29,6 +30,7 @@ import type {
   ContactPage,
   HomePage,
   ImageAsset,
+  NewsEvent,
   SiteSettings,
 } from "@/lib/types";
 
@@ -278,17 +280,31 @@ export async function saveNewsEventAction(formData: FormData) {
   const slug = value(formData, "slug") || slugify(title);
   const coverImage = await imageFromForm(formData, "coverImage", "university/news");
 
-  await upsertNewsEvent({
+  const input: NewsEvent = {
     _id: value(formData, "id") || undefined,
     title,
     slug,
     date: value(formData, "date"),
     category: value(formData, "category"),
+    department: value(formData, "department") || undefined,
     excerpt: value(formData, "excerpt"),
     body: value(formData, "body"),
     published: booleanValue(formData, "published"),
+    featured: booleanValue(formData, "featured"),
     coverImage,
-  });
+    eventDate: value(formData, "eventDate") || undefined,
+    eventTime: value(formData, "eventTime") || undefined,
+    eventLocation: value(formData, "eventLocation") || undefined,
+    organizer: value(formData, "organizer") || undefined,
+    eventStatus: (value(formData, "eventStatus") || undefined) as NewsEvent["eventStatus"],
+    registrationLink: value(formData, "registrationLink") || undefined,
+    pdfUrl: value(formData, "pdfUrl") || undefined,
+    tags: lines(formData, "tags"),
+    seoTitle: value(formData, "seoTitle") || undefined,
+    seoDescription: value(formData, "seoDescription") || undefined,
+  };
+
+  await upsertNewsEvent(input);
 
   refreshPublicContent(CONTENT_TAGS.news);
   redirect("/admin/news-events?saved=1");
@@ -296,6 +312,12 @@ export async function saveNewsEventAction(formData: FormData) {
 
 export async function deleteNewsEventAction(formData: FormData) {
   await deleteNewsEvent(value(formData, "id"));
+  refreshPublicContent(CONTENT_TAGS.news);
+  redirect("/admin/news-events?deleted=1");
+}
+
+export async function deleteAllNewsEventsAction() {
+  await deleteAllNewsEvents();
   refreshPublicContent(CONTENT_TAGS.news);
   redirect("/admin/news-events?deleted=1");
 }

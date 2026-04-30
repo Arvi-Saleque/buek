@@ -116,10 +116,22 @@ export type NewsEvent = {
   slug: string;
   date: string;
   category: string;
+  department?: string;
   excerpt: string;
   body: string;
   published: boolean;
+  featured?: boolean;
   coverImage?: ImageAsset;
+  eventDate?: string;
+  eventTime?: string;
+  eventLocation?: string;
+  organizer?: string;
+  eventStatus?: "Upcoming" | "Ongoing" | "Completed";
+  registrationLink?: string;
+  pdfUrl?: string;
+  tags?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
 };
 
 export type GalleryItem = {

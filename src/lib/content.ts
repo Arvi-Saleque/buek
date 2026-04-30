@@ -236,6 +236,12 @@ export async function deleteNewsEvent(id: string) {
   await db.collection(COLLECTIONS.news).deleteOne({ _id: new ObjectId(id) });
 }
 
+export async function deleteAllNewsEvents() {
+  const db = await getDb();
+  if (!db) throw new Error("MongoDB is not configured.");
+  await db.collection(COLLECTIONS.news).deleteMany({});
+}
+
 async function getGalleryItemsData(publishedOnly = true): Promise<GalleryItem[]> {
   try {
     const db = await getDb();
