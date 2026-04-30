@@ -137,10 +137,29 @@ export type NewsEvent = {
 export type GalleryItem = {
   _id?: string;
   title: string;
+  slug?: string;
   category: string;
+  department?: string;
+  year?: string;
+  eventDate?: string;
+  description?: string;
   order: number;
   published: boolean;
+  featured?: boolean;
   image?: ImageAsset;
+  coverImage?: ImageAsset;
+  images?: GalleryImage[];
+  mediaType?: "Photos" | "Videos";
+  videoUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+export type GalleryImage = ImageAsset & {
+  title?: string;
+  caption?: string;
+  order?: number;
+  uploadedAt?: string;
 };
 
 export type ContactMessage = {

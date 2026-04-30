@@ -45,7 +45,7 @@ export const defaultHome: HomePage = {
       buttonLabel: "View Programs",
       buttonHref: "/academic",
       image: {
-        url: "https://images.unsplash.com/photo-1581093458791-9d09d43c81f3?auto=format&fit=crop&w=1800&q=85",
+        url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=1800&q=85",
         altText: "Students working in a laboratory",
       },
     },
@@ -66,7 +66,7 @@ export const defaultHome: HomePage = {
   introBody:
     "We prepare students with practical knowledge, ethical judgment, and the confidence to serve society through meaningful work.",
   introImage: {
-    url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=85",
+    url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=85",
     altText: "Graduates celebrating on campus",
   },
   featureTitle: "Important Campus Information",
@@ -131,7 +131,7 @@ export const defaultAbout: AboutPage = {
   aboutBody:
     "Our university combines rigorous academic standards with a supportive environment for students, faculty, and the wider community. We value research, innovation, cultural understanding, and public service.",
   aboutImage: {
-    url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=85",
+    url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=85",
     altText: "Graduates celebrating on campus",
   },
   missionTitle: "Mission",
@@ -269,7 +269,7 @@ export const defaultGallery: GalleryItem[] = [
     order: 3,
     published: true,
     image: {
-      url: "https://images.unsplash.com/photo-1581093458791-9d09d43c81f3?auto=format&fit=crop&w=1400&q=85",
+      url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=1400&q=85",
       altText: "Students working in a laboratory",
     },
   },

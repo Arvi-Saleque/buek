@@ -11,6 +11,7 @@ import { uploadFormImage } from "@/lib/cloudinary";
 import {
   deleteCommitteeMember,
   deleteAllNewsEvents,
+  deleteAllGalleryItems,
   deleteGalleryItem,
   deleteNewsEvent,
   CONTENT_TAGS,
@@ -28,6 +29,7 @@ import type {
   AcademicPage,
   AboutPage,
   ContactPage,
+  GalleryImage,
   HomePage,
   ImageAsset,
   NewsEvent,
@@ -131,6 +133,54 @@ async function imageFromForm(formData: FormData, key: string, folder: string, al
   );
 
   return uploaded || existingImage(formData, key);
+}
+
+async function imagesFromForm(formData: FormData, key: string, folder: string, altText?: string) {
+  const files = formData.getAll(key).filter((file): file is File => file instanceof File && file.size > 0);
+  const uploaded = await Promise.all(
+    files.map((file) => uploadFormImage(file, folder, altText)),
+  );
+
+  return uploaded.filter((image): image is NonNullable<typeof image> => Boolean(image));
+}
+
+function existingGalleryImages(formData: FormData): GalleryImage[] {
+  const urls = formData.getAll("galleryImageUrl").map((item) => String(item).trim());
+  const secureUrls = formData.getAll("galleryImageSecureUrl").map((item) => String(item).trim());
+  const publicIds = formData.getAll("galleryImagePublicId").map((item) => String(item).trim());
+  const widths = formData.getAll("galleryImageWidth").map((item) => Number(item) || undefined);
+  const heights = formData.getAll("galleryImageHeight").map((item) => Number(item) || undefined);
+  const formats = formData.getAll("galleryImageFormat").map((item) => String(item).trim());
+  const altTexts = formData.getAll("galleryImageAltText").map((item) => String(item).trim());
+  const titles = formData.getAll("galleryImageTitle").map((item) => String(item).trim());
+  const captions = formData.getAll("galleryImageCaption").map((item) => String(item).trim());
+  const orders = formData.getAll("galleryImageOrder").map((item) => Number(item) || 0);
+  const uploadedAt = formData.getAll("galleryImageUploadedAt").map((item) => String(item).trim());
+  const removeUrls = new Set(formData.getAll("galleryImageRemove").map((item) => String(item)));
+
+  const images = urls
+    .map((url, index) => {
+      if (!url || removeUrls.has(url)) return null;
+
+      const image: GalleryImage = {
+        url,
+        secureUrl: secureUrls[index] || url,
+        publicId: publicIds[index] || undefined,
+        width: widths[index],
+        height: heights[index],
+        format: formats[index] || undefined,
+        altText: altTexts[index] || undefined,
+        title: titles[index] || undefined,
+        caption: captions[index] || undefined,
+        order: orders[index] || index + 1,
+        uploadedAt: uploadedAt[index] || undefined,
+      };
+
+      return image;
+    })
+    .filter((image): image is GalleryImage => image !== null);
+
+  return images;
 }
 
 export async function loginAction(_: LoginState, formData: FormData): Promise<LoginState> {
@@ -323,13 +373,41 @@ export async function deleteAllNewsEventsAction() {
 }
 
 export async function saveGalleryItemAction(formData: FormData) {
+  const title = value(formData, "title");
+  const slug = value(formData, "slug") || slugify(title);
+  const coverImage = await imageFromForm(formData, "coverImage", "university/gallery/covers");
+  const legacyImage = await imageFromForm(formData, "image", "university/gallery");
+  const existingImages = existingGalleryImages(formData);
+  const uploadedImages = await imagesFromForm(formData, "newImages", "university/gallery/albums", title);
+  const newImages: GalleryImage[] = uploadedImages.map((image, index) => ({
+    ...image,
+    title: value(formData, "newImagesTitle") || title,
+    caption: value(formData, "newImagesCaption") || undefined,
+    order: existingImages.length + index + 1,
+    uploadedAt: new Date().toISOString(),
+  }));
+  const images = [...existingImages, ...newImages].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const resolvedCover = coverImage || legacyImage || existingImage(formData, "coverImage") || existingImage(formData, "image") || images[0];
+
   await upsertGalleryItem({
     _id: value(formData, "id") || undefined,
-    title: value(formData, "title"),
+    title,
+    slug,
     category: value(formData, "category"),
+    department: value(formData, "department") || undefined,
+    year: value(formData, "year") || undefined,
+    eventDate: value(formData, "eventDate") || undefined,
+    description: value(formData, "description") || undefined,
     order: numberValue(formData, "order"),
     published: booleanValue(formData, "published"),
-    image: await imageFromForm(formData, "image", "university/gallery"),
+    featured: booleanValue(formData, "featured"),
+    image: resolvedCover,
+    coverImage: resolvedCover,
+    images,
+    mediaType: (value(formData, "mediaType") || "Photos") as "Photos" | "Videos",
+    videoUrl: value(formData, "videoUrl") || undefined,
+    seoTitle: value(formData, "seoTitle") || undefined,
+    seoDescription: value(formData, "seoDescription") || undefined,
   });
 
   refreshPublicContent(CONTENT_TAGS.gallery);
@@ -338,6 +416,12 @@ export async function saveGalleryItemAction(formData: FormData) {
 
 export async function deleteGalleryItemAction(formData: FormData) {
   await deleteGalleryItem(value(formData, "id"));
+  refreshPublicContent(CONTENT_TAGS.gallery);
+  redirect("/admin/gallery?deleted=1");
+}
+
+export async function deleteAllGalleryItemsAction() {
+  await deleteAllGalleryItems();
   refreshPublicContent(CONTENT_TAGS.gallery);
   redirect("/admin/gallery?deleted=1");
 }
