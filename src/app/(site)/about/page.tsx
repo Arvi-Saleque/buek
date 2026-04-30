@@ -80,11 +80,11 @@ export default async function AboutPage() {
           <nav className="mb-5 flex items-center gap-1.5 text-xs text-white/50">
             <Link href="/" className="transition hover:text-white">Home</Link>
             <ChevronRight size={12} />
-            <span className="text-university-gold">About Us</span>
+            <span className="text-university-gold">About</span>
           </nav>
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-university-gold">About Us</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-university-gold">Institution Profile</p>
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-            About Our University
+            Bangladesh University of Engineering Knowledge
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-8 text-white/70">
             A leading institution committed to academic excellence, innovation, and career-focused education.
