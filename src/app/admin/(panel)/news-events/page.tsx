@@ -4,6 +4,34 @@ import { StatusNote } from "@/components/admin/status-note";
 import { deleteNewsEventAction, saveNewsEventAction } from "@/lib/actions";
 import { getNewsEventById, getNewsEvents } from "@/lib/content";
 
+const newsEventCategories = [
+  "News",
+  "Events",
+  "Notice",
+  "Admission",
+  "Academic",
+  "Seminar",
+  "Workshop",
+  "Achievement",
+  "Campus Life",
+  "Research",
+  "Examination",
+  "Result",
+  "Scholarship",
+  "Career",
+  "Alumni",
+  "Sports",
+  "Cultural",
+  "Club",
+  "Conference",
+  "Convocation",
+  "Orientation",
+  "Training",
+  "Holiday",
+  "Tender",
+  "Press Release",
+];
+
 export default async function AdminNewsEventsPage({
   searchParams,
 }: {
@@ -40,7 +68,16 @@ export default async function AdminNewsEventsPage({
             </label>
             <label>
               <span className="label">Category</span>
-              <input name="category" defaultValue={editing?.category || "News"} required className="field" />
+              <select name="category" defaultValue={editing?.category || "News"} required className="field">
+                {editing?.category && !newsEventCategories.includes(editing.category) ? (
+                  <option value={editing.category}>{editing.category}</option>
+                ) : null}
+                {newsEventCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
           <label>
