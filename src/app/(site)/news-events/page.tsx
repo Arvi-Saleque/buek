@@ -1,47 +1,53 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Container } from "@/components/public/container";
-import { SectionHeading } from "@/components/public/section-heading";
 import { getNewsEvents } from "@/lib/content";
+import { NewsEventsClient } from "@/components/public/news-events-client";
 
 export default async function NewsEventsPage() {
-  const news = await getNewsEvents(true);
+  const items = await getNewsEvents(true);
 
   return (
-    <Container className="py-16">
-      <SectionHeading
-        eyebrow="Campus Updates"
-        title="News & Events"
-        body="Read university announcements, events, academic notices, and community stories."
-      />
-      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {news.map((item) => (
-          <Link key={item.slug} href={`/news-events/${item.slug}`} className="group rounded-lg border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
-            {item.coverImage?.url ? (
-              <div className="relative h-52 w-full overflow-hidden rounded-t-lg">
-                <Image
-                  src={item.coverImage.url}
-                  alt={item.coverImage.altText || item.title}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="h-52 rounded-t-lg bg-university-mist" />
-            )}
-            <div className="p-5">
-              <p className="text-sm font-semibold text-university-green">{item.category} · {item.date}</p>
-              <h2 className="mt-3 text-xl font-bold text-university-navy group-hover:text-university-green">{item.title}</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{item.excerpt}</p>
-              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-university-gold">
-                Read details <ArrowRight size={16} />
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </Container>
+    <>
+      {/* ── Hero ── */}
+      <section
+        className="relative flex min-h-[320px] items-end pb-12 pt-28 sm:min-h-[360px] sm:pt-32"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=1600&q=80')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{ background: "rgba(11,35,65,0.82)" }}
+        />
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold to-university-gold/0" />
+        <Container className="relative">
+          <nav className="mb-5 flex items-center gap-1.5 text-xs text-white/50">
+            <Link href="/" className="transition hover:text-white">
+              Home
+            </Link>
+            <ChevronRight size={12} />
+            <span className="text-university-gold">News &amp; Events</span>
+          </nav>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-university-gold">
+            Campus Updates
+          </p>
+          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            News &amp; Events
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-white/70">
+            Stay updated with the latest academic news, campus events, notices,
+            and institutional announcements.
+          </p>
+        </Container>
+      </section>
+
+      <NewsEventsClient items={items} />
+    </>
   );
 }
+
+
