@@ -478,7 +478,7 @@ export default async function HomePage() {
               </p>
               <blockquote className="mt-6 border-l-4 border-university-gold pl-5">
                 <p className="text-base font-medium italic leading-7 text-university-text">
-                  "A vibrant campus where students grow beyond the classroom — through culture, sport, research and community."
+                  &ldquo;A vibrant campus where students grow beyond the classroom — through culture, sport, research and community.&rdquo;
                 </p>
               </blockquote>
               <div className="mt-8 flex flex-wrap gap-3">
