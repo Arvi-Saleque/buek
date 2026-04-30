@@ -237,6 +237,20 @@ export default async function AdminAboutPage({
           </label>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
+              <span className="label">Leadership Section Eyebrow</span>
+              <input name="committeeLeadershipEyebrow" defaultValue={about.committeeLeadershipEyebrow || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Leadership Section Title</span>
+              <input name="committeeLeadershipTitle" defaultValue={about.committeeLeadershipTitle || ""} className="field" />
+            </label>
+          </div>
+          <label>
+            <span className="label">Leadership Section Body</span>
+            <textarea name="committeeLeadershipBody" defaultValue={about.committeeLeadershipBody || ""} rows={3} className="field" />
+          </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
               <span className="label">Meeting Section Title</span>
               <input name="committeeMeetingTitle" defaultValue={about.committeeMeetingTitle || ""} className="field" />
             </label>

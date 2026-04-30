@@ -106,6 +106,9 @@ export type AboutPage = {
   committeeSubtitle?: string;
   committeeIntro?: string;
   committeeResponsibilities?: EditableListItem[];
+  committeeLeadershipEyebrow?: string;
+  committeeLeadershipTitle?: string;
+  committeeLeadershipBody?: string;
   committeeMeetingTitle?: string;
   committeeMeetingBody?: string;
   committeeMeetingFrequency?: string;
