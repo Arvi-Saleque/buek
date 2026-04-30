@@ -4,34 +4,123 @@ import { notFound } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
+  Building2,
   CalendarDays,
   ChevronRight,
+  Clock3,
+  Facebook,
+  Link as LinkIcon,
+  MapPin,
   Tag,
+  Twitter,
+  UserRound,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { Prose } from "@/components/public/prose";
 import { getNewsEventBySlug, getNewsEvents } from "@/lib/content";
+import type { NewsEvent } from "@/lib/types";
 
-function getCategoryBadge(cat: string): string {
-  switch (cat.toLowerCase()) {
+type NewsEventDetail = NewsEvent & {
+  department?: string;
+  eventDate?: string;
+  eventTime?: string;
+  eventLocation?: string;
+  organizer?: string;
+  eventStatus?: "Upcoming" | "Ongoing" | "Completed";
+  registrationLink?: string;
+};
+
+function categoryLabel(category: string) {
+  const normalized = category.toLowerCase();
+  if (normalized === "event") return "Events";
+  if (normalized === "campus") return "Campus Life";
+  if (normalized === "notices") return "Notice";
+  return category;
+}
+
+function getCategoryBadge(category: string): string {
+  switch (categoryLabel(category).toLowerCase()) {
     case "news":
       return "bg-university-navy text-white";
-    case "event":
     case "events":
       return "bg-university-gold text-university-navy";
     case "notice":
-      return "bg-red-700 text-white";
+      return "bg-[#7A1E2C] text-white";
     case "admission":
       return "bg-university-green text-white";
     case "academic":
-      return "bg-blue-700 text-white";
-    case "campus":
-      return "bg-teal-700 text-white";
+      return "bg-[#315C8D] text-white";
     case "seminar":
-      return "bg-purple-700 text-white";
+      return "bg-[#5A4A82] text-white";
+    case "workshop":
+      return "bg-[#B46A32] text-white";
+    case "achievement":
+      return "bg-[#8B6A1D] text-white";
+    case "campus life":
+      return "bg-[#22685F] text-white";
     default:
       return "bg-slate-600 text-white";
   }
+}
+
+function formatDate(date: string) {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return parsed.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function getEventDate(item: NewsEventDetail) {
+  return item.eventDate || item.date;
+}
+
+function getDepartment(item: NewsEventDetail) {
+  return item.department?.trim() || "General";
+}
+
+function isEventLike(item: NewsEventDetail) {
+  return ["event", "events", "seminar", "workshop", "campus", "campus life"].includes(
+    item.category.toLowerCase(),
+  );
+}
+
+function getEventStatus(item: NewsEventDetail) {
+  if (item.eventStatus) return item.eventStatus;
+  const date = new Date(getEventDate(item));
+  if (Number.isNaN(date.getTime())) return "Completed";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+  if (date.getTime() > today.getTime()) return "Upcoming";
+  if (date.getTime() === today.getTime()) return "Ongoing";
+  return "Completed";
+}
+
+function DetailRow({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof CalendarDays;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex gap-3 border-b border-university-line py-4 last:border-b-0">
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-university-mist text-university-gold">
+        <Icon size={18} />
+      </span>
+      <span>
+        <span className="block text-xs font-bold uppercase tracking-[0.14em] text-university-text">
+          {label}
+        </span>
+        <span className="mt-1 block font-bold text-university-navy">{value}</span>
+      </span>
+    </div>
+  );
 }
 
 export default async function NewsEventDetailPage({
@@ -40,39 +129,40 @@ export default async function NewsEventDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [item, allNews] = await Promise.all([
+  const [rawItem, allNews] = await Promise.all([
     getNewsEventBySlug(slug),
     getNewsEvents(true),
   ]);
 
-  if (!item) notFound();
+  if (!rawItem) notFound();
 
-  const related = allNews
-    .filter((n) => n.slug !== slug && n.category === item.category)
+  const item = rawItem as NewsEventDetail;
+  const related = (allNews as NewsEventDetail[])
+    .filter((newsItem) => newsItem.slug !== slug && newsItem.category === item.category)
     .slice(0, 3);
-
-  const heroBg = item.coverImage?.url
-    ? item.coverImage.url
-    : "https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=1600&q=80";
+  const heroImage =
+    item.coverImage?.url ||
+    "https://images.unsplash.com/photo-1544531586-fde5298cdd40?auto=format&fit=crop&w=1800&q=85";
+  const articleUrl = `${process.env.NEXT_PUBLIC_SITE_URL || ""}/news-events/${slug}`;
+  const encodedUrl = encodeURIComponent(articleUrl);
+  const encodedTitle = encodeURIComponent(item.title);
 
   return (
     <>
-      {/* ── Hero ── */}
-      <section
-        className="relative flex min-h-[340px] items-end pb-12 pt-28 sm:min-h-[400px] sm:pt-32"
-        style={{
-          backgroundImage: `url('${heroBg}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{ background: "rgba(11,35,65,0.84)" }}
+      <section className="relative flex min-h-[460px] items-end overflow-hidden bg-university-navy pb-14 pt-36 sm:min-h-[560px] sm:pb-16 sm:pt-40">
+        <Image
+          src={heroImage}
+          alt={item.coverImage?.altText || item.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.94),rgba(11,35,65,0.8)_50%,rgba(18,58,99,0.52))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(200,155,60,0.2),transparent_34%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold to-university-gold/0" />
         <Container className="relative">
-          <nav className="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-white/50">
+          <nav className="mb-6 flex flex-wrap items-center gap-1.5 text-xs font-semibold text-white/58">
             <Link href="/" className="transition hover:text-white">
               Home
             </Link>
@@ -81,119 +171,165 @@ export default async function NewsEventDetailPage({
               News &amp; Events
             </Link>
             <ChevronRight size={12} />
-            <span className="line-clamp-1 max-w-[220px] text-university-gold">
+            <span className="line-clamp-1 max-w-[260px] text-university-gold">
               {item.title}
             </span>
           </nav>
-          <div className="mb-4 flex flex-wrap items-center gap-3">
+          <div className="mb-5 flex flex-wrap items-center gap-3">
             <span
               className={`rounded-full px-3 py-1 text-xs font-bold ${getCategoryBadge(item.category)}`}
             >
-              {item.category}
+              {categoryLabel(item.category)}
             </span>
-            <span className="flex items-center gap-1.5 text-xs text-white/60">
-              <CalendarDays size={12} />
-              {item.date}
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-white/72">
+              <CalendarDays size={15} className="text-university-gold" />
+              {formatDate(getEventDate(item))}
             </span>
           </div>
-          <h1 className="max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          <h1 className="max-w-4xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
             {item.title}
           </h1>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-white/70">
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/76">
             {item.excerpt}
           </p>
         </Container>
       </section>
 
-      {/* ── Article ── */}
-      <section className="bg-university-mist py-14">
+      <section className="bg-university-mist py-14 sm:py-16 lg:py-20">
         <Container>
-          <div className="mx-auto max-w-3xl">
-            <Link
-              href="/news-events"
-              className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-university-gold transition hover:gap-3"
-            >
-              <ArrowLeft size={15} /> Back to News &amp; Events
-            </Link>
+          <Link
+            href="/news-events"
+            className="mb-8 inline-flex items-center gap-2 rounded-md border border-university-line bg-white px-4 py-2 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
+          >
+            <ArrowLeft size={15} /> Back to News &amp; Events
+          </Link>
 
-            <div className="rounded-2xl border border-university-line bg-white p-8 shadow-soft sm:p-10">
-              <Prose text={item.body} />
-            </div>
+          <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
+            <article className="overflow-hidden rounded-lg border border-university-line bg-white shadow-sm">
+              {item.coverImage?.url ? (
+                <div className="relative h-[260px] bg-university-mist sm:h-[420px]">
+                  <Image
+                    src={item.coverImage.url}
+                    alt={item.coverImage.altText || item.title}
+                    fill
+                    sizes="(min-width: 1024px) 70vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+              ) : null}
+              <div className="p-6 sm:p-9 lg:p-10">
+                <div className="mb-7 border-l-4 border-university-gold pl-5">
+                  <p className="text-lg font-bold leading-8 text-university-navy">
+                    {item.excerpt}
+                  </p>
+                </div>
+                <Prose text={item.body} />
+              </div>
+            </article>
 
-            {/* Meta tags */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <span className="flex items-center gap-1.5 text-xs text-university-text">
-                <Tag size={12} className="text-university-gold" />
-                Category:
-              </span>
-              <span
-                className={`rounded-full px-3 py-1 text-xs font-bold ${getCategoryBadge(item.category)}`}
-              >
-                {item.category}
-              </span>
-              <span className="flex items-center gap-1.5 text-xs text-university-text">
-                <CalendarDays size={12} className="text-university-gold" />
-                {item.date}
-              </span>
-            </div>
+            <aside className="space-y-6">
+              <div className="rounded-lg border border-university-line bg-white p-6 shadow-sm">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
+                  Update Details
+                </p>
+                <div className="mt-4">
+                  <DetailRow icon={CalendarDays} label="Date" value={formatDate(getEventDate(item))} />
+                  <DetailRow icon={Tag} label="Category" value={categoryLabel(item.category)} />
+                  <DetailRow icon={Building2} label="Department" value={getDepartment(item)} />
+                  {isEventLike(item) ? (
+                    <>
+                      <DetailRow icon={Clock3} label="Time" value={item.eventTime || "Time to be announced"} />
+                      <DetailRow icon={MapPin} label="Venue" value={item.eventLocation || "Campus"} />
+                      <DetailRow icon={UserRound} label="Organizer" value={item.organizer || "University Office"} />
+                      <DetailRow icon={CalendarDays} label="Status" value={getEventStatus(item)} />
+                    </>
+                  ) : null}
+                </div>
+                {isEventLike(item) && item.registrationLink ? (
+                  <Link
+                    href={item.registrationLink}
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-university-gold px-5 py-3 text-sm font-bold text-university-navy transition hover:bg-university-navy hover:text-white"
+                  >
+                    Register for Event <ArrowRight size={15} />
+                  </Link>
+                ) : null}
+              </div>
+
+              <div className="rounded-lg border border-university-line bg-white p-6 shadow-sm">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
+                  Share
+                </p>
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  <Link
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+                    className="grid h-11 place-items-center rounded-md border border-university-line text-university-navy transition hover:border-university-gold hover:text-university-gold"
+                    aria-label="Share on Facebook"
+                  >
+                    <Facebook size={18} />
+                  </Link>
+                  <Link
+                    href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+                    className="grid h-11 place-items-center rounded-md border border-university-line text-university-navy transition hover:border-university-gold hover:text-university-gold"
+                    aria-label="Share on X"
+                  >
+                    <Twitter size={18} />
+                  </Link>
+                  <Link
+                    href={articleUrl}
+                    className="grid h-11 place-items-center rounded-md border border-university-line text-university-navy transition hover:border-university-gold hover:text-university-gold"
+                    aria-label="Open article link"
+                  >
+                    <LinkIcon size={18} />
+                  </Link>
+                </div>
+              </div>
+            </aside>
           </div>
         </Container>
       </section>
 
-      {/* ── Related articles ── */}
-      {related.length > 0 && (
-        <section className="bg-white py-14 sm:py-16">
+      {related.length > 0 ? (
+        <section className="bg-white py-14 sm:py-16 lg:py-20">
           <Container>
             <div className="mb-8">
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                More Like This
-              </p>
-              <h2 className="text-2xl font-bold text-university-navy sm:text-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
                 Related Updates
+              </p>
+              <h2 className="mt-2 text-3xl font-bold text-university-navy sm:text-4xl">
+                More From {categoryLabel(item.category)}
               </h2>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((rel) => (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {related.map((relatedItem) => (
                 <Link
-                  key={rel.slug}
-                  href={`/news-events/${rel.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft"
+                  key={relatedItem.slug}
+                  href={`/news-events/${relatedItem.slug}`}
+                  className="group flex flex-col overflow-hidden rounded-lg border border-university-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft"
                 >
-                  <div className="relative h-48 w-full overflow-hidden bg-university-mist">
-                    {rel.coverImage?.url ? (
+                  <div className="relative h-52 bg-university-mist">
+                    {relatedItem.coverImage?.url ? (
                       <Image
-                        src={rel.coverImage.url}
-                        alt={rel.coverImage.altText || rel.title}
+                        src={relatedItem.coverImage.url}
+                        alt={relatedItem.coverImage.altText || relatedItem.title}
                         fill
-                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                        className="object-cover transition duration-500 group-hover:scale-105"
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                        className="object-cover transition duration-700 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="grid h-full w-full place-items-center">
-                        <CalendarDays
-                          size={28}
-                          className="text-university-navy/20"
-                        />
+                      <div className="grid h-full place-items-center">
+                        <CalendarDays size={32} className="text-university-navy/20" />
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold ${getCategoryBadge(rel.category)}`}
-                      >
-                        {rel.category}
-                      </span>
-                      <span className="flex items-center gap-1 text-[10px] text-university-text">
-                        <CalendarDays size={10} />
-                        {rel.date}
-                      </span>
-                    </div>
-                    <h3 className="line-clamp-2 text-base font-bold leading-snug text-university-navy transition group-hover:text-university-royal">
-                      {rel.title}
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="text-xs font-bold text-university-gold">
+                      {categoryLabel(relatedItem.category)} - {formatDate(getEventDate(relatedItem))}
+                    </p>
+                    <h3 className="mt-3 text-xl font-bold leading-snug text-university-navy transition group-hover:text-university-royal">
+                      {relatedItem.title}
                     </h3>
-                    <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-xs font-bold text-university-gold transition group-hover:gap-2.5">
-                      Read more <ArrowRight size={13} />
+                    <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold text-university-gold">
+                      Read More <ArrowRight size={15} />
                     </span>
                   </div>
                 </Link>
@@ -201,8 +337,7 @@ export default async function NewsEventDetailPage({
             </div>
           </Container>
         </section>
-      )}
+      ) : null}
     </>
   );
 }
-

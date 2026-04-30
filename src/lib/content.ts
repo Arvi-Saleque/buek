@@ -198,7 +198,9 @@ async function getNewsEventBySlugData(slug: string): Promise<NewsEvent | null> {
     const db = await getDb();
     if (!db) return defaultNews.find((item) => item.slug === slug && item.published) || null;
     const item = await db.collection(COLLECTIONS.news).findOne({ slug, published: true });
-    return item ? withId(item as NewsEvent & { _id?: ObjectId }) : null;
+    return item
+      ? withId(item as NewsEvent & { _id?: ObjectId })
+      : defaultNews.find((newsItem) => newsItem.slug === slug && newsItem.published) || null;
   } catch {
     return defaultNews.find((item) => item.slug === slug && item.published) || null;
   }
