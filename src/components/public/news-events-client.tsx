@@ -361,7 +361,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
         </section>
       ) : null}
 
-      <section className="order-1 border-y border-university-line bg-white/95 shadow-sm backdrop-blur">
+      <section className="order-1 border-y border-university-line bg-white/95 shadow-sm backdrop-blur mt-10">
         <Container>
           <div className="scrollbar-hide flex gap-2 overflow-x-auto border-b border-university-line py-3">
             {CATEGORY_TABS.map((category) => (
