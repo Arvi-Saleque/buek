@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   BookOpenCheck,
-  ChevronRight,
   Compass,
   GraduationCap,
   Handshake,
@@ -16,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
+import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage } from "@/lib/content";
 import type { EditableListItem } from "@/lib/types";
 
@@ -34,43 +33,18 @@ export default async function MissionVisionPage() {
 
   return (
     <>
-      <section className="relative flex min-h-[420px] items-end overflow-hidden bg-university-navy pb-14 pt-36 sm:min-h-[500px] sm:pb-16 sm:pt-40">
-        <Image
-          src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
-          alt="University campus building"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.94),rgba(11,35,65,0.8)_50%,rgba(18,58,99,0.5))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(200,155,60,0.22),transparent_35%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold to-university-gold/0" />
-        <Container className="relative">
-          <nav className="mb-6 flex items-center gap-1.5 text-xs font-semibold text-white/58">
-            <Link href="/" className="transition hover:text-white">
-              Home
-            </Link>
-            <ChevronRight size={12} />
-            <Link href="/about" className="transition hover:text-white">
-              About
-            </Link>
-            <ChevronRight size={12} />
-            <span className="text-university-gold">Mission &amp; Vision</span>
-          </nav>
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-university-gold">
-            Institutional Direction
-          </p>
-          <h1 className="max-w-4xl text-5xl font-bold leading-tight text-white sm:text-6xl lg:text-7xl">
-            Mission &amp; Vision
-          </h1>
-          <div className="mt-5 h-1 w-24 bg-university-gold" />
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/78 sm:text-xl">
-            Guiding our commitment to academic excellence, innovation, ethical
-            leadership, and student success.
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow="Institutional Direction"
+        title="Mission & Vision"
+        body="Guiding our commitment to academic excellence, innovation, ethical leadership, and student success."
+        image="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
+        imageAlt="University campus building"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "Mission & Vision" },
+        ]}
+      />
 
       <section className="bg-white py-14 sm:py-16 lg:py-20">
         <Container>

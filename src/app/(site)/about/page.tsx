@@ -6,7 +6,6 @@ import {
   BriefcaseBusiness,
   Building2,
   CheckCircle2,
-  ChevronRight,
   GraduationCap,
   Landmark,
   LayoutGrid,
@@ -16,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
+import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage } from "@/lib/content";
 
 const stats = [
@@ -65,32 +65,14 @@ export default async function AboutPage() {
   return (
     <>
       {/* ── 1. Hero ── */}
-      <section
-        className="relative flex min-h-[380px] items-end pb-14 pt-32 sm:min-h-[420px] sm:pb-16 sm:pt-36"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0" style={{ background: "rgba(11,35,65,0.82)" }} />
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold to-university-gold/0" />
-        <Container className="relative">
-          <nav className="mb-5 flex items-center gap-1.5 text-xs text-white/50">
-            <Link href="/" className="transition hover:text-white">Home</Link>
-            <ChevronRight size={12} />
-            <span className="text-university-gold">About</span>
-          </nav>
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-university-gold">Institution Profile</p>
-          <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-            Bangladesh University of Engineering Knowledge
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-white/70">
-            A leading institution committed to academic excellence, innovation, and career-focused education.
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow="Institution Profile"
+        title="Bangladesh University of Engineering Knowledge"
+        body="A leading institution committed to academic excellence, innovation, and career-focused education."
+        image={about.aboutImage?.url || "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"}
+        imageAlt={about.aboutImage?.altText || "University campus"}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
+      />
 
       {/* ── 2. Introduction ── */}
       <section className="bg-white py-16 sm:py-20 lg:py-24">

@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Building2,
   CalendarDays,
-  ChevronRight,
   Clock3,
   Facebook,
   Link as LinkIcon,
@@ -16,6 +15,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
+import { PageHero } from "@/components/public/page-hero";
 import { Prose } from "@/components/public/prose";
 import { getNewsEventBySlug, getNewsEvents } from "@/lib/content";
 import type { NewsEvent } from "@/lib/types";
@@ -149,51 +149,30 @@ export default async function NewsEventDetailPage({
 
   return (
     <>
-      <section className="relative flex min-h-[460px] items-end overflow-hidden bg-university-navy pb-14 pt-36 sm:min-h-[560px] sm:pb-16 sm:pt-40">
-        <Image
-          src={heroImage}
-          alt={item.coverImage?.altText || item.title}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.94),rgba(11,35,65,0.8)_50%,rgba(18,58,99,0.52))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_22%,rgba(200,155,60,0.2),transparent_34%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold to-university-gold/0" />
-        <Container className="relative">
-          <nav className="mb-6 flex flex-wrap items-center gap-1.5 text-xs font-semibold text-white/58">
-            <Link href="/" className="transition hover:text-white">
-              Home
-            </Link>
-            <ChevronRight size={12} />
-            <Link href="/news-events" className="transition hover:text-white">
-              News &amp; Events
-            </Link>
-            <ChevronRight size={12} />
-            <span className="line-clamp-1 max-w-[260px] text-university-gold">
-              {item.title}
-            </span>
-          </nav>
-          <div className="mb-5 flex flex-wrap items-center gap-3">
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-bold ${getCategoryBadge(item.category)}`}
-            >
-              {categoryLabel(item.category)}
-            </span>
-            <span className="flex items-center gap-1.5 text-sm font-semibold text-white/72">
-              <CalendarDays size={15} className="text-university-gold" />
-              {formatDate(getEventDate(item))}
-            </span>
-          </div>
-          <h1 className="max-w-4xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-            {item.title}
-          </h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/76">
-            {item.excerpt}
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow={categoryLabel(item.category)}
+        title={item.title}
+        body={item.excerpt}
+        image={heroImage}
+        imageAlt={item.coverImage?.altText || item.title}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "News & Events", href: "/news-events" },
+          { label: item.title },
+        ]}
+      >
+        <div className="flex flex-wrap items-center gap-3">
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-bold ${getCategoryBadge(item.category)}`}
+          >
+            {categoryLabel(item.category)}
+          </span>
+          <span className="flex items-center gap-1.5 text-sm font-semibold text-white/75">
+            <CalendarDays size={15} className="text-university-gold" />
+            {formatDate(getEventDate(item))}
+          </span>
+        </div>
+      </PageHero>
 
       <section className="bg-university-mist py-14 sm:py-16 lg:py-20">
         <Container>

@@ -5,7 +5,6 @@ import {
   BookOpenCheck,
   CalendarDays,
   CheckCircle2,
-  ChevronRight,
   ClipboardCheck,
   FileText,
   GraduationCap,
@@ -15,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
+import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage, getCommitteeMembers } from "@/lib/content";
 import type { CommitteeMember, EditableListItem } from "@/lib/types";
 
@@ -213,42 +213,18 @@ export default async function CommitteePage() {
 
   return (
     <>
-      <section className="relative flex min-h-[420px] items-end overflow-hidden bg-university-navy pb-14 pt-36 sm:min-h-[500px] sm:pb-16 sm:pt-40">
-        <Image
-          src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1800&q=85"
-          alt="Academic committee meeting"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.94),rgba(11,35,65,0.82)_50%,rgba(15,107,87,0.5))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(200,155,60,0.2),transparent_35%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-university-gold/0 via-university-gold to-university-gold/0" />
-        <Container className="relative">
-          <nav className="mb-6 flex items-center gap-1.5 text-xs font-semibold text-white/58">
-            <Link href="/" className="transition hover:text-white">
-              Home
-            </Link>
-            <ChevronRight size={12} />
-            <Link href="/about" className="transition hover:text-white">
-              About
-            </Link>
-            <ChevronRight size={12} />
-            <span className="text-university-gold">Academic Committee</span>
-          </nav>
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-university-gold">
-            Governance &amp; Quality
-          </p>
-          <h1 className="max-w-4xl text-5xl font-bold leading-tight text-white sm:text-6xl lg:text-7xl">
-            Academic Committee
-          </h1>
-          <div className="mt-5 h-1 w-24 bg-university-gold" />
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-white/78 sm:text-xl">
-            {about.committeeSubtitle}
-          </p>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow="Governance & Quality"
+        title="Academic Committee"
+        body={about.committeeSubtitle}
+        image="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1800&q=85"
+        imageAlt="Academic committee meeting"
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "Academic Committee" },
+        ]}
+      />
 
       <section className="bg-white py-14 sm:py-16 lg:py-20">
         <Container>

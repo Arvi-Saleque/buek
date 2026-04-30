@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   Building2,
@@ -13,6 +11,7 @@ import {
   Send,
 } from "lucide-react";
 import { Container } from "@/components/public/container";
+import { PageHero } from "@/components/public/page-hero";
 import { submitContactAction } from "@/lib/actions";
 import { getContactPage } from "@/lib/content";
 import { defaultContact } from "@/lib/defaults";
@@ -74,36 +73,14 @@ export default async function ContactPage({
 
   return (
     <div className="bg-[#F7F9F8]">
-      <section className="relative isolate overflow-hidden bg-university-navy py-20 text-white sm:py-24 lg:py-28">
-        <Image
-          src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
-          alt="University campus"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-[0.24]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-university-navy via-university-navy/90 to-university-royal/70" />
-        <Container className="relative">
-          <div className="max-w-3xl">
-            <nav className="mb-7 flex items-center gap-2 text-sm font-semibold text-white/75">
-              <Link href="/" className="transition hover:text-university-gold">Home</Link>
-              <span>/</span>
-              <span className="text-university-gold">Contact Us</span>
-            </nav>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
-              {heroLabel}
-            </p>
-            <div className="mt-4 h-1 w-20 rounded-full bg-university-gold" />
-            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-normal sm:text-5xl lg:text-6xl">
-              {heroTitle}
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
-              {heroSubtitle}
-            </p>
-          </div>
-        </Container>
-      </section>
+      <PageHero
+        eyebrow={heroLabel}
+        title={heroTitle}
+        body={heroSubtitle}
+        image="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
+        imageAlt="University campus"
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
+      />
 
       <Container className="py-16 sm:py-20">
         <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

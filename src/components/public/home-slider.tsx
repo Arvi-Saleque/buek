@@ -46,23 +46,23 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
               className="object-cover"
             />
           ) : null}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,35,65,0.84),rgba(11,35,65,0.72)_48%,rgba(18,58,99,0.42))]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(201,154,46,0.22),transparent_32%)]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-university-navy via-university-navy/90 to-university-royal/70" />
         </div>
       ))}
 
       <Container className="relative flex min-h-[720px] items-center pb-28 pt-[168px] sm:min-h-screen sm:pb-24 sm:pt-[190px]">
         <div className="max-w-5xl">
-          <p className="mb-4 inline-flex rounded-md border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-university-gold backdrop-blur sm:mb-6 sm:px-4 sm:text-sm sm:tracking-[0.2em]">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
             {items[active].eyebrow}
           </p>
-          <h1 className="max-w-5xl text-4xl font-bold leading-[1.08] tracking-normal sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+          <div className="mt-4 h-1 w-20 rounded-full bg-university-gold" />
+          <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-tight tracking-normal text-white sm:text-5xl lg:text-6xl">
             {items[active].title}
           </h1>
-          <p className="mt-5 max-w-3xl text-base leading-7 text-white/82 sm:mt-8 sm:text-lg sm:leading-8 md:text-2xl md:leading-9">
+          <p className="mt-5 max-w-3xl text-base leading-8 text-white/85 sm:text-lg">
             {items[active].subtitle}
           </p>
-          <div className="mt-8 grid gap-3 sm:mt-12 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+          <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href={items[active].buttonHref || "/academic"}
               className="inline-flex min-h-12 items-center justify-center gap-3 rounded-md bg-university-gold px-6 py-3 text-sm font-bold text-university-navy shadow-[0_18px_38px_rgba(200,155,60,0.28)] transition hover:-translate-y-0.5 hover:bg-university-goldDark sm:px-7 sm:py-4 sm:text-base"
