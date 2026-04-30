@@ -332,9 +332,21 @@ export async function saveHomeAction(formData: FormData) {
 export async function saveAboutAction(formData: FormData) {
   const current = await getAboutPage();
   const content: AboutPage = {
+    ...current,
     aboutTitle: value(formData, "aboutTitle"),
     aboutBody: value(formData, "aboutBody"),
     aboutImage: (await imageFromForm(formData, "aboutImage", "university/about")) || current.aboutImage,
+  };
+
+  await savePage("about", content);
+  refreshPublicContent(CONTENT_TAGS.about);
+  redirect("/admin/about?saved=1");
+}
+
+export async function saveMissionVisionAction(formData: FormData) {
+  const current = await getAboutPage();
+  const content: AboutPage = {
+    ...current,
     missionIntroTitle: value(formData, "missionIntroTitle"),
     missionIntroBody: value(formData, "missionIntroBody"),
     missionTitle: value(formData, "missionTitle"),
@@ -352,6 +364,17 @@ export async function saveAboutAction(formData: FormData) {
     missionCtaPrimaryHref: value(formData, "missionCtaPrimaryHref"),
     missionCtaSecondaryLabel: value(formData, "missionCtaSecondaryLabel"),
     missionCtaSecondaryHref: value(formData, "missionCtaSecondaryHref"),
+  };
+
+  await savePage("about", content);
+  refreshPublicContent(CONTENT_TAGS.about);
+  redirect("/admin/mission-vision?saved=1");
+}
+
+export async function saveChairmanMessageAction(formData: FormData) {
+  const current = await getAboutPage();
+  const content: AboutPage = {
+    ...current,
     chairmanName: value(formData, "chairmanName"),
     chairmanRole: value(formData, "chairmanRole"),
     chairmanQuote: value(formData, "chairmanQuote"),
@@ -364,6 +387,17 @@ export async function saveAboutAction(formData: FormData) {
     chairmanPriorities: listItems(formData, "chairmanPriorities"),
     chairmanClosingNote: value(formData, "chairmanClosingNote"),
     chairmanRelatedLinks: listItems(formData, "chairmanRelatedLinks"),
+  };
+
+  await savePage("about", content);
+  refreshPublicContent(CONTENT_TAGS.about);
+  redirect("/admin/chairman-message?saved=1");
+}
+
+export async function saveCommitteePageAction(formData: FormData) {
+  const current = await getAboutPage();
+  const content: AboutPage = {
+    ...current,
     committeeSubtitle: value(formData, "committeeSubtitle"),
     committeeIntro: value(formData, "committeeIntro"),
     committeeResponsibilities: listItems(formData, "committeeResponsibilities"),
@@ -384,7 +418,7 @@ export async function saveAboutAction(formData: FormData) {
 
   await savePage("about", content);
   refreshPublicContent(CONTENT_TAGS.about);
-  redirect("/admin/about?saved=1");
+  redirect("/admin/committee?saved=1");
 }
 
 export async function saveAcademicAction(formData: FormData) {
@@ -537,13 +571,13 @@ export async function saveCommitteeMemberAction(formData: FormData) {
   });
 
   refreshPublicContent(CONTENT_TAGS.committee);
-  redirect("/admin/about?saved=1#committee");
+  redirect("/admin/committee?saved=1#members");
 }
 
 export async function deleteCommitteeMemberAction(formData: FormData) {
   await deleteCommitteeMember(value(formData, "id"));
   refreshPublicContent(CONTENT_TAGS.committee);
-  redirect("/admin/about?deleted=1#committee");
+  redirect("/admin/committee?deleted=1#members");
 }
 
 export async function submitContactAction(formData: FormData) {

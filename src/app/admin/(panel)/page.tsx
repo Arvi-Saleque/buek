@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
   const stats = [
     { label: "News & Events", value: news.length, icon: Newspaper, href: "/admin/news-events" },
     { label: "Gallery Items", value: gallery.length, icon: GalleryHorizontal, href: "/admin/gallery" },
-    { label: "Committee Members", value: committee.length, icon: Users, href: "/admin/about#committee" },
+    { label: "Committee Members", value: committee.length, icon: Users, href: "/admin/committee#members" },
     { label: "Contact Messages", value: messages.length, icon: Mail, href: "/admin/contact#messages" },
   ];
 
