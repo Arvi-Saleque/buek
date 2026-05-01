@@ -9,4 +9,10 @@ export const quickAccessIconOptions = [
   { value: "Users", label: "People" },
   { value: "Images", label: "Gallery" },
   { value: "Landmark", label: "Campus" },
+  { value: "Cpu", label: "Technology" },
+  { value: "Briefcase", label: "Business" },
+  { value: "Microscope", label: "Science" },
+  { value: "Scale", label: "Law / Policy" },
+  { value: "Stethoscope", label: "Health" },
+  { value: "Sprout", label: "Agriculture" },
 ];

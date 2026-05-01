@@ -31,40 +31,25 @@ import {
   getNewsEvents,
 } from "@/lib/content";
 import { defaultHome, defaultNews } from "@/lib/defaults";
-import type { GalleryItem, HomeNotice, HomeQuickAccessCard, NewsEvent } from "@/lib/types";
-
-// Maps program names (lower-cased substrings) to icons
-const programIconMap: [string, React.ElementType][] = [
-  ["engineer",   Cpu],
-  ["technology", Cpu],
-  ["business",   Briefcase],
-  ["econom",     Briefcase],
-  ["science",    Microscope],
-  ["social",     Users],
-  ["arts",       Scale],
-  ["law",        Scale],
-  ["health",     Stethoscope],
-  ["medical",    Stethoscope],
-  ["agricult",   Sprout],
-  ["education",  BookOpen],
-  ["landmark",   Landmark],
-];
-
-function getProgramIcon(name: string): React.ElementType {
-  const lower = name.toLowerCase();
-  return programIconMap.find(([key]) => lower.includes(key))?.[1] ?? FlaskConical;
-}
+import type { GalleryItem, HomeAcademicCard, HomeNotice, HomeQuickAccessCard, NewsEvent } from "@/lib/types";
 
 const quickAccessIconMap: Record<string, React.ElementType> = {
   Bell,
   BookOpen,
+  Briefcase,
   CalendarDays,
   ClipboardList,
+  Cpu,
   FileText,
+  FlaskConical,
   GraduationCap,
   HeartHandshake,
   Images,
   Landmark,
+  Microscope,
+  Scale,
+  Sprout,
+  Stethoscope,
   Users,
 };
 
@@ -173,6 +158,9 @@ export default async function HomePage() {
   const quickAccessCards: HomeQuickAccessCard[] = home.quickAccessCards?.length
     ? home.quickAccessCards
     : defaultHome.quickAccessCards || [];
+  const academicCards: HomeAcademicCard[] = home.academicCards?.length
+    ? home.academicCards
+    : defaultHome.academicCards || [];
   const ctaBackground =
     home.ctaBackgroundImage?.url ||
     "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=85";
@@ -316,28 +304,22 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Programs grid — 2 rows × 4 cols */}
-          <div className="grid grid-cols-2 gap-px bg-university-line sm:grid-cols-3 lg:grid-cols-4">
-            {academic.programs.slice(0, 8).map((program) => {
-              const Icon = getProgramIcon(program);
-              // Shorten long faculty names for display
-              const short = program
-                .replace(/^Faculty of\s+/i, "")
-                .replace(/^Department of\s+/i, "");
+          <div className="grid justify-center gap-px bg-university-line [grid-template-columns:repeat(auto-fit,minmax(150px,210px))]">
+            {academicCards.map((card, index) => {
+              const Icon = quickAccessIconMap[card.icon] || BookOpen;
+
               return (
-                <Link
-                  key={program}
-                  href="/academic"
-                  className="group flex flex-col items-center justify-center gap-4 bg-white px-6 py-10 text-center transition hover:bg-university-mist hover:shadow-inner"
+                <div
+                  key={`${card.title}-${index}`}
+                  className="group flex min-h-44 flex-col items-center justify-center gap-4 bg-white px-6 py-10 text-center transition hover:bg-university-mist hover:shadow-inner"
                 >
-                  {/* Icon circle */}
                   <span className="grid h-16 w-16 place-items-center rounded-full border-2 border-university-line text-university-navy/40 transition group-hover:border-university-gold group-hover:text-university-gold">
                     <Icon size={28} strokeWidth={1.5} />
                   </span>
                   <span className="text-sm font-semibold leading-snug text-ink transition group-hover:text-university-navy">
-                    {short}
+                    {card.title}
                   </span>
-                </Link>
+                </div>
               );
             })}
           </div>

@@ -140,6 +140,18 @@ function quickAccessCards(formData: FormData) {
     .filter((item) => item.title && item.href);
 }
 
+function academicCards(formData: FormData) {
+  const icons = formData.getAll("academicCardIcon").map((item) => String(item).trim());
+  const titles = formData.getAll("academicCardTitle").map((item) => String(item).trim());
+
+  return titles
+    .map((title, index) => ({
+      icon: icons[index] || "BookOpen",
+      title,
+    }))
+    .filter((item) => item.title);
+}
+
 function departmentContacts(formData: FormData): DepartmentContact[] {
   const titles = formData.getAll("departmentTitle").map((item) => String(item).trim());
   const bodies = formData.getAll("departmentBody").map((item) => String(item).trim());
@@ -367,6 +379,7 @@ export async function saveHomeAction(formData: FormData) {
     academicBody: value(formData, "academicBody"),
     academicButtonLabel: value(formData, "academicButtonLabel"),
     academicButtonHref: value(formData, "academicButtonHref") || "/academic",
+    academicCards: academicCards(formData),
     noticeTitle: value(formData, "noticeTitle"),
     noticeEyebrow: value(formData, "noticeEyebrow"),
     noticeButtonLabel: value(formData, "noticeButtonLabel"),

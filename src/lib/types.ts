@@ -50,6 +50,11 @@ export type HomeQuickAccessCard = {
   href: string;
 };
 
+export type HomeAcademicCard = {
+  icon: string;
+  title: string;
+};
+
 export type HomeNotice = {
   title: string;
   body: string;
@@ -76,6 +81,7 @@ export type HomePage = {
   featureBody: string;
   featureCards: HomeFeatureCard[];
   quickAccessCards?: HomeQuickAccessCard[];
+  academicCards?: HomeAcademicCard[];
   academicTitle: string;
   academicBody: string;
   academicEyebrow?: string;

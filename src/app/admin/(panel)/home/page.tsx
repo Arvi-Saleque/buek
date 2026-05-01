@@ -1,4 +1,5 @@
 import { BookOpen, CalendarDays, ImageIcon, Quote } from "lucide-react";
+import { AcademicCardEditor } from "@/components/admin/academic-card-editor";
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ImageField } from "@/components/admin/image-field";
 import { QuickAccessCardEditor } from "@/components/admin/quick-access-card-editor";
@@ -46,6 +47,9 @@ export default async function AdminHomePage({
   const quickAccessCards = home.quickAccessCards?.length
     ? home.quickAccessCards
     : defaultHome.quickAccessCards || [];
+  const academicCards = home.academicCards?.length
+    ? home.academicCards
+    : defaultHome.academicCards || [];
   const selectedNews = selectedSet(home.selectedNewsSlugs);
   const selectedNotices = selectedSet(home.selectedNoticeSlugs);
   const selectedGallery = selectedSet(home.selectedGallerySlugs);
@@ -235,7 +239,12 @@ export default async function AdminHomePage({
         </section>
 
         <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Academic Programs Section</h2>
+          <div>
+            <h2 className="text-lg font-bold text-university-navy">Academic Programs Section</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Edit the Academics heading and the icon-only cards shown beneath it. These cards do not use navigation links.
+            </p>
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Small Label</span>
@@ -258,6 +267,15 @@ export default async function AdminHomePage({
             <span className="label">Section Body</span>
             <textarea name="academicBody" defaultValue={home.academicBody} rows={3} className="field" />
           </label>
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <div className="mb-4">
+              <h3 className="font-bold text-university-navy">Academic Cards</h3>
+              <p className="mt-1 text-sm text-slate-600">
+                Add or delete cards. Each card has only an icon and title.
+              </p>
+            </div>
+            <AcademicCardEditor cards={academicCards} />
+          </div>
         </section>
 
         <section className="admin-card grid gap-4">
