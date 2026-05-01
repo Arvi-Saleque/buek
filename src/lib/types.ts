@@ -99,8 +99,10 @@ export type HomePage = {
   newsPageEyebrow?: string;
   newsPageTitle?: string;
   newsPageBody?: string;
+  selectedMainNewsSlug?: string;
   selectedNewsSlugs?: string[];
   selectedNoticeSlugs?: string[];
+  selectedEventSlugs?: string[];
   galleryTitle: string;
   galleryBody: string;
   galleryEyebrow?: string;

@@ -138,8 +138,10 @@ export const defaultHome: HomePage = {
   newsPageTitle: "News & Events",
   newsPageBody:
     "Stay updated with the latest academic news, campus events, notices, and institutional announcements.",
+  selectedMainNewsSlug: "",
   selectedNewsSlugs: [],
   selectedNoticeSlugs: [],
+  selectedEventSlugs: [],
   galleryEyebrow: "Campus Life",
   galleryTitle: "Life On Campus",
   galleryBody:

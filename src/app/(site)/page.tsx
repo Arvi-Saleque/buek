@@ -138,20 +138,31 @@ export default async function HomePage() {
 
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
   const selectedHomeNews = selectedNews(news, home.selectedNewsSlugs);
+  const fallbackNews = (news.length >= 3
+    ? news
+    : [
+        ...news,
+        ...defaultNews.filter(
+          (item) => !news.some((existing) => existing.slug === item.slug),
+        ),
+      ]).slice(0, 3);
+  const selectedMainNews =
+    news.find((item) => item.slug === home.selectedMainNewsSlug) ||
+    selectedHomeNews[0] ||
+    fallbackNews[0];
+  const selectedBottomEvents = selectedNews(news, home.selectedEventSlugs);
+  const bottomEventsSource = selectedBottomEvents.length
+    ? selectedBottomEvents
+    : selectedHomeNews.length > 1
+      ? selectedHomeNews.slice(1)
+      : fallbackNews.slice(1);
+  const bottomEvents = bottomEventsSource.filter(
+    (item) => item.slug !== selectedMainNews?.slug,
+  );
   const selectedNoticeItems = noticeEvents(news, home.selectedNoticeSlugs);
   const notices = selectedNoticeItems.length
     ? selectedNoticeItems
     : normalizeNotices(home.notices || []);
-  const visibleNews = selectedHomeNews.length
-    ? selectedHomeNews
-    : (news.length >= 3
-        ? news
-        : [
-            ...news,
-            ...defaultNews.filter(
-              (item) => !news.some((existing) => existing.slug === item.slug),
-            ),
-          ]).slice(0, 3);
   const selectedHomeGallery = selectedGallery(gallery, home.selectedGallerySlugs);
   const visibleGallery = selectedHomeGallery.length ? selectedHomeGallery : gallery;
   const galleryCovers = visibleGallery.map((item) => galleryCover(item));
@@ -355,16 +366,16 @@ export default async function HomePage() {
             <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
 
               {/* Featured card */}
-              {visibleNews[0] && (
+              {selectedMainNews && (
                 <Link
-                  href={`/news-events/${visibleNews[0].slug}`}
+                  href={`/news-events/${selectedMainNews.slug}`}
                   className="group relative flex flex-col overflow-hidden rounded-2xl border border-university-line bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(16,32,51,0.13)]"
                 >
-                  {visibleNews[0].coverImage?.url ? (
+                  {selectedMainNews.coverImage?.url ? (
                     <div className="relative h-64 w-full shrink-0 overflow-hidden bg-university-mist sm:h-72">
                       <Image
-                        src={visibleNews[0].coverImage.url}
-                        alt={visibleNews[0].coverImage.altText || visibleNews[0].title}
+                        src={selectedMainNews.coverImage.url}
+                        alt={selectedMainNews.coverImage.altText || selectedMainNews.title}
                         fill
                         sizes="(min-width: 1024px) 55vw, 100vw"
                         className="object-cover transition duration-500 group-hover:scale-105"
@@ -379,18 +390,18 @@ export default async function HomePage() {
                   <div className="flex flex-1 flex-col p-6 sm:p-7">
                     <div className="mb-3 flex flex-wrap items-center gap-3">
                       <span className="rounded-full bg-university-gold/15 px-3 py-1 text-xs font-bold text-university-gold">
-                        {visibleNews[0].category}
+                        {selectedMainNews.category}
                       </span>
                       <span className="flex items-center gap-1.5 text-xs text-university-text">
                         <CalendarDays size={12} className="shrink-0" />
-                        {visibleNews[0].date}
+                        {selectedMainNews.date}
                       </span>
                     </div>
                     <h3 className="text-xl font-bold leading-snug text-university-navy group-hover:text-university-royal sm:text-2xl">
-                      {visibleNews[0].title}
+                      {selectedMainNews.title}
                     </h3>
                     <p className="mt-3 line-clamp-2 flex-1 text-sm leading-7 text-university-text">
-                      {visibleNews[0].excerpt}
+                      {selectedMainNews.excerpt}
                     </p>
                     <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-university-gold transition group-hover:gap-3">
                       Read more <ArrowRight size={15} />
@@ -453,9 +464,9 @@ export default async function HomePage() {
               </aside>
             </div>
 
-            {/* ── Bottom row: 2 compact news cards ── */}
+            {/* ── Bottom event cards ── */}
             <div className="grid gap-4 sm:grid-cols-2">
-              {visibleNews.slice(1, 3).map((item) => (
+              {bottomEvents.map((item) => (
                 <Link
                   key={item.slug}
                   href={`/news-events/${item.slug}`}

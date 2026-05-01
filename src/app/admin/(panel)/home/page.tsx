@@ -50,8 +50,11 @@ export default async function AdminHomePage({
   const academicCards = home.academicCards?.length
     ? home.academicCards
     : defaultHome.academicCards || [];
-  const selectedNews = selectedSet(home.selectedNewsSlugs);
+  const selectedMainNewsSlug = home.selectedMainNewsSlug || home.selectedNewsSlugs?.[0] || "";
   const selectedNotices = selectedSet(home.selectedNoticeSlugs);
+  const selectedEvents = selectedSet(
+    home.selectedEventSlugs?.length ? home.selectedEventSlugs : home.selectedNewsSlugs?.slice(1),
+  );
   const selectedGallery = selectedSet(home.selectedGallerySlugs);
 
   return (
@@ -279,7 +282,12 @@ export default async function AdminHomePage({
         </section>
 
         <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">News & Updates Section</h2>
+          <div>
+            <h2 className="text-lg font-bold text-university-navy">Homepage News & Events Section</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Control the homepage feature story, important notices, and bottom event cards from existing News & Events records.
+            </p>
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Small Label</span>
@@ -302,34 +310,6 @@ export default async function AdminHomePage({
             <span className="label">Section Body</span>
             <textarea name="newsBody" defaultValue={home.newsBody} rows={3} className="field" />
           </label>
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="font-bold text-slate-800">News & Events Listing Hero</p>
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <input name="newsPageEyebrow" defaultValue={home.newsPageEyebrow || defaultHome.newsPageEyebrow} placeholder="Listing hero label" className="field bg-white" />
-              <input name="newsPageTitle" defaultValue={home.newsPageTitle || defaultHome.newsPageTitle} placeholder="Listing hero title" className="field bg-white" />
-            </div>
-            <textarea name="newsPageBody" defaultValue={home.newsPageBody || defaultHome.newsPageBody} rows={3} placeholder="Listing hero body" className="field mt-4 bg-white" />
-          </div>
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="font-bold text-slate-800">Select Existing News / Events</p>
-            <p className="mt-1 text-sm text-slate-600">Choose up to three items for the homepage featured and compact news cards.</p>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {news.map((item) => (
-                <label key={item.slug} className="flex gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm">
-                  <input type="checkbox" name="selectedNewsSlugs" value={item.slug} defaultChecked={selectedNews.has(item.slug)} className="mt-1" />
-                  <span>
-                    <span className="block font-bold text-university-navy">{item.title}</span>
-                    <span className="text-slate-500">{newsOptionLabel(item)}</span>
-                  </span>
-                </label>
-              ))}
-              {!news.length ? <p className="text-sm text-slate-500">No news/events found. Add them from News & Events first.</p> : null}
-            </div>
-          </div>
-        </section>
-
-        <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Notice Board Selection</h2>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Notice Small Label</span>
@@ -349,19 +329,63 @@ export default async function AdminHomePage({
             </label>
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="font-bold text-slate-800">Select Existing News / Notice Items</p>
-            <p className="mt-1 text-sm text-slate-600">These are displayed in the homepage notice board. No new notice is created here.</p>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <p className="font-bold text-slate-800">News & Events Listing Hero</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <input name="newsPageEyebrow" defaultValue={home.newsPageEyebrow || defaultHome.newsPageEyebrow} placeholder="Listing hero label" className="field bg-white" />
+              <input name="newsPageTitle" defaultValue={home.newsPageTitle || defaultHome.newsPageTitle} placeholder="Listing hero title" className="field bg-white" />
+            </div>
+            <textarea name="newsPageBody" defaultValue={home.newsPageBody || defaultHome.newsPageBody} rows={3} placeholder="Listing hero body" className="field mt-4 bg-white" />
+          </div>
+          <div className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="font-bold text-slate-800">Main Featured News</p>
+              <p className="mt-1 text-sm text-slate-600">Select one existing news/event for the large homepage story card.</p>
+              <label className="mt-4 block">
+                <span className="label">Featured Item</span>
+                <select name="selectedMainNewsSlug" defaultValue={selectedMainNewsSlug} className="field bg-white">
+                  <option value="">Use latest published item</option>
+                  {news.map((item) => (
+                    <option key={`main-${item.slug}`} value={item.slug}>
+                      {newsOptionLabel(item)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {!news.length ? <p className="mt-3 text-sm text-slate-500">No news/events found. Add them from News & Events first.</p> : null}
+            </div>
+
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="font-bold text-slate-800">Important Notices</p>
+              <p className="mt-1 text-sm text-slate-600">Choose any number of records for the notice board.</p>
+              <div className="mt-4 grid max-h-80 gap-3 overflow-y-auto pr-1 md:grid-cols-2">
+                {news.map((item) => (
+                  <label key={`notice-${item.slug}`} className="flex gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm">
+                    <input type="checkbox" name="selectedNoticeSlugs" value={item.slug} defaultChecked={selectedNotices.has(item.slug)} className="mt-1" />
+                    <span>
+                      <span className="block font-bold text-university-navy">{item.title}</span>
+                      <span className="text-slate-500">{newsOptionLabel(item)}</span>
+                    </span>
+                  </label>
+                ))}
+                {!news.length ? <p className="text-sm text-slate-500">No news/notice items found.</p> : null}
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="font-bold text-slate-800">Bottom Event Cards</p>
+            <p className="mt-1 text-sm text-slate-600">Choose the compact cards shown below the main news and notice board. Add as many as needed.</p>
+            <div className="mt-4 grid max-h-96 gap-3 overflow-y-auto pr-1 md:grid-cols-2 xl:grid-cols-3">
               {news.map((item) => (
-                <label key={`notice-${item.slug}`} className="flex gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm">
-                  <input type="checkbox" name="selectedNoticeSlugs" value={item.slug} defaultChecked={selectedNotices.has(item.slug)} className="mt-1" />
+                <label key={`event-${item.slug}`} className="flex gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm">
+                  <input type="checkbox" name="selectedEventSlugs" value={item.slug} defaultChecked={selectedEvents.has(item.slug)} className="mt-1" />
                   <span>
                     <span className="block font-bold text-university-navy">{item.title}</span>
                     <span className="text-slate-500">{newsOptionLabel(item)}</span>
                   </span>
                 </label>
               ))}
-              {!news.length ? <p className="text-sm text-slate-500">No news/notice items found.</p> : null}
+              {!news.length ? <p className="text-sm text-slate-500">No event records found.</p> : null}
             </div>
           </div>
         </section>

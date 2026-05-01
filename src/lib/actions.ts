@@ -340,6 +340,8 @@ export async function saveSettingsAction(formData: FormData) {
 
 export async function saveHomeAction(formData: FormData) {
   const current = await getHomePage();
+  const selectedMainNewsSlug = value(formData, "selectedMainNewsSlug");
+  const selectedEventSlugs = selectedValues(formData, "selectedEventSlugs");
   const slides = await Promise.all(
     [0, 1, 2].map(async (index) => ({
       eyebrow: value(formData, `slideEyebrow${index}`),
@@ -392,8 +394,10 @@ export async function saveHomeAction(formData: FormData) {
     newsPageEyebrow: value(formData, "newsPageEyebrow"),
     newsPageTitle: value(formData, "newsPageTitle"),
     newsPageBody: value(formData, "newsPageBody"),
-    selectedNewsSlugs: selectedValues(formData, "selectedNewsSlugs"),
+    selectedMainNewsSlug,
+    selectedNewsSlugs: [selectedMainNewsSlug, ...selectedEventSlugs].filter(Boolean),
     selectedNoticeSlugs: selectedValues(formData, "selectedNoticeSlugs"),
+    selectedEventSlugs,
     galleryEyebrow: value(formData, "galleryEyebrow"),
     galleryTitle: value(formData, "galleryTitle"),
     galleryBody: value(formData, "galleryBody"),
