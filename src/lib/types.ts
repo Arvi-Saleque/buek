@@ -281,23 +281,35 @@ export type ContactPage = {
   heroLabel?: string;
   heroTitle?: string;
   heroSubtitle?: string;
+  heroImage?: ImageAsset;
+  addressLabel?: string;
   address: string;
   addressNote?: string;
+  phoneLabel?: string;
   phone: string;
   phoneNote?: string;
+  emailLabel?: string;
   email: string;
   emailNote?: string;
+  officeHoursLabel?: string;
   officeHours: string;
   officeHoursNote?: string;
+  formEyebrow?: string;
   formTitle?: string;
   formBody?: string;
+  mapEyebrow?: string;
   mapTitle?: string;
   mapEmbedUrl?: string;
   mapDirectionUrl?: string;
+  mapDirectionLabel?: string;
   mapNote?: string;
+  departmentEyebrow?: string;
+  departmentTitle?: string;
+  departmentBody?: string;
   departments?: DepartmentContact[];
   urgentTitle?: string;
   urgentBody?: string;
+  urgentButtonLabel?: string;
 };
 
 export type DepartmentContact = {

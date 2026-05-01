@@ -17,6 +17,7 @@ import {
   CONTENT_TAGS,
   getAboutPage,
   getAcademicPage,
+  getContactPage,
   getHomePage,
   getSiteSettings,
   saveContactMessage,
@@ -680,29 +681,44 @@ export async function saveAcademicAction(formData: FormData) {
 }
 
 export async function saveContactPageAction(formData: FormData) {
+  const current = await getContactPage();
   const content: ContactPage = {
     title: value(formData, "title"),
     intro: value(formData, "intro"),
     heroLabel: value(formData, "heroLabel"),
     heroTitle: value(formData, "heroTitle"),
     heroSubtitle: value(formData, "heroSubtitle"),
+    heroImage:
+      (await imageFromForm(formData, "heroImage", "university/contact")) ||
+      current.heroImage,
+    addressLabel: value(formData, "addressLabel"),
     address: value(formData, "address"),
     addressNote: value(formData, "addressNote"),
+    phoneLabel: value(formData, "phoneLabel"),
     phone: value(formData, "phone"),
     phoneNote: value(formData, "phoneNote"),
+    emailLabel: value(formData, "emailLabel"),
     email: value(formData, "email"),
     emailNote: value(formData, "emailNote"),
+    officeHoursLabel: value(formData, "officeHoursLabel"),
     officeHours: value(formData, "officeHours"),
     officeHoursNote: value(formData, "officeHoursNote"),
+    formEyebrow: value(formData, "formEyebrow"),
     formTitle: value(formData, "formTitle"),
     formBody: value(formData, "formBody"),
+    mapEyebrow: value(formData, "mapEyebrow"),
     mapTitle: value(formData, "mapTitle"),
     mapEmbedUrl: value(formData, "mapEmbedUrl"),
     mapDirectionUrl: value(formData, "mapDirectionUrl"),
+    mapDirectionLabel: value(formData, "mapDirectionLabel"),
     mapNote: value(formData, "mapNote"),
+    departmentEyebrow: value(formData, "departmentEyebrow"),
+    departmentTitle: value(formData, "departmentTitle"),
+    departmentBody: value(formData, "departmentBody"),
     departments: departmentContacts(formData),
     urgentTitle: value(formData, "urgentTitle"),
     urgentBody: value(formData, "urgentBody"),
+    urgentButtonLabel: value(formData, "urgentButtonLabel"),
   };
 
   await savePage("contact", content);

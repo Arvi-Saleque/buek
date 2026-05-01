@@ -1,4 +1,5 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveContactPageAction } from "@/lib/actions";
 import { getContactMessages, getContactPage } from "@/lib/content";
@@ -52,6 +53,7 @@ export default async function AdminContactPage({
             <span className="label">Hero Subtitle</span>
             <textarea name="heroSubtitle" defaultValue={contact.heroSubtitle || contact.intro} rows={3} className="field" />
           </label>
+          <ImageField name="heroImage" label="Hero Image" image={contact.heroImage || defaultContact.heroImage} />
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Browser/Admin Page Title</span>
@@ -68,12 +70,20 @@ export default async function AdminContactPage({
           <h2 className="text-lg font-bold text-university-navy">Quick Contact Cards</h2>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
+              <span className="label">Address Label</span>
+              <input name="addressLabel" defaultValue={contact.addressLabel || defaultContact.addressLabel} className="field" />
+            </label>
+            <label>
               <span className="label">Campus Address</span>
               <input name="address" defaultValue={contact.address} required className="field" />
             </label>
             <label>
               <span className="label">Address Note</span>
               <input name="addressNote" defaultValue={contact.addressNote || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Phone Label</span>
+              <input name="phoneLabel" defaultValue={contact.phoneLabel || defaultContact.phoneLabel} className="field" />
             </label>
             <label>
               <span className="label">Phone</span>
@@ -84,12 +94,20 @@ export default async function AdminContactPage({
               <input name="phoneNote" defaultValue={contact.phoneNote || ""} className="field" />
             </label>
             <label>
+              <span className="label">Email Label</span>
+              <input name="emailLabel" defaultValue={contact.emailLabel || defaultContact.emailLabel} className="field" />
+            </label>
+            <label>
               <span className="label">Email</span>
               <input name="email" type="email" defaultValue={contact.email} required className="field" />
             </label>
             <label>
               <span className="label">Email Note</span>
               <input name="emailNote" defaultValue={contact.emailNote || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Office Hours Label</span>
+              <input name="officeHoursLabel" defaultValue={contact.officeHoursLabel || defaultContact.officeHoursLabel} className="field" />
             </label>
             <label>
               <span className="label">Office Hours</span>
@@ -106,8 +124,16 @@ export default async function AdminContactPage({
           <h2 className="text-lg font-bold text-university-navy">Form & Map</h2>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
+              <span className="label">Form Eyebrow</span>
+              <input name="formEyebrow" defaultValue={contact.formEyebrow || defaultContact.formEyebrow} className="field" />
+            </label>
+            <label>
               <span className="label">Form Title</span>
               <input name="formTitle" defaultValue={contact.formTitle || ""} className="field" />
+            </label>
+            <label>
+              <span className="label">Map Eyebrow</span>
+              <input name="mapEyebrow" defaultValue={contact.mapEyebrow || defaultContact.mapEyebrow} className="field" />
             </label>
             <label>
               <span className="label">Map Title</span>
@@ -127,6 +153,10 @@ export default async function AdminContactPage({
             <input name="mapDirectionUrl" defaultValue={contact.mapDirectionUrl || ""} className="field" />
           </label>
           <label>
+            <span className="label">Direction Button Label</span>
+            <input name="mapDirectionLabel" defaultValue={contact.mapDirectionLabel || defaultContact.mapDirectionLabel} className="field" />
+          </label>
+          <label>
             <span className="label">Map Location Note</span>
             <textarea name="mapNote" defaultValue={contact.mapNote || ""} rows={3} className="field" />
           </label>
@@ -134,6 +164,20 @@ export default async function AdminContactPage({
 
         <section className="admin-card grid gap-4">
           <h2 className="text-lg font-bold text-university-navy">Department Contacts</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Section Eyebrow</span>
+              <input name="departmentEyebrow" defaultValue={contact.departmentEyebrow || defaultContact.departmentEyebrow} className="field" />
+            </label>
+            <label>
+              <span className="label">Section Title</span>
+              <input name="departmentTitle" defaultValue={contact.departmentTitle || defaultContact.departmentTitle} className="field" />
+            </label>
+          </div>
+          <label>
+            <span className="label">Section Body</span>
+            <textarea name="departmentBody" defaultValue={contact.departmentBody || defaultContact.departmentBody} rows={3} className="field" />
+          </label>
           <div className="grid gap-4 lg:grid-cols-2">
             {[0, 1, 2, 3].map((index) => {
               const department = departments[index] || defaultContact.departments?.[index];
@@ -161,6 +205,10 @@ export default async function AdminContactPage({
           <label>
             <span className="label">Notice Body</span>
             <textarea name="urgentBody" defaultValue={contact.urgentBody || ""} rows={3} className="field" />
+          </label>
+          <label>
+            <span className="label">Button Label</span>
+            <input name="urgentButtonLabel" defaultValue={contact.urgentButtonLabel || defaultContact.urgentButtonLabel} className="field" />
           </label>
         </section>
 

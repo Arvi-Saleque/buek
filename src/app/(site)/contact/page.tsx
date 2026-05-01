@@ -13,7 +13,7 @@ import {
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { submitContactAction } from "@/lib/actions";
-import { getContactPage } from "@/lib/content";
+import { getContactPage, getSiteSettings } from "@/lib/content";
 import { defaultContact } from "@/lib/defaults";
 import type { DepartmentContact } from "@/lib/types";
 
@@ -36,36 +36,41 @@ export default async function ContactPage({
 }: {
   searchParams: Promise<{ sent?: string; error?: string }>;
 }) {
-  const [contact, params] = await Promise.all([getContactPage(), searchParams]);
+  const [contact, settings, params] = await Promise.all([
+    getContactPage(),
+    getSiteSettings(),
+    searchParams,
+  ]);
   const departments = resolveDepartments(contact.departments);
   const heroLabel = contact.heroLabel || "Contact the University";
   const heroTitle = contact.heroTitle || contact.title;
   const heroSubtitle = contact.heroSubtitle || contact.intro;
+  const heroImage = contact.heroImage || defaultContact.heroImage;
   const mapEmbedUrl = contact.mapEmbedUrl || defaultContact.mapEmbedUrl;
   const directionUrl = contact.mapDirectionUrl || defaultContact.mapDirectionUrl || "#";
 
   const quickContacts = [
     {
       icon: MapPin,
-      label: "Campus Address",
+      label: contact.addressLabel || defaultContact.addressLabel || "Campus Address",
       value: contact.address,
       note: contact.addressNote || "View on Google Maps",
     },
     {
       icon: Phone,
-      label: "Phone",
+      label: contact.phoneLabel || defaultContact.phoneLabel || "Phone",
       value: contact.phone,
       note: contact.phoneNote || "Sun-Thu, 9:00 AM - 5:00 PM",
     },
     {
       icon: Mail,
-      label: "Email",
+      label: contact.emailLabel || defaultContact.emailLabel || "Email",
       value: contact.email,
       note: contact.emailNote || "General inquiry desk",
     },
     {
       icon: Clock3,
-      label: "Office Hours",
+      label: contact.officeHoursLabel || defaultContact.officeHoursLabel || "Office Hours",
       value: contact.officeHours,
       note: contact.officeHoursNote || "Weekend offices are closed",
     },
@@ -77,8 +82,8 @@ export default async function ContactPage({
         eyebrow={heroLabel}
         title={heroTitle}
         body={heroSubtitle}
-        image="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="University campus"
+        image={heroImage?.url}
+        imageAlt={heroImage?.altText || "University campus"}
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact Us" }]}
       />
 
@@ -111,7 +116,7 @@ export default async function ContactPage({
               </span>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-university-gold">
-                  Contact Form
+                  {contact.formEyebrow || defaultContact.formEyebrow}
                 </p>
                 <h2 className="mt-2 text-2xl font-bold tracking-normal text-university-navy sm:text-3xl">
                   {contact.formTitle || "Send Us a Message"}
@@ -177,7 +182,7 @@ export default async function ContactPage({
           <aside className="rounded-[18px] border border-university-line bg-white p-5 shadow-[0_20px_50px_rgba(8,33,61,0.08)] sm:p-6">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-university-gold/40 bg-university-gold/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-university-gold">
               <MapPin size={15} />
-              Location
+              {contact.mapEyebrow || defaultContact.mapEyebrow}
             </div>
             <h2 className="text-2xl font-bold text-university-navy">
               {contact.mapTitle || "Visit Our Campus"}
@@ -199,7 +204,7 @@ export default async function ContactPage({
             </div>
             <div className="mt-6 rounded-2xl bg-[#F7F9F8] p-5">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-university-green">
-                Bangladesh University of Engineering Knowledge
+                {settings.universityName}
               </p>
               <p className="mt-3 text-lg font-bold text-university-navy">{contact.address}</p>
               <p className="mt-3 text-sm leading-6 text-slate-600">
@@ -211,7 +216,7 @@ export default async function ContactPage({
                 rel="noreferrer"
                 className="mt-5 inline-flex items-center gap-2 rounded-[10px] bg-university-gold px-5 py-3 text-sm font-bold text-university-navy transition hover:bg-university-goldDark"
               >
-                Get Direction <ExternalLink size={16} />
+                {contact.mapDirectionLabel || defaultContact.mapDirectionLabel} <ExternalLink size={16} />
               </a>
             </div>
           </aside>
@@ -220,13 +225,13 @@ export default async function ContactPage({
         <section className="mt-16">
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-university-gold">
-              Department Contacts
+              {contact.departmentEyebrow || defaultContact.departmentEyebrow}
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-normal text-university-navy sm:text-4xl">
-              Contact the Right Office
+              {contact.departmentTitle || defaultContact.departmentTitle}
             </h2>
             <p className="mt-4 text-base leading-7 text-slate-600">
-              Choose the office that matches your inquiry so your message reaches the right university team.
+              {contact.departmentBody || defaultContact.departmentBody}
             </p>
           </div>
           <div className="mt-9 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -274,7 +279,7 @@ export default async function ContactPage({
               href={`tel:${contact.phone}`}
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[10px] border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:border-university-gold hover:text-university-gold"
             >
-              Call Office <ArrowRight size={17} />
+              {contact.urgentButtonLabel || defaultContact.urgentButtonLabel} <ArrowRight size={17} />
             </a>
           </div>
         </section>

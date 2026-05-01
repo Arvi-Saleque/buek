@@ -510,21 +510,36 @@ export const defaultContact: ContactPage = {
   heroTitle: "Get in Touch with BUEK",
   heroSubtitle:
     "Reach the right office for admissions, academic support, media inquiries, and general information.",
+  heroImage: {
+    url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85",
+    altText: "University campus",
+  },
+  addressLabel: "Campus Address",
   address: defaultSettings.address,
   addressNote: "View on Google Maps",
+  phoneLabel: "Phone",
   phone: defaultSettings.phone,
   phoneNote: "Sun-Thu, 9:00 AM - 5:00 PM",
+  emailLabel: "Email",
   email: defaultSettings.email,
   emailNote: "General inquiry desk",
+  officeHoursLabel: "Office Hours",
   officeHours: "Sunday to Thursday, 9:00 AM - 5:00 PM",
   officeHoursNote: "Weekend offices are closed",
+  formEyebrow: "Contact Form",
   formTitle: "Send Us a Message",
   formBody:
     "Share your question with the university office. The right team will review your message and respond during official hours.",
+  mapEyebrow: "Location",
   mapTitle: "Visit Our Campus",
   mapEmbedUrl: "https://www.google.com/maps?q=Khulna%2C%20Bangladesh&output=embed",
   mapDirectionUrl: "https://www.google.com/maps/search/?api=1&query=Khulna%2C%20Bangladesh",
+  mapDirectionLabel: "Get Direction",
   mapNote: "Visitors are encouraged to contact the office before arriving for admission or administrative support.",
+  departmentEyebrow: "Department Contacts",
+  departmentTitle: "Contact the Right Office",
+  departmentBody:
+    "Choose the office that matches your inquiry so your message reaches the right university team.",
   departments: [
     {
       title: "Admission Office",
@@ -554,6 +569,7 @@ export const defaultContact: ContactPage = {
   urgentTitle: "Need urgent academic assistance?",
   urgentBody:
     "For urgent academic or administrative matters, please contact the university office during official hours.",
+  urgentButtonLabel: "Call Office",
 };
 
 export const defaultCommittee: CommitteeMember[] = [
