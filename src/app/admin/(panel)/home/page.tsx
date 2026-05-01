@@ -1,3 +1,4 @@
+import { BookOpen, CalendarDays, ImageIcon, Quote } from "lucide-react";
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
@@ -90,53 +91,133 @@ export default async function AdminHomePage({
           ))}
         </section>
 
-        <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Welcome Section</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <label>
-              <span className="label">Small Label</span>
-              <input name="introEyebrow" defaultValue={home.introEyebrow || defaultHome.introEyebrow} className="field" />
-            </label>
-            <label>
-              <span className="label">Intro Title</span>
-              <input name="introTitle" defaultValue={home.introTitle} required className="field" />
-            </label>
+        <section className="admin-card overflow-hidden p-0">
+          <div className="bg-university-navy px-4 py-5 text-white sm:px-5">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
+              Homepage Intro
+            </p>
+            <h2 className="mt-2 text-xl font-bold">Academic Community Section</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-white/70">
+              Controls the public homepage block titled &ldquo;Academic Community / Welcome to our academic community&rdquo; including copy, image badge, and metric cards.
+            </p>
           </div>
-          <label>
-            <span className="label">Intro Body</span>
-            <textarea name="introBody" defaultValue={home.introBody} required rows={4} className="field" />
-          </label>
-          <label>
-            <span className="label">Highlighted Statement</span>
-            <textarea name="introHighlight" defaultValue={home.introHighlight || defaultHome.introHighlight} rows={2} className="field" />
-          </label>
-          <div className="grid gap-4 md:grid-cols-2">
-            <label>
-              <span className="label">Programs Stat Label</span>
-              <input name="statProgramsLabel" defaultValue={home.statProgramsLabel || defaultHome.statProgramsLabel} className="field" />
-            </label>
-            <label>
-              <span className="label">Programs Stat Detail</span>
-              <input name="statProgramsDetail" defaultValue={home.statProgramsDetail || ""} className="field" />
-            </label>
-            <label>
-              <span className="label">Updates Stat Label</span>
-              <input name="statUpdatesLabel" defaultValue={home.statUpdatesLabel || defaultHome.statUpdatesLabel} className="field" />
-            </label>
-            <label>
-              <span className="label">Updates Stat Detail</span>
-              <input name="statUpdatesDetail" defaultValue={home.statUpdatesDetail || defaultHome.statUpdatesDetail} className="field" />
-            </label>
-            <label>
-              <span className="label">Image Badge Label</span>
-              <input name="introImageEyebrow" defaultValue={home.introImageEyebrow || defaultHome.introImageEyebrow} className="field" />
-            </label>
-            <label>
-              <span className="label">Image Badge Text</span>
-              <input name="introImageCaption" defaultValue={home.introImageCaption || defaultHome.introImageCaption} className="field" />
-            </label>
+
+          <div className="grid gap-5 p-4 sm:p-5 xl:grid-cols-[1.1fr_0.9fr]">
+            <div className="grid gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-center gap-2">
+                <span className="grid h-9 w-9 place-items-center rounded-md bg-university-navy text-university-gold">
+                  <Quote size={18} />
+                </span>
+                <div>
+                  <h3 className="font-bold text-university-navy">Section Copy</h3>
+                  <p className="text-xs text-slate-500">Heading, paragraph, and highlighted statement.</p>
+                </div>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <label>
+                  <span className="label">Small Label</span>
+                  <input name="introEyebrow" defaultValue={home.introEyebrow || defaultHome.introEyebrow} className="field bg-white" />
+                </label>
+                <label>
+                  <span className="label">Section Title</span>
+                  <input name="introTitle" defaultValue={home.introTitle} required className="field bg-white" />
+                </label>
+              </div>
+              <label>
+                <span className="label">Intro Body</span>
+                <textarea name="introBody" defaultValue={home.introBody} required rows={5} className="field bg-white" />
+              </label>
+              <label>
+                <span className="label">Highlighted Statement</span>
+                <textarea name="introHighlight" defaultValue={home.introHighlight || defaultHome.introHighlight} rows={3} className="field bg-white" />
+              </label>
+            </div>
+
+            <div className="grid gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-center gap-2">
+                <span className="grid h-9 w-9 place-items-center rounded-md bg-university-gold text-university-navy">
+                  <ImageIcon size={18} />
+                </span>
+                <div>
+                  <h3 className="font-bold text-university-navy">Visual & Badge</h3>
+                  <p className="text-xs text-slate-500">Homepage intro image and overlay badge text.</p>
+                </div>
+              </div>
+              <div className="grid gap-4">
+                <ImageField name="introImage" label="Intro Image" image={home.introImage} />
+                <label>
+                  <span className="label">Image Badge Label</span>
+                  <input name="introImageEyebrow" defaultValue={home.introImageEyebrow || defaultHome.introImageEyebrow} className="field bg-white" />
+                </label>
+                <label>
+                  <span className="label">Image Badge Text</span>
+                  <input name="introImageCaption" defaultValue={home.introImageCaption || defaultHome.introImageCaption} className="field bg-white" />
+                </label>
+              </div>
+            </div>
           </div>
-          <ImageField name="introImage" label="Intro Image" image={home.introImage} />
+
+          <div className="border-t border-slate-200 bg-white p-4 sm:p-5">
+            <div className="mb-4">
+              <h3 className="font-bold text-university-navy">Metric Cards</h3>
+              <p className="mt-1 text-sm text-slate-600">
+                Edit the two statistic cards shown below the welcome copy. Leave the display value empty to use the live website count.
+              </p>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="rounded-lg border border-university-line bg-slate-50 p-4">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-11 w-11 place-items-center rounded-md bg-university-navy text-university-gold">
+                    <BookOpen size={21} />
+                  </span>
+                  <div>
+                    <p className="font-bold text-university-navy">Programs Metric</p>
+                    <p className="text-xs text-slate-500">First statistic card.</p>
+                  </div>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <label>
+                    <span className="label">Display Value</span>
+                    <input name="statProgramsValue" defaultValue={home.statProgramsValue || ""} placeholder="Live count" className="field bg-white" />
+                  </label>
+                  <label>
+                    <span className="label">Label</span>
+                    <input name="statProgramsLabel" defaultValue={home.statProgramsLabel || defaultHome.statProgramsLabel} className="field bg-white" />
+                  </label>
+                  <label>
+                    <span className="label">Detail</span>
+                    <input name="statProgramsDetail" defaultValue={home.statProgramsDetail || ""} className="field bg-white" />
+                  </label>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-university-line bg-slate-50 p-4">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="grid h-11 w-11 place-items-center rounded-md bg-university-navy text-university-gold">
+                    <CalendarDays size={21} />
+                  </span>
+                  <div>
+                    <p className="font-bold text-university-navy">Updates Metric</p>
+                    <p className="text-xs text-slate-500">Second statistic card.</p>
+                  </div>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <label>
+                    <span className="label">Display Value</span>
+                    <input name="statUpdatesValue" defaultValue={home.statUpdatesValue || ""} placeholder="Live count" className="field bg-white" />
+                  </label>
+                  <label>
+                    <span className="label">Label</span>
+                    <input name="statUpdatesLabel" defaultValue={home.statUpdatesLabel || defaultHome.statUpdatesLabel} className="field bg-white" />
+                  </label>
+                  <label>
+                    <span className="label">Detail</span>
+                    <input name="statUpdatesDetail" defaultValue={home.statUpdatesDetail || defaultHome.statUpdatesDetail} className="field bg-white" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="admin-card grid gap-4">

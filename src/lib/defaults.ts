@@ -75,8 +75,10 @@ export const defaultHome: HomePage = {
   introImageEyebrow: "Campus Focus",
   introImageCaption:
     "Quality education, disciplined learning, and practical growth.",
+  statProgramsValue: "",
   statProgramsLabel: "Academic programs",
   statProgramsDetail: "Academic Programs",
+  statUpdatesValue: "",
   statUpdatesLabel: "Published updates",
   statUpdatesDetail: "News, events, and campus notices",
   featureTitle: "Important Campus Information",

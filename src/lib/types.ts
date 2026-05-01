@@ -59,8 +59,10 @@ export type HomePage = {
   introImage?: ImageAsset;
   introImageEyebrow?: string;
   introImageCaption?: string;
+  statProgramsValue?: string;
   statProgramsLabel?: string;
   statProgramsDetail?: string;
+  statUpdatesValue?: string;
   statUpdatesLabel?: string;
   statUpdatesDetail?: string;
   featureTitle: string;

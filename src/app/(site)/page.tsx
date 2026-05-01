@@ -184,13 +184,13 @@ export default async function HomePage() {
             {[
               {
                 icon: BookOpen,
-                value: `${academic.programs.length}+`,
+                value: home.statProgramsValue || `${academic.programs.length}+`,
                 label: home.statProgramsLabel || "Academic programs",
                 detail: home.statProgramsDetail || academic.programs[0] || "Academic Programs",
               },
               {
                 icon: CalendarDays,
-                value: `${news.length}+`,
+                value: home.statUpdatesValue || `${news.length}+`,
                 label: home.statUpdatesLabel || "Published updates",
                 detail: home.statUpdatesDetail || "News, events, and campus notices",
               },
