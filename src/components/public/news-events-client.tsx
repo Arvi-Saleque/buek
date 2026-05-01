@@ -752,7 +752,7 @@ export function NewsEventsClient({ items }: { items: NewsEvent[] }) {
                       className="inline-flex w-fit items-center gap-2 rounded-md border border-university-line px-4 py-2 text-sm font-bold text-university-navy transition hover:border-university-gold hover:text-university-gold"
                     >
                       <FileText size={14} />
-                      {item.pdfUrl ? "View PDF" : "View"}
+                      View
                     </Link>
                   </article>
                 ))}
