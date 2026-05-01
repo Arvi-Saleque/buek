@@ -167,12 +167,17 @@ export default async function AboutPage() {
 
       {/* ── 4. Statistics ── */}
       <section
-        className="relative py-16 sm:py-20"
-        style={{ background: "linear-gradient(160deg,#0B2341 0%,#123A63 55%,#0F6B57 100%)" }}
+        className="relative overflow-hidden bg-fixed bg-center bg-cover py-16 sm:py-20"
+        style={{
+          backgroundImage:
+            "linear-gradient(160deg, rgba(6, 22, 43, 0.92) 0%, rgba(11, 35, 65, 0.86) 48%, rgba(15, 78, 64, 0.88) 100%), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85')",
+        }}
       >
+        <div className="pointer-events-none absolute inset-0 bg-black/20" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -right-32 -top-32 h-[400px] w-[400px] rounded-full border-[48px] border-white/5" />
-          <div className="absolute -bottom-20 -left-20 h-[320px] w-[320px] rounded-full border-[36px] border-white/5" />
+          <div className="absolute -right-32 -top-32 h-[400px] w-[400px] rounded-full border-[48px] border-white/8" />
+          <div className="absolute -bottom-20 -left-20 h-[320px] w-[320px] rounded-full border-[36px] border-white/8" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent" />
         </div>
         <Container className="relative">
           <div className="mb-12 text-center">
@@ -183,7 +188,7 @@ export default async function AboutPage() {
             {stats.map(({ title, body }) => (
               <div
                 key={`${title}-${body}`}
-                className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm"
+                className="rounded-2xl border border-white/15 bg-white/10 p-8 text-center shadow-[0_24px_70px_rgba(0,0,0,0.18)] backdrop-blur-md transition hover:-translate-y-1 hover:border-university-gold/45 hover:bg-white/15"
               >
                 <p className="text-4xl font-black text-university-gold sm:text-5xl">{title}</p>
                 <p className="mt-2 text-sm font-medium text-white/70">{body}</p>
