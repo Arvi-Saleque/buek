@@ -1,3 +1,4 @@
+import { AboutWhyCardEditor } from "@/components/admin/about-why-card-editor";
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
@@ -12,6 +13,9 @@ export default async function AdminAboutPage({
   searchParams: Promise<{ saved?: string }>;
 }) {
   const [about, params] = await Promise.all([getAboutPage(), searchParams]);
+  const whyItems = about.aboutWhyItems?.length
+    ? about.aboutWhyItems
+    : defaultAbout.aboutWhyItems || [];
 
   return (
     <>
@@ -134,7 +138,15 @@ export default async function AdminAboutPage({
             <input name="aboutWhyTitle" defaultValue={about.aboutWhyTitle || defaultAbout.aboutWhyTitle} placeholder="Why title" className="field" />
           </div>
           <textarea name="aboutWhyBody" defaultValue={about.aboutWhyBody || defaultAbout.aboutWhyBody} rows={3} className="field" />
-          <textarea name="aboutWhyItems" defaultValue={editableRows(about.aboutWhyItems || defaultAbout.aboutWhyItems)} rows={6} placeholder="Internal label | Visible text" className="field" />
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <div className="mb-4">
+              <h3 className="font-bold text-university-navy">Why Choose Us Cards</h3>
+              <p className="mt-1 text-sm text-slate-600">
+                Add or delete cards. Each card has one selected icon and one visible title.
+              </p>
+            </div>
+            <AboutWhyCardEditor cards={whyItems} />
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <input name="aboutCampusEyebrow" defaultValue={about.aboutCampusEyebrow || defaultAbout.aboutCampusEyebrow} placeholder="Campus eyebrow" className="field" />
             <input name="aboutCampusTitle" defaultValue={about.aboutCampusTitle || defaultAbout.aboutCampusTitle} placeholder="Campus title" className="field" />

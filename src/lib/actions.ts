@@ -157,6 +157,18 @@ function academicCards(formData: FormData) {
     .filter((item) => item.title);
 }
 
+function aboutWhyCards(formData: FormData) {
+  const icons = formData.getAll("aboutWhyItemIcon").map((item) => String(item).trim());
+  const titles = formData.getAll("aboutWhyItemTitle").map((item) => String(item).trim());
+
+  return titles
+    .map((title, index) => ({
+      icon: icons[index] || "GraduationCap",
+      title,
+    }))
+    .filter((item) => item.title);
+}
+
 function departmentContacts(formData: FormData): DepartmentContact[] {
   const titles = formData.getAll("departmentTitle").map((item) => String(item).trim());
   const bodies = formData.getAll("departmentBody").map((item) => String(item).trim());
@@ -491,7 +503,7 @@ export async function saveAboutAction(formData: FormData) {
     aboutWhyEyebrow: value(formData, "aboutWhyEyebrow"),
     aboutWhyTitle: value(formData, "aboutWhyTitle"),
     aboutWhyBody: value(formData, "aboutWhyBody"),
-    aboutWhyItems: listItems(formData, "aboutWhyItems"),
+    aboutWhyItems: aboutWhyCards(formData),
     aboutCampusEyebrow: value(formData, "aboutCampusEyebrow"),
     aboutCampusTitle: value(formData, "aboutCampusTitle"),
     aboutCampusBody: value(formData, "aboutCampusBody"),

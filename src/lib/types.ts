@@ -13,6 +13,12 @@ export type EditableListItem = {
   body: string;
 };
 
+export type IconTitleItem = {
+  icon?: string;
+  title: string;
+  body?: string;
+};
+
 export type SiteSettings = {
   universityName: string;
   tagline: string;
@@ -156,7 +162,7 @@ export type AboutPage = {
   aboutWhyEyebrow?: string;
   aboutWhyTitle?: string;
   aboutWhyBody?: string;
-  aboutWhyItems?: EditableListItem[];
+  aboutWhyItems?: IconTitleItem[];
   aboutCampusEyebrow?: string;
   aboutCampusTitle?: string;
   aboutCampusBody?: string;

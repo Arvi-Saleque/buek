@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { AdminMobileMenu } from "@/components/admin/admin-mobile-menu";
 import { adminNav } from "@/components/admin/admin-nav";
+import { GoToTopButton } from "@/components/go-to-top-button";
 import { logoutAction } from "@/lib/actions";
 import type { SiteSettings } from "@/lib/types";
 
@@ -77,6 +78,7 @@ export function AdminShell({
           {children}
         </main>
       </div>
+      <GoToTopButton variant="admin" />
     </div>
   );
 }

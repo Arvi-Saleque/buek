@@ -2,25 +2,59 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
+  Bell,
   BookOpen,
+  Briefcase,
   BriefcaseBusiness,
   Building2,
+  CalendarDays,
   CheckCircle2,
+  ClipboardList,
+  Cpu,
+  FileText,
   GraduationCap,
+  HeartHandshake,
+  Images,
   Landmark,
   LayoutGrid,
   MessageSquareQuote,
   Microscope,
+  Scale,
   Shield,
+  Stethoscope,
+  Sprout,
   Users,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage } from "@/lib/content";
 import { defaultAbout } from "@/lib/defaults";
 
 const pillarIcons = [BookOpen, Users, BriefcaseBusiness];
-const whyIcons = [GraduationCap, LayoutGrid, Microscope, Building2, Shield, Landmark];
+const whyIconNames = ["GraduationCap", "LayoutGrid", "Microscope", "Building2", "Shield", "Landmark"];
+const whyIconMap: Record<string, LucideIcon> = {
+  Bell,
+  BookOpen,
+  Briefcase,
+  BriefcaseBusiness,
+  Building2,
+  CalendarDays,
+  ClipboardList,
+  Cpu,
+  FileText,
+  GraduationCap,
+  HeartHandshake,
+  Images,
+  Landmark,
+  LayoutGrid,
+  Microscope,
+  Scale,
+  Shield,
+  Stethoscope,
+  Sprout,
+  Users,
+};
 
 function paragraphs(text?: string) {
   return (text || "")
@@ -210,17 +244,19 @@ export default async function AboutPage() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {whyItems.map(({ title, body }, index) => {
-              const Icon = whyIcons[index % whyIcons.length];
+            {whyItems.map(({ icon, title, body }, index) => {
+              const iconName = icon || whyIconNames[index % whyIconNames.length];
+              const Icon = whyIconMap[iconName] || GraduationCap;
+              const displayTitle = body || title;
               return (
               <div
-                key={`${title}-${body}`}
+                key={`${iconName}-${displayTitle}`}
                 className="flex items-start gap-4 rounded-xl border border-university-line bg-white p-5 shadow-sm transition hover:border-university-gold/40 hover:shadow-soft"
               >
                 <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-university-navy text-university-gold">
                   <Icon size={18} />
                 </span>
-                <p className="text-sm font-semibold leading-6 text-university-navy">{body || title}</p>
+                <p className="text-sm font-semibold leading-6 text-university-navy">{displayTitle}</p>
               </div>
               );
             })}

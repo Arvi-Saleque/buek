@@ -248,12 +248,12 @@ export const defaultAbout: AboutPage = {
   aboutWhyBody:
     "We combine academic rigour with a supportive environment to help every student thrive.",
   aboutWhyItems: [
-    { title: "Experienced faculty", body: "Experienced and dedicated faculty members" },
-    { title: "Modern curriculum", body: "Modern, industry-aligned academic curriculum" },
-    { title: "Practical learning", body: "Practical and career-oriented learning approach" },
-    { title: "Digital facilities", body: "Digital classrooms, computer labs, and facilities" },
-    { title: "Safe campus", body: "Safe, disciplined, and inclusive campus environment" },
-    { title: "Recognised programs", body: "Government recognised and accredited programs" },
+    { icon: "GraduationCap", title: "Experienced and dedicated faculty members" },
+    { icon: "LayoutGrid", title: "Modern, industry-aligned academic curriculum" },
+    { icon: "Microscope", title: "Practical and career-oriented learning approach" },
+    { icon: "Building2", title: "Digital classrooms, computer labs, and facilities" },
+    { icon: "Shield", title: "Safe, disciplined, and inclusive campus environment" },
+    { icon: "Landmark", title: "Government recognised and accredited programs" },
   ],
   aboutCampusEyebrow: "Campus Life",
   aboutCampusTitle: "Our Learning Environment",

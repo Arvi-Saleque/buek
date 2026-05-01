@@ -1,5 +1,6 @@
 import { Footer } from "@/components/public/footer";
 import { Header } from "@/components/public/header";
+import { GoToTopButton } from "@/components/go-to-top-button";
 import { getSiteSettings } from "@/lib/content";
 
 export const revalidate = 300;
@@ -16,6 +17,7 @@ export default async function SiteLayout({
       <Header settings={settings} />
       <main className="pt-[108px] sm:pt-[124px]">{children}</main>
       <Footer settings={settings} />
+      <GoToTopButton />
     </>
   );
 }
