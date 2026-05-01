@@ -264,7 +264,7 @@ export default async function HomePage() {
             <span className="h-px flex-1 bg-university-gold/30" />
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
+          <div className="grid justify-center gap-3 [grid-template-columns:repeat(auto-fit,minmax(150px,180px))] md:gap-4">
             {quickAccessCards.map(({ href, icon, title, subtitle }, index) => {
               const Icon = quickAccessIconMap[icon] || ClipboardList;
 
@@ -272,7 +272,7 @@ export default async function HomePage() {
               <Link
                 key={`${title}-${href}-${index}`}
                 href={href}
-                className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm transition hover:-translate-y-1 hover:border-university-gold/60 hover:bg-white/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:flex-col md:items-start md:gap-2 md:px-5 md:py-5"
+                className="group flex min-h-36 w-full items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm transition hover:-translate-y-1 hover:border-university-gold/60 hover:bg-white/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:flex-col md:items-start md:gap-2 md:px-5 md:py-5"
               >
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-university-gold text-university-navy transition group-hover:bg-white md:h-10 md:w-10">
                   <Icon size={18} />
