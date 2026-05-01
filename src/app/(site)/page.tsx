@@ -304,14 +304,14 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid justify-center gap-px bg-university-line [grid-template-columns:repeat(auto-fit,minmax(150px,210px))]">
+          <div className="mx-auto grid w-fit max-w-full justify-center gap-px overflow-hidden rounded-lg bg-university-line [grid-template-columns:repeat(auto-fit,minmax(190px,230px))]">
             {academicCards.map((card, index) => {
               const Icon = quickAccessIconMap[card.icon] || BookOpen;
 
               return (
                 <div
                   key={`${card.title}-${index}`}
-                  className="group flex min-h-44 flex-col items-center justify-center gap-4 bg-white px-6 py-10 text-center transition hover:bg-university-mist hover:shadow-inner"
+                  className="group flex min-h-48 flex-col items-center justify-center gap-4 bg-white px-7 py-11 text-center transition hover:bg-university-mist hover:shadow-inner"
                 >
                   <span className="grid h-16 w-16 place-items-center rounded-full border-2 border-university-line text-university-navy/40 transition group-hover:border-university-gold group-hover:text-university-gold">
                     <Icon size={28} strokeWidth={1.5} />
