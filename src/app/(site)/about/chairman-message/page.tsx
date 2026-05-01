@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
-import { getAboutPage } from "@/lib/content";
+import { getAboutPage, getSiteSettings } from "@/lib/content";
+import { defaultAbout } from "@/lib/defaults";
 import type { EditableListItem } from "@/lib/types";
 
 const commitmentIcons = [GraduationCap, UserRound, ShieldCheck, BriefcaseBusiness];
@@ -31,7 +32,7 @@ function list(value?: EditableListItem[]) {
 }
 
 export default async function ChairmanMessagePage() {
-  const about = await getAboutPage();
+  const [about, settings] = await Promise.all([getAboutPage(), getSiteSettings()]);
   const messageParts = paragraphs(about.chairmanMessage);
   const commitments = list(about.chairmanCommitments);
   const priorities = list(about.chairmanPriorities);
@@ -40,11 +41,11 @@ export default async function ChairmanMessagePage() {
   return (
     <>
       <PageHero
-        eyebrow="Leadership Statement"
-        title="Chairman's Message"
-        body="A message from the leadership of Bangladesh University of Engineering Knowledge."
-        image="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="University graduates"
+        eyebrow={about.chairmanHeroEyebrow || defaultAbout.chairmanHeroEyebrow || "Leadership Statement"}
+        title={about.chairmanHeroTitle || defaultAbout.chairmanHeroTitle || "Chairman's Message"}
+        body={about.chairmanHeroBody || defaultAbout.chairmanHeroBody}
+        image={about.chairmanHeroImage?.url || defaultAbout.chairmanHeroImage?.url}
+        imageAlt={about.chairmanHeroImage?.altText || defaultAbout.chairmanHeroImage?.altText || "University graduates"}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "About", href: "/about" },
@@ -74,7 +75,7 @@ export default async function ChairmanMessagePage() {
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Leadership Message
+                {about.chairmanProfileEyebrow || defaultAbout.chairmanProfileEyebrow}
               </p>
               <h2 className="mt-3 text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
                 {about.chairmanName}
@@ -100,7 +101,7 @@ export default async function ChairmanMessagePage() {
         <Container>
           <div className="mx-auto max-w-4xl rounded-lg border border-university-line bg-white p-7 shadow-soft sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Official Message
+              {about.chairmanMessageEyebrow || defaultAbout.chairmanMessageEyebrow}
             </p>
             <div className="mt-6 space-y-5 text-base leading-8 text-university-text">
               {messageParts.map((part, index) => (
@@ -118,7 +119,7 @@ export default async function ChairmanMessagePage() {
                 {about.chairmanRole}
               </p>
               <p className="mt-1 text-sm text-university-text">
-                Bangladesh University of Engineering Knowledge
+                {settings.universityName}
               </p>
             </div>
           </div>
@@ -129,10 +130,10 @@ export default async function ChairmanMessagePage() {
         <Container>
           <div className="mb-10 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Leadership Commitments
+              {about.chairmanCommitmentsEyebrow || defaultAbout.chairmanCommitmentsEyebrow}
             </p>
             <h2 className="mt-2 text-3xl font-bold text-university-navy sm:text-4xl">
-              What Our Leadership Emphasizes
+              {about.chairmanCommitmentsTitle || defaultAbout.chairmanCommitmentsTitle}
             </h2>
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -165,15 +166,13 @@ export default async function ChairmanMessagePage() {
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Future Priorities
+                {about.chairmanPrioritiesEyebrow || defaultAbout.chairmanPrioritiesEyebrow}
               </p>
               <h2 className="mt-2 text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
-                Priorities for the Future
+                {about.chairmanPrioritiesTitle || defaultAbout.chairmanPrioritiesTitle}
               </h2>
               <p className="mt-5 text-base leading-8 text-university-text">
-                The chairman&apos;s message is connected to practical goals that
-                support academic quality, institutional discipline, and student
-                success.
+                {about.chairmanPrioritiesBody || defaultAbout.chairmanPrioritiesBody}
               </p>
             </div>
             <div className="grid gap-4">
@@ -204,10 +203,10 @@ export default async function ChairmanMessagePage() {
         <Container>
           <div className="mb-8 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Continue Exploring
+              {about.chairmanRelatedEyebrow || defaultAbout.chairmanRelatedEyebrow}
             </p>
             <h2 className="mt-2 text-3xl font-bold text-university-navy sm:text-4xl">
-              Explore More About BUEK
+              {about.chairmanRelatedTitle || defaultAbout.chairmanRelatedTitle}
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -375,22 +375,38 @@ export const defaultAbout: AboutPage = {
   missionCtaSecondaryHref: "/contact",
   chairmanName: "Professor A. Rahman",
   chairmanRole: "Chairman, Board of Trustees",
+  chairmanHeroEyebrow: "Leadership Statement",
+  chairmanHeroTitle: "Chairman's Message",
+  chairmanHeroBody:
+    "A message from the leadership of Bangladesh University of Engineering Knowledge.",
+  chairmanHeroImage: {
+    url: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1800&q=85",
+    altText: "University graduates",
+  },
+  chairmanProfileEyebrow: "Leadership Message",
   chairmanQuote:
     "Education must prepare students not only for successful careers, but also for responsible leadership and meaningful service to society.",
   chairmanIntro:
     "Under his leadership, BUEK continues to focus on academic excellence, disciplined governance, student-centered learning, and the development of future-ready graduates.",
+  chairmanMessageEyebrow: "Official Message",
   chairmanMessage:
     "Dear Students, Guardians, Faculty Members, and Well-Wishers,\n\nIt is my great pleasure to welcome you to Bangladesh University of Engineering Knowledge. Our university has been established with a clear commitment to quality education, ethical values, academic discipline, and the development of skilled graduates who can contribute meaningfully to society.\n\nAt BUEK, we believe that higher education should go beyond classroom learning. It should inspire students to think critically, act responsibly, communicate confidently, and solve real-world problems. Our academic programs, experienced faculty members, and student-focused environment are designed to help learners grow intellectually, professionally, and personally.\n\nWe are committed to creating an institution where knowledge, innovation, integrity, and service work together. Through modern curriculum, practical learning, research opportunities, and industry-relevant education, we aim to prepare our students for future careers, leadership roles, and lifelong learning.\n\nI invite students, guardians, educators, and partners to join us in building a university that represents excellence, responsibility, and progress. Together, we can shape a brighter future for the next generation.",
   chairmanPhoto: {
     url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85",
     altText: "Chairman portrait",
   },
+  chairmanCommitmentsEyebrow: "Leadership Commitments",
+  chairmanCommitmentsTitle: "What Our Leadership Emphasizes",
   chairmanCommitments: [
     { title: "Academic Excellence", body: "Quality teaching, structured curriculum, and continuous improvement." },
     { title: "Student Development", body: "Confidence, discipline, communication, leadership, and career preparation." },
     { title: "Ethical Governance", body: "Transparency, responsibility, institutional integrity, and fair administration." },
     { title: "Future-Ready Education", body: "Innovation, research, technology, industry collaboration, and employability." },
   ],
+  chairmanPrioritiesEyebrow: "Future Priorities",
+  chairmanPrioritiesTitle: "Priorities for the Future",
+  chairmanPrioritiesBody:
+    "The chairman's message is connected to practical goals that support academic quality, institutional discipline, and student success.",
   chairmanPriorities: [
     { title: "Strengthening Academic Programs", body: "Continuous review of curriculum, teaching quality, and academic outcomes." },
     { title: "Expanding Modern Facilities", body: "Laboratories, digital classrooms, and practical learning resources." },
@@ -401,6 +417,8 @@ export const defaultAbout: AboutPage = {
   ],
   chairmanClosingNote:
     "Warm regards",
+  chairmanRelatedEyebrow: "Continue Exploring",
+  chairmanRelatedTitle: "Explore More About BUEK",
   chairmanRelatedLinks: [
     { title: "Mission & Vision", body: "/about/mission-vision" },
     { title: "Academic Programs", body: "/academic" },

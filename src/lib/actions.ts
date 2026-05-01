@@ -588,15 +588,30 @@ export async function saveChairmanMessageAction(formData: FormData) {
     ...current,
     chairmanName: value(formData, "chairmanName"),
     chairmanRole: value(formData, "chairmanRole"),
+    chairmanHeroEyebrow: value(formData, "chairmanHeroEyebrow"),
+    chairmanHeroTitle: value(formData, "chairmanHeroTitle"),
+    chairmanHeroBody: value(formData, "chairmanHeroBody"),
+    chairmanHeroImage:
+      (await imageFromForm(formData, "chairmanHeroImage", "university/about")) ||
+      current.chairmanHeroImage,
+    chairmanProfileEyebrow: value(formData, "chairmanProfileEyebrow"),
     chairmanQuote: value(formData, "chairmanQuote"),
     chairmanIntro: value(formData, "chairmanIntro"),
+    chairmanMessageEyebrow: value(formData, "chairmanMessageEyebrow"),
     chairmanMessage: value(formData, "chairmanMessage"),
     chairmanPhoto:
       (await imageFromForm(formData, "chairmanPhoto", "university/about")) ||
       current.chairmanPhoto,
+    chairmanCommitmentsEyebrow: value(formData, "chairmanCommitmentsEyebrow"),
+    chairmanCommitmentsTitle: value(formData, "chairmanCommitmentsTitle"),
     chairmanCommitments: listItems(formData, "chairmanCommitments"),
+    chairmanPrioritiesEyebrow: value(formData, "chairmanPrioritiesEyebrow"),
+    chairmanPrioritiesTitle: value(formData, "chairmanPrioritiesTitle"),
+    chairmanPrioritiesBody: value(formData, "chairmanPrioritiesBody"),
     chairmanPriorities: listItems(formData, "chairmanPriorities"),
     chairmanClosingNote: value(formData, "chairmanClosingNote"),
+    chairmanRelatedEyebrow: value(formData, "chairmanRelatedEyebrow"),
+    chairmanRelatedTitle: value(formData, "chairmanRelatedTitle"),
     chairmanRelatedLinks: listItems(formData, "chairmanRelatedLinks"),
   };
 
