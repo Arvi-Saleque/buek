@@ -174,11 +174,7 @@ export default async function AboutPage() {
         }}
       >
         <div className="pointer-events-none absolute inset-0 bg-black/20" />
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -right-32 -top-32 h-[400px] w-[400px] rounded-full border-[48px] border-white/8" />
-          <div className="absolute -bottom-20 -left-20 h-[320px] w-[320px] rounded-full border-[36px] border-white/8" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent" />
-        </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent" />
         <Container className="relative">
           <div className="mb-12 text-center">
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-university-gold">{about.aboutStatsEyebrow || defaultAbout.aboutStatsEyebrow}</p>
