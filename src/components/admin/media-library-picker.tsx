@@ -334,23 +334,48 @@ export function SingleMediaPicker({
 }) {
   const [selected, setSelected] = useState<ImageAsset | undefined>(image);
   const [altText, setAltText] = useState(image?.altText || "");
+  const [manualPreview, setManualPreview] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const previewUrl = manualPreview || selected?.url || "";
 
   const handleLibrarySelect = (assets: ImageAsset[]) => {
     const asset = assets[0];
     setSelected(asset);
     setAltText(asset?.altText || "");
+    setManualPreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
+  const handleManualFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setManualPreview("");
+      return;
+    }
+
+    setManualPreview((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return URL.createObjectURL(file);
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (manualPreview) URL.revokeObjectURL(manualPreview);
+    };
+  }, [manualPreview]);
 
   return (
     <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
       <span className="label">{label}</span>
-      {selected?.url ? (
+      {previewUrl ? (
         <div className="relative mb-3 h-36 w-full overflow-hidden rounded-md bg-slate-100">
           <Image
-            src={selected.url}
-            alt={altText || selected.altText || label}
+            src={previewUrl}
+            alt={altText || selected?.altText || label}
             fill
+            unoptimized={Boolean(manualPreview)}
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
@@ -382,12 +407,14 @@ export function SingleMediaPicker({
             <ImageIcon size={16} />
             Choose Photo
           </button>
-          {selected?.url ? (
+          {previewUrl ? (
             <button
               type="button"
               onClick={() => {
                 setSelected(undefined);
                 setAltText("");
+                setManualPreview("");
+                if (fileInputRef.current) fileInputRef.current.value = "";
               }}
               className="btn-secondary"
             >
@@ -400,9 +427,11 @@ export function SingleMediaPicker({
         <label className="block">
           <span className="label">Upload new manually</span>
           <input
+            ref={fileInputRef}
             name={name}
             type="file"
             accept="image/*"
+            onChange={handleManualFile}
             className="field bg-white"
           />
         </label>

@@ -5,9 +5,30 @@ import { ImageField } from "@/components/admin/image-field";
 import { QuickAccessCardEditor } from "@/components/admin/quick-access-card-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveHomeAction } from "@/lib/actions";
-import { getHomePage, getNewsEvents } from "@/lib/content";
+import { getGalleryItems, getHomePage, getNewsEvents } from "@/lib/content";
 import { defaultHome } from "@/lib/defaults";
-import type { NewsEvent } from "@/lib/types";
+import type { GalleryItem, NewsEvent } from "@/lib/types";
+
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
+
+function gallerySlug(item: GalleryItem) {
+  return item.slug || slugify(item.title);
+}
+
+function selectedGallery(items: GalleryItem[], slugs?: string[]) {
+  if (!slugs?.length) return [];
+  const bySlug = new Map(items.map((item) => [gallerySlug(item), item]));
+  return slugs.map((slug) => bySlug.get(slug)).filter((item): item is GalleryItem => Boolean(item));
+}
+
+function galleryCover(item?: GalleryItem) {
+  return item?.coverImage || item?.image || item?.images?.[0];
+}
 
 function selectedSet(items?: string[]) {
   return new Set(items || []);
@@ -22,9 +43,10 @@ export default async function AdminHomePage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [home, news, params] = await Promise.all([
+  const [home, news, gallery, params] = await Promise.all([
     getHomePage(),
     getNewsEvents(false),
+    getGalleryItems(false),
     searchParams,
   ]);
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
@@ -38,6 +60,19 @@ export default async function AdminHomePage({
   const selectedNotices = selectedSet(home.selectedNoticeSlugs);
   const selectedEvents = selectedSet(
     home.selectedEventSlugs?.length ? home.selectedEventSlugs : home.selectedNewsSlugs?.slice(1),
+  );
+  const selectedHomeGallery = selectedGallery(gallery, home.selectedGallerySlugs);
+  const selectedHomeGallerySlugs = new Set(selectedHomeGallery.map(gallerySlug));
+  const visibleGallery = (
+    selectedHomeGallery.length
+      ? [
+          ...selectedHomeGallery,
+          ...gallery.filter((item) => !selectedHomeGallerySlugs.has(gallerySlug(item))),
+        ]
+      : gallery
+  ).slice(0, 3);
+  const galleryMosaicImages = [0, 1, 2].map(
+    (index) => home.galleryMosaicImages?.[index] || galleryCover(visibleGallery[index]),
   );
   return (
     <>
@@ -416,7 +451,7 @@ export default async function AdminHomePage({
                   key={`gallery-slot-${index}`}
                   name={`galleryMosaicImage${index}`}
                   label={index === 0 ? "Large Left Photo" : `Right Photo ${index}`}
-                  image={home.galleryMosaicImages?.[index]}
+                  image={galleryMosaicImages[index]}
                 />
               ))}
             </div>
