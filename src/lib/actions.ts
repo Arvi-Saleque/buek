@@ -73,6 +73,11 @@ function selectedValues(formData: FormData, key: string) {
     .filter(Boolean);
 }
 
+function uniqueSelectedValues(formData: FormData, key: string, limit?: number) {
+  const values = Array.from(new Set(selectedValues(formData, key)));
+  return typeof limit === "number" ? values.slice(0, limit) : values;
+}
+
 function listItems(formData: FormData, key: string) {
   return lines(formData, key)
     .map((line) => {
@@ -412,10 +417,16 @@ export async function saveHomeAction(formData: FormData) {
     galleryPrimaryHref: value(formData, "galleryPrimaryHref") || "/gallery",
     gallerySecondaryLabel: value(formData, "gallerySecondaryLabel"),
     gallerySecondaryHref: value(formData, "gallerySecondaryHref") || "/about",
-    galleryPageEyebrow: value(formData, "galleryPageEyebrow"),
-    galleryPageTitle: value(formData, "galleryPageTitle"),
-    galleryPageBody: value(formData, "galleryPageBody"),
-    selectedGallerySlugs: selectedValues(formData, "selectedGallerySlugs"),
+    galleryPageEyebrow: formData.has("galleryPageEyebrow")
+      ? value(formData, "galleryPageEyebrow")
+      : current.galleryPageEyebrow,
+    galleryPageTitle: formData.has("galleryPageTitle")
+      ? value(formData, "galleryPageTitle")
+      : current.galleryPageTitle,
+    galleryPageBody: formData.has("galleryPageBody")
+      ? value(formData, "galleryPageBody")
+      : current.galleryPageBody,
+    selectedGallerySlugs: uniqueSelectedValues(formData, "selectedGallerySlugs", 3),
     notices: formData.has("noticeItemTitle") ? notices(formData) : current.notices,
     ctaEyebrow: value(formData, "ctaEyebrow"),
     ctaTitle: value(formData, "ctaTitle"),

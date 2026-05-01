@@ -164,7 +164,15 @@ export default async function HomePage() {
     ? selectedNoticeItems
     : normalizeNotices(home.notices || []);
   const selectedHomeGallery = selectedGallery(gallery, home.selectedGallerySlugs);
-  const visibleGallery = selectedHomeGallery.length ? selectedHomeGallery : gallery;
+  const selectedHomeGallerySlugs = new Set(selectedHomeGallery.map(gallerySlug));
+  const visibleGallery = (
+    selectedHomeGallery.length
+      ? [
+          ...selectedHomeGallery,
+          ...gallery.filter((item) => !selectedHomeGallerySlugs.has(gallerySlug(item))),
+        ]
+      : gallery
+  ).slice(0, 3);
   const galleryCovers = visibleGallery.map((item) => galleryCover(item));
   const quickAccessCards: HomeQuickAccessCard[] = home.quickAccessCards?.length
     ? home.quickAccessCards

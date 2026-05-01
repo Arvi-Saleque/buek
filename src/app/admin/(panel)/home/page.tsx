@@ -55,7 +55,7 @@ export default async function AdminHomePage({
   const selectedEvents = selectedSet(
     home.selectedEventSlugs?.length ? home.selectedEventSlugs : home.selectedNewsSlugs?.slice(1),
   );
-  const selectedGallery = selectedSet(home.selectedGallerySlugs);
+  const selectedGallerySlugs = home.selectedGallerySlugs?.slice(0, 3) || [];
 
   return (
     <>
@@ -383,7 +383,12 @@ export default async function AdminHomePage({
         </section>
 
         <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Gallery Section</h2>
+          <div>
+            <h2 className="text-lg font-bold text-university-navy">Campus Life Section</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Control the homepage Campus Life copy and select exactly three existing gallery albums for the photo mosaic.
+            </p>
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Small Label</span>
@@ -419,29 +424,33 @@ export default async function AdminHomePage({
             <textarea name="galleryQuote" defaultValue={home.galleryQuote || defaultHome.galleryQuote} rows={2} className="field" />
           </label>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="font-bold text-slate-800">Gallery Listing Hero</p>
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <input name="galleryPageEyebrow" defaultValue={home.galleryPageEyebrow || defaultHome.galleryPageEyebrow} placeholder="Listing hero label" className="field bg-white" />
-              <input name="galleryPageTitle" defaultValue={home.galleryPageTitle || defaultHome.galleryPageTitle} placeholder="Listing hero title" className="field bg-white" />
-            </div>
-            <textarea name="galleryPageBody" defaultValue={home.galleryPageBody || defaultHome.galleryPageBody} rows={3} placeholder="Listing hero body" className="field mt-4 bg-white" />
-          </div>
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="font-bold text-slate-800">Select Existing Gallery Albums</p>
-            <p className="mt-1 text-sm text-slate-600">Choose albums to appear in the homepage gallery mosaic. No gallery item is created here.</p>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {gallery.map((item) => {
-                const slug = gallerySlug(item);
-                return (
-                  <label key={slug} className="flex gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm">
-                    <input type="checkbox" name="selectedGallerySlugs" value={slug} defaultChecked={selectedGallery.has(slug)} className="mt-1" />
-                    <span>
-                      <span className="block font-bold text-university-navy">{item.title}</span>
-                      <span className="text-slate-500">{galleryOptionLabel(item)}</span>
-                    </span>
-                  </label>
-                );
-              })}
+            <p className="font-bold text-slate-800">Homepage Mosaic Photos</p>
+            <p className="mt-1 text-sm text-slate-600">
+              Select three existing gallery albums. Slot 1 is the large left photo, slots 2 and 3 are the right photos.
+            </p>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {[0, 1, 2].map((index) => (
+                <label key={`gallery-slot-${index}`}>
+                  <span className="label">
+                    {index === 0 ? "Large Left Photo" : `Right Photo ${index}`}
+                  </span>
+                  <select
+                    name="selectedGallerySlugs"
+                    defaultValue={selectedGallerySlugs[index] || ""}
+                    className="field bg-white"
+                  >
+                    <option value="">Use next available gallery album</option>
+                    {gallery.map((item) => {
+                      const slug = gallerySlug(item);
+                      return (
+                        <option key={`${index}-${slug}`} value={slug}>
+                          {galleryOptionLabel(item)}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </label>
+              ))}
               {!gallery.length ? <p className="text-sm text-slate-500">No gallery albums found. Add them from Gallery first.</p> : null}
             </div>
           </div>
