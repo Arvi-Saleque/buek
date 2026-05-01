@@ -391,9 +391,15 @@ export async function saveHomeAction(formData: FormData) {
     newsBody: value(formData, "newsBody"),
     newsButtonLabel: value(formData, "newsButtonLabel"),
     newsButtonHref: value(formData, "newsButtonHref") || "/news-events",
-    newsPageEyebrow: value(formData, "newsPageEyebrow"),
-    newsPageTitle: value(formData, "newsPageTitle"),
-    newsPageBody: value(formData, "newsPageBody"),
+    newsPageEyebrow: formData.has("newsPageEyebrow")
+      ? value(formData, "newsPageEyebrow")
+      : current.newsPageEyebrow,
+    newsPageTitle: formData.has("newsPageTitle")
+      ? value(formData, "newsPageTitle")
+      : current.newsPageTitle,
+    newsPageBody: formData.has("newsPageBody")
+      ? value(formData, "newsPageBody")
+      : current.newsPageBody,
     selectedMainNewsSlug,
     selectedNewsSlugs: [selectedMainNewsSlug, ...selectedEventSlugs].filter(Boolean),
     selectedNoticeSlugs: selectedValues(formData, "selectedNoticeSlugs"),
