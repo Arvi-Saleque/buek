@@ -62,12 +62,12 @@ export default async function AdminDashboardPage() {
         title="Dashboard"
         body="Quick overview of editable content and recent contact submissions."
       />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((item) => (
           <Link
             key={item.label}
             href={item.href}
-            className="group rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-university-gold/60 hover:shadow-soft"
+            className="group rounded-lg border border-university-line bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-university-gold/60 hover:shadow-soft sm:p-5"
           >
             <span className="grid h-12 w-12 place-items-center rounded-md bg-university-navy text-university-gold transition group-hover:bg-university-gold group-hover:text-university-navy">
               <item.icon size={24} />
@@ -79,8 +79,8 @@ export default async function AdminDashboardPage() {
       </div>
 
       <section className="mt-6 overflow-hidden rounded-lg border border-university-line bg-white shadow-sm">
-        <div className="relative overflow-hidden bg-university-navy px-6 py-6 text-white">
-          <div className="absolute right-6 top-5 text-white/[0.08]">
+        <div className="relative overflow-hidden bg-university-navy px-4 py-6 text-white sm:px-6">
+          <div className="absolute right-4 top-5 text-white/[0.08] sm:right-6">
             <Inbox size={110} />
           </div>
           <div className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -103,7 +103,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         {recentMessages.length ? (
-          <div className="grid gap-4 p-5 lg:grid-cols-2">
+          <div className="grid gap-4 p-4 lg:grid-cols-2 sm:p-5">
             {recentMessages.map((message) => (
               <article
                 key={`${message.email}-${message.createdAt}`}

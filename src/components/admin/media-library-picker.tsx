@@ -166,14 +166,14 @@ function MediaLibraryModal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/60 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 bg-slate-950/60 p-2 backdrop-blur-sm sm:p-4">
       <div className="mx-auto flex h-full max-h-[920px] max-w-6xl flex-col overflow-hidden rounded-lg bg-white shadow-2xl">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
-          <div>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-4 sm:px-5">
+          <div className="min-w-0">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-university-gold">
               Media Library
             </p>
-            <h2 className="text-xl font-bold text-university-navy">
+            <h2 className="truncate text-lg font-bold text-university-navy sm:text-xl">
               Choose from Cloudinary
             </h2>
           </div>
@@ -187,7 +187,7 @@ function MediaLibraryModal({
           </button>
         </div>
 
-        <div className="border-b border-slate-200 p-4">
+        <div className="border-b border-slate-200 p-3 sm:p-4">
           <label className="relative block">
             <Search
               size={17}
@@ -202,7 +202,7 @@ function MediaLibraryModal({
           </label>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto p-4">
+        <div className="min-h-0 flex-1 overflow-y-auto p-3 sm:p-4">
           {error ? (
             <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">
               {error}
@@ -297,7 +297,7 @@ function MediaLibraryModal({
         </div>
 
         {multiple ? (
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 px-5 py-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 px-4 py-4 sm:px-5">
             <p className="text-sm font-semibold text-slate-600">
               {draftSelected.length} selected
             </p>
