@@ -304,14 +304,14 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mx-auto flex max-w-[1120px] flex-wrap justify-center gap-px overflow-hidden rounded-lg bg-university-line">
+          <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {academicCards.map((card, index) => {
               const Icon = quickAccessIconMap[card.icon] || BookOpen;
 
               return (
                 <div
                   key={`${card.title}-${index}`}
-                  className="group flex min-h-56 w-full flex-col items-center justify-center gap-5 bg-white px-8 py-12 text-center transition hover:bg-university-mist hover:shadow-inner sm:w-[280px]"
+                  className="group flex min-h-60 flex-col items-center justify-center gap-5 px-8 py-14 text-center transition hover:-translate-y-1"
                 >
                   <span className="grid h-20 w-20 place-items-center rounded-full border-2 border-university-line text-university-navy/40 transition group-hover:border-university-gold group-hover:text-university-gold">
                     <Icon size={32} strokeWidth={1.5} />
