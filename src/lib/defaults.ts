@@ -101,6 +101,13 @@ export const defaultHome: HomePage = {
       href: "/contact",
     },
   ],
+  quickAccessCards: [
+    { icon: "ClipboardList", title: "Admissions", subtitle: "How to apply", href: "/contact" },
+    { icon: "GraduationCap", title: "Academic Programs", subtitle: "Courses & faculty", href: "/academic" },
+    { icon: "HeartHandshake", title: "Student Support", subtitle: "Guidance & welfare", href: "/contact" },
+    { icon: "Bell", title: "Notice Board", subtitle: "Latest notices", href: "/news-events" },
+    { icon: "FileText", title: "Apply Now", subtitle: "Start your journey", href: "/contact" },
+  ],
   academicEyebrow: "Academics",
   academicTitle: "Academic Excellence With Purpose",
   academicBody:

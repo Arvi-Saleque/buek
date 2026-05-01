@@ -124,6 +124,22 @@ function featureRows(formData: FormData) {
     .filter((item) => item.title && item.body);
 }
 
+function quickAccessCards(formData: FormData) {
+  const icons = formData.getAll("quickAccessIcon").map((item) => String(item).trim());
+  const titles = formData.getAll("quickAccessTitle").map((item) => String(item).trim());
+  const subtitles = formData.getAll("quickAccessSubtitle").map((item) => String(item).trim());
+  const hrefs = formData.getAll("quickAccessHref").map((item) => String(item).trim());
+
+  return titles
+    .map((title, index) => ({
+      icon: icons[index] || "ClipboardList",
+      title,
+      subtitle: subtitles[index] || "",
+      href: hrefs[index] || "/",
+    }))
+    .filter((item) => item.title && item.href);
+}
+
 function departmentContacts(formData: FormData): DepartmentContact[] {
   const titles = formData.getAll("departmentTitle").map((item) => String(item).trim());
   const bodies = formData.getAll("departmentBody").map((item) => String(item).trim());
@@ -345,6 +361,7 @@ export async function saveHomeAction(formData: FormData) {
     featureTitle: value(formData, "featureTitle") || current.featureTitle,
     featureBody: value(formData, "featureBody") || current.featureBody,
     featureCards: formData.has("featureCardTitle") ? featureRows(formData) : current.featureCards,
+    quickAccessCards: quickAccessCards(formData),
     academicEyebrow: value(formData, "academicEyebrow"),
     academicTitle: value(formData, "academicTitle"),
     academicBody: value(formData, "academicBody"),

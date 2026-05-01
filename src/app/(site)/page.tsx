@@ -31,7 +31,7 @@ import {
   getNewsEvents,
 } from "@/lib/content";
 import { defaultHome, defaultNews } from "@/lib/defaults";
-import type { GalleryItem, HomeNotice, NewsEvent } from "@/lib/types";
+import type { GalleryItem, HomeNotice, HomeQuickAccessCard, NewsEvent } from "@/lib/types";
 
 // Maps program names (lower-cased substrings) to icons
 const programIconMap: [string, React.ElementType][] = [
@@ -55,13 +55,18 @@ function getProgramIcon(name: string): React.ElementType {
   return programIconMap.find(([key]) => lower.includes(key))?.[1] ?? FlaskConical;
 }
 
-const quickAccessItems = [
-  { href: "/contact",     icon: ClipboardList,  label: "Admissions",        sub: "How to apply" },
-  { href: "/academic",    icon: GraduationCap,  label: "Academic Programs",  sub: "Courses & faculty" },
-  { href: "/contact",    icon: HeartHandshake, label: "Student Support",    sub: "Guidance & welfare" },
-  { href: "/news-events", icon: Bell,           label: "Notice Board",       sub: "Latest notices" },
-  { href: "/contact",    icon: FileText,       label: "Apply Now",          sub: "Start your journey" },
-];
+const quickAccessIconMap: Record<string, React.ElementType> = {
+  Bell,
+  BookOpen,
+  CalendarDays,
+  ClipboardList,
+  FileText,
+  GraduationCap,
+  HeartHandshake,
+  Images,
+  Landmark,
+  Users,
+};
 
 function normalizeNotices(notices: unknown[]) {
   return notices
@@ -165,6 +170,9 @@ export default async function HomePage() {
   const selectedHomeGallery = selectedGallery(gallery, home.selectedGallerySlugs);
   const visibleGallery = selectedHomeGallery.length ? selectedHomeGallery : gallery;
   const galleryCovers = visibleGallery.map((item) => galleryCover(item));
+  const quickAccessCards: HomeQuickAccessCard[] = home.quickAccessCards?.length
+    ? home.quickAccessCards
+    : defaultHome.quickAccessCards || [];
   const ctaBackground =
     home.ctaBackgroundImage?.url ||
     "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=85";
@@ -257,9 +265,12 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 md:gap-4">
-            {quickAccessItems.map(({ href, icon: Icon, label, sub }) => (
+            {quickAccessCards.map(({ href, icon, title, subtitle }, index) => {
+              const Icon = quickAccessIconMap[icon] || ClipboardList;
+
+              return (
               <Link
-                key={label}
+                key={`${title}-${href}-${index}`}
                 href={href}
                 className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm transition hover:-translate-y-1 hover:border-university-gold/60 hover:bg-white/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:flex-col md:items-start md:gap-2 md:px-5 md:py-5"
               >
@@ -268,16 +279,17 @@ export default async function HomePage() {
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-bold leading-tight text-white">
-                    {label}
+                    {title}
                   </span>
-                  <span className="mt-0.5 hidden text-xs text-white/60 md:block">{sub}</span>
+                  <span className="mt-0.5 hidden text-xs text-white/60 md:block">{subtitle}</span>
                 </span>
                 <ArrowRight
                   size={14}
                   className="ml-auto shrink-0 text-university-gold opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100 md:hidden"
                 />
               </Link>
-            ))}
+              );
+            })}
           </div>
         </Container>
       </section>

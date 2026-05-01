@@ -1,6 +1,7 @@
 import { BookOpen, CalendarDays, ImageIcon, Quote } from "lucide-react";
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ImageField } from "@/components/admin/image-field";
+import { QuickAccessCardEditor } from "@/components/admin/quick-access-card-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveHomeAction } from "@/lib/actions";
 import { getGalleryItems, getHomePage, getNewsEvents } from "@/lib/content";
@@ -42,6 +43,9 @@ export default async function AdminHomePage({
     searchParams,
   ]);
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
+  const quickAccessCards = home.quickAccessCards?.length
+    ? home.quickAccessCards
+    : defaultHome.quickAccessCards || [];
   const selectedNews = selectedSet(home.selectedNewsSlugs);
   const selectedNotices = selectedSet(home.selectedNoticeSlugs);
   const selectedGallery = selectedSet(home.selectedGallerySlugs);
@@ -218,6 +222,16 @@ export default async function AdminHomePage({
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="admin-card grid gap-4">
+          <div>
+            <h2 className="text-lg font-bold text-university-navy">Quick Access Section</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Add and delete the homepage shortcut cards. Each card uses a selected icon, heading, sub-heading, and navigation link.
+            </p>
+          </div>
+          <QuickAccessCardEditor cards={quickAccessCards} />
         </section>
 
         <section className="admin-card grid gap-4">
