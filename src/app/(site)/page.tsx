@@ -304,19 +304,19 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mx-auto grid w-fit max-w-full justify-center gap-px overflow-hidden rounded-lg bg-university-line [grid-template-columns:repeat(auto-fit,minmax(190px,230px))]">
+          <div className="mx-auto flex max-w-[1120px] flex-wrap justify-center gap-px overflow-hidden rounded-lg bg-university-line">
             {academicCards.map((card, index) => {
               const Icon = quickAccessIconMap[card.icon] || BookOpen;
 
               return (
                 <div
                   key={`${card.title}-${index}`}
-                  className="group flex min-h-48 flex-col items-center justify-center gap-4 bg-white px-7 py-11 text-center transition hover:bg-university-mist hover:shadow-inner"
+                  className="group flex min-h-56 w-full flex-col items-center justify-center gap-5 bg-white px-8 py-12 text-center transition hover:bg-university-mist hover:shadow-inner sm:w-[280px]"
                 >
-                  <span className="grid h-16 w-16 place-items-center rounded-full border-2 border-university-line text-university-navy/40 transition group-hover:border-university-gold group-hover:text-university-gold">
-                    <Icon size={28} strokeWidth={1.5} />
+                  <span className="grid h-20 w-20 place-items-center rounded-full border-2 border-university-line text-university-navy/40 transition group-hover:border-university-gold group-hover:text-university-gold">
+                    <Icon size={32} strokeWidth={1.5} />
                   </span>
-                  <span className="text-sm font-semibold leading-snug text-ink transition group-hover:text-university-navy">
+                  <span className="text-base font-semibold leading-snug text-ink transition group-hover:text-university-navy">
                     {card.title}
                   </span>
                 </div>
