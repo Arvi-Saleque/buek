@@ -3,6 +3,7 @@ import { AcademicCardEditor } from "@/components/admin/academic-card-editor";
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ImageField } from "@/components/admin/image-field";
 import { QuickAccessCardEditor } from "@/components/admin/quick-access-card-editor";
+import { StringListEditor } from "@/components/admin/string-list-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveHomeAction } from "@/lib/actions";
 import { getGalleryItems, getHomePage, getNewsEvents } from "@/lib/content";
@@ -490,16 +491,15 @@ export default async function AdminHomePage({
             <span className="label">CTA Body</span>
             <textarea name="ctaBody" defaultValue={home.ctaBody} rows={3} className="field" />
           </label>
-          <label>
+          <div>
             <span className="label">Trust Badges</span>
-            <textarea
-              name="ctaTrustBadges"
-              defaultValue={(home.ctaTrustBadges?.length ? home.ctaTrustBadges : defaultHome.ctaTrustBadges || []).join("\n")}
-              rows={4}
-              placeholder="One badge per line"
-              className="field"
+            <StringListEditor
+              fieldName="ctaTrustBadges"
+              itemLabel="Trust Badge"
+              items={home.ctaTrustBadges?.length ? home.ctaTrustBadges : defaultHome.ctaTrustBadges || []}
+              placeholder="Government Recognised"
             />
-          </label>
+          </div>
           <ImageField name="ctaBackgroundImage" label="CTA Background Image" image={home.ctaBackgroundImage || defaultHome.ctaBackgroundImage} />
         </section>
 

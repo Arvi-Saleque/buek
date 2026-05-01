@@ -5,13 +5,18 @@ import {
   Award,
   BookOpenCheck,
   BriefcaseBusiness,
+  CheckCircle2,
   ClipboardCheck,
   GraduationCap,
+  HeartHandshake,
   Handshake,
   Quote,
   ShieldCheck,
+  Target,
   UserRound,
+  Users,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage, getSiteSettings } from "@/lib/content";
@@ -19,6 +24,20 @@ import { defaultAbout } from "@/lib/defaults";
 import type { EditableListItem } from "@/lib/types";
 
 const commitmentIcons = [GraduationCap, UserRound, ShieldCheck, BriefcaseBusiness];
+const editableIconMap: Record<string, LucideIcon> = {
+  Award,
+  BookOpen: BookOpenCheck,
+  BookOpenCheck,
+  BriefcaseBusiness,
+  CheckCircle2,
+  ClipboardList: ClipboardCheck,
+  GraduationCap,
+  HeartHandshake,
+  Shield: ShieldCheck,
+  ShieldCheck,
+  Target,
+  Users,
+};
 
 function paragraphs(text: string) {
   return text
@@ -138,7 +157,7 @@ export default async function ChairmanMessagePage() {
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {commitments.map((item, index) => {
-              const Icon = commitmentIcons[index % commitmentIcons.length];
+              const Icon = (item.icon ? editableIconMap[item.icon] : undefined) || commitmentIcons[index % commitmentIcons.length];
 
               return (
                 <article
@@ -213,6 +232,7 @@ export default async function ChairmanMessagePage() {
             {relatedLinks.map((item, index) => {
               const icons = [ClipboardCheck, BookOpenCheck, Award, Handshake];
               const Icon = icons[index % icons.length];
+              const LinkIcon = (item.icon ? editableIconMap[item.icon] : undefined) || Icon;
 
               return (
                 <Link
@@ -220,7 +240,7 @@ export default async function ChairmanMessagePage() {
                   href={item.body || "#"}
                   className="group rounded-lg border border-university-line bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-university-gold hover:shadow-soft"
                 >
-                  <Icon size={24} className="text-university-gold" />
+                  <LinkIcon size={24} className="text-university-gold" />
                   <span className="mt-4 flex items-center justify-between gap-3 font-bold text-university-navy">
                     {item.title}
                     <ArrowRight

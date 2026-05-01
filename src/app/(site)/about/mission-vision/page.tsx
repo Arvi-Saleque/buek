@@ -2,8 +2,12 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpenCheck,
+  BriefcaseBusiness,
+  CheckCircle2,
+  ClipboardList,
   Compass,
   GraduationCap,
+  HeartHandshake,
   Handshake,
   Lightbulb,
   Quote,
@@ -13,6 +17,7 @@ import {
   Telescope,
   Users,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage } from "@/lib/content";
@@ -21,6 +26,20 @@ import type { EditableListItem } from "@/lib/types";
 
 const missionIcons = [GraduationCap, Users, Lightbulb, ShieldCheck, Handshake, Target];
 const valueIcons = [BookOpenCheck, ShieldCheck, Sparkles, Users, Compass, Handshake, Target, Lightbulb];
+const editableIconMap: Record<string, LucideIcon> = {
+  BookOpen: BookOpenCheck,
+  BookOpenCheck,
+  BriefcaseBusiness,
+  CheckCircle2,
+  ClipboardList,
+  GraduationCap,
+  HeartHandshake,
+  Lightbulb,
+  Shield: ShieldCheck,
+  ShieldCheck,
+  Target,
+  Users,
+};
 
 function items(value?: EditableListItem[]) {
   return value?.length ? value : [];
@@ -86,7 +105,7 @@ export default async function MissionVisionPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {missionPoints.map((item, index) => {
-                const Icon = missionIcons[index % missionIcons.length];
+                const Icon = (item.icon ? editableIconMap[item.icon] : undefined) || missionIcons[index % missionIcons.length];
 
                 return (
                   <article
@@ -122,7 +141,7 @@ export default async function MissionVisionPage() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {coreValues.map((item, index) => {
-              const Icon = valueIcons[index % valueIcons.length];
+              const Icon = (item.icon ? editableIconMap[item.icon] : undefined) || valueIcons[index % valueIcons.length];
 
               return (
                 <article

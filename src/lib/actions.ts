@@ -61,7 +61,10 @@ function refreshPublicContent(...tags: string[]) {
 }
 
 function lines(formData: FormData, key: string) {
-  return value(formData, key)
+  const values = formData.getAll(key).map((item) => String(item).trim());
+  const source = values.length > 1 ? values.join("\n") : values[0] || "";
+
+  return source
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
@@ -80,6 +83,20 @@ function uniqueSelectedValues(formData: FormData, key: string, limit?: number) {
 }
 
 function listItems(formData: FormData, key: string) {
+  const titles = formData.getAll(`${key}Title`).map((item) => String(item).trim());
+  const bodies = formData.getAll(`${key}Body`).map((item) => String(item).trim());
+  const icons = formData.getAll(`${key}Icon`).map((item) => String(item).trim());
+
+  if (titles.length || bodies.length || icons.length) {
+    return titles
+      .map((title, index) => ({
+        icon: icons[index] || undefined,
+        title,
+        body: bodies[index] || "",
+      }))
+      .filter((item) => item.title && item.body);
+  }
+
   return lines(formData, key)
     .map((line) => {
       const [title = "", ...bodyParts] = line.split("|");
@@ -108,8 +125,14 @@ function notices(formData: FormData) {
 }
 
 function downloads(formData: FormData) {
-  const labels = formData.getAll("downloadLabel").map((item) => String(item).trim());
-  const hrefs = formData.getAll("downloadHref").map((item) => String(item).trim());
+  const labels = [
+    ...formData.getAll("downloadLabel"),
+    ...formData.getAll("downloadTitle"),
+  ].map((item) => String(item).trim());
+  const hrefs = [
+    ...formData.getAll("downloadHref"),
+    ...formData.getAll("downloadBody"),
+  ].map((item) => String(item).trim());
 
   return labels
     .map((label, index) => ({ label, href: hrefs[index] || "" }))

@@ -1,9 +1,9 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { EditableListEditor } from "@/components/admin/editable-list-editor";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveChairmanMessageAction } from "@/lib/actions";
 import { getAboutPage } from "@/lib/content";
-import { editableRows } from "@/lib/editable-rows";
 
 export default async function AdminChairmanMessagePage({
   searchParams,
@@ -187,28 +187,22 @@ export default async function AdminChairmanMessagePage({
               className="field"
             />
           </label>
-          <div className="grid gap-4 md:grid-cols-2">
-            <label>
-              <span className="label">Leadership Commitments</span>
-              <textarea
-                name="chairmanCommitments"
-                defaultValue={editableRows(about.chairmanCommitments)}
-                rows={6}
-                placeholder="Title | Short description"
-                className="field"
-              />
-            </label>
-            <label>
-              <span className="label">Priorities for the Future</span>
-              <textarea
-                name="chairmanPriorities"
-                defaultValue={editableRows(about.chairmanPriorities)}
-                rows={6}
-                placeholder="Title | Short description"
-                className="field"
-              />
-            </label>
-          </div>
+          <EditableListEditor
+            fieldName="chairmanCommitments"
+            itemLabel="Leadership Commitment"
+            items={about.chairmanCommitments}
+            withIcon
+            defaultIcon="GraduationCap"
+            titlePlaceholder="Academic Excellence"
+            bodyPlaceholder="Quality teaching, structured curriculum..."
+          />
+          <EditableListEditor
+            fieldName="chairmanPriorities"
+            itemLabel="Future Priority"
+            items={about.chairmanPriorities}
+            titlePlaceholder="Strengthening Academic Programs"
+            bodyPlaceholder="Continuous review of curriculum..."
+          />
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Related Links Eyebrow</span>
@@ -227,16 +221,18 @@ export default async function AdminChairmanMessagePage({
               />
             </label>
           </div>
-          <label>
-            <span className="label">Related Links</span>
-            <textarea
-              name="chairmanRelatedLinks"
-              defaultValue={editableRows(about.chairmanRelatedLinks)}
-              rows={4}
-              placeholder="Label | /page-url"
-              className="field"
-            />
-          </label>
+          <EditableListEditor
+            fieldName="chairmanRelatedLinks"
+            itemLabel="Related Link"
+            items={about.chairmanRelatedLinks}
+            withIcon
+            defaultIcon="ClipboardList"
+            titleLabel="Label"
+            bodyLabel="URL"
+            bodyAsInput
+            titlePlaceholder="Mission & Vision"
+            bodyPlaceholder="/about/mission-vision"
+          />
         </section>
 
         <button className="btn-primary w-fit">Save Chairman Message</button>

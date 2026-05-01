@@ -11,6 +11,7 @@ import {
 import { AdminHeading } from "@/components/admin/admin-heading";
 import { ConfirmDangerButton } from "@/components/admin/confirm-danger-button";
 import { ImageField } from "@/components/admin/image-field";
+import { StringListEditor } from "@/components/admin/string-list-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import {
   deleteAllNewsEventsAction,
@@ -217,16 +218,15 @@ export default async function AdminNewsEventsPage({
                   {optionList(departments, editing?.department)}
                 </select>
               </label>
-              <label>
+              <div>
                 <span className="label">Tags</span>
-                <textarea
-                  name="tags"
-                  defaultValue={editing?.tags?.join("\n") || ""}
-                  placeholder="One tag per line or simple words"
-                  rows={3}
-                  className="field bg-white"
+                <StringListEditor
+                  fieldName="tags"
+                  itemLabel="Tag"
+                  items={editing?.tags?.length ? editing.tags : [""]}
+                  placeholder="Admission"
                 />
-              </label>
+              </div>
             </div>
             <label className="mt-4 block">
               <span className="label">Short Description / Excerpt</span>

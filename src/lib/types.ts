@@ -9,6 +9,7 @@ export type ImageAsset = {
 };
 
 export type EditableListItem = {
+  icon?: string;
   title: string;
   body: string;
 };

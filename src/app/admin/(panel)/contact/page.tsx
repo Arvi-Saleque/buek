@@ -1,4 +1,5 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { DepartmentContactEditor } from "@/components/admin/department-contact-editor";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveContactPageAction } from "@/lib/actions";
@@ -178,22 +179,7 @@ export default async function AdminContactPage({
             <span className="label">Section Body</span>
             <textarea name="departmentBody" defaultValue={contact.departmentBody || defaultContact.departmentBody} rows={3} className="field" />
           </label>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {[0, 1, 2, 3].map((index) => {
-              const department = departments[index] || defaultContact.departments?.[index];
-              return (
-                <div key={index} className="grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <h3 className="font-bold text-slate-800">Office {index + 1}</h3>
-                  <input name="departmentTitle" defaultValue={department?.title || ""} placeholder="Office name" className="field bg-white" />
-                  <textarea name="departmentBody" defaultValue={department?.body || ""} placeholder="Office responsibility" rows={3} className="field bg-white" />
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <input name="departmentEmail" defaultValue={department?.email || ""} placeholder="Email" className="field bg-white" />
-                    <input name="departmentPhone" defaultValue={department?.phone || ""} placeholder="Phone" className="field bg-white" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <DepartmentContactEditor departments={departments} />
         </section>
 
         <section className="admin-card grid gap-4">

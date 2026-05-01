@@ -1,11 +1,12 @@
 import { AboutWhyCardEditor } from "@/components/admin/about-why-card-editor";
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { EditableListEditor } from "@/components/admin/editable-list-editor";
 import { ImageField } from "@/components/admin/image-field";
+import { StringListEditor } from "@/components/admin/string-list-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveAboutAction } from "@/lib/actions";
 import { getAboutPage } from "@/lib/content";
 import { defaultAbout } from "@/lib/defaults";
-import { editableRows } from "@/lib/editable-rows";
 
 export default async function AdminAboutPage({
   searchParams,
@@ -108,27 +109,43 @@ export default async function AdminAboutPage({
             <input name="aboutPillarsEyebrow" defaultValue={about.aboutPillarsEyebrow || defaultAbout.aboutPillarsEyebrow} placeholder="Pillars eyebrow" className="field" />
             <input name="aboutPillarsTitle" defaultValue={about.aboutPillarsTitle || defaultAbout.aboutPillarsTitle} placeholder="Pillars title" className="field" />
           </div>
-          <label>
-            <span className="label">Pillars</span>
-            <textarea name="aboutPillars" defaultValue={editableRows(about.aboutPillars || defaultAbout.aboutPillars)} rows={5} placeholder="Title | Description" className="field" />
-          </label>
+          <EditableListEditor
+            fieldName="aboutPillars"
+            itemLabel="Pillar"
+            items={about.aboutPillars || defaultAbout.aboutPillars}
+            withIcon
+            defaultIcon="BookOpen"
+            titlePlaceholder="Academic Excellence"
+            bodyPlaceholder="Quality education built on a structured curriculum..."
+          />
           <div className="grid gap-4 md:grid-cols-2">
             <input name="aboutStatsEyebrow" defaultValue={about.aboutStatsEyebrow || defaultAbout.aboutStatsEyebrow} placeholder="Stats eyebrow" className="field" />
             <input name="aboutStatsTitle" defaultValue={about.aboutStatsTitle || defaultAbout.aboutStatsTitle} placeholder="Stats title" className="field" />
           </div>
-          <label>
-            <span className="label">Stats</span>
-            <textarea name="aboutStats" defaultValue={editableRows(about.aboutStats || defaultAbout.aboutStats)} rows={5} placeholder="Value | Label" className="field" />
-          </label>
+          <EditableListEditor
+            fieldName="aboutStats"
+            itemLabel="Stat"
+            items={about.aboutStats || defaultAbout.aboutStats}
+            titleLabel="Value"
+            bodyLabel="Label"
+            bodyAsInput
+            titlePlaceholder="10+"
+            bodyPlaceholder="Years of Excellence"
+          />
           <div className="grid gap-4 md:grid-cols-2">
             <input name="aboutJourneyEyebrow" defaultValue={about.aboutJourneyEyebrow || defaultAbout.aboutJourneyEyebrow} placeholder="Journey eyebrow" className="field" />
             <input name="aboutJourneyTitle" defaultValue={about.aboutJourneyTitle || defaultAbout.aboutJourneyTitle} placeholder="Journey title" className="field" />
           </div>
           <textarea name="aboutJourneyBody" defaultValue={about.aboutJourneyBody || defaultAbout.aboutJourneyBody} rows={3} className="field" />
-          <label>
-            <span className="label">Journey Items</span>
-            <textarea name="aboutJourneyItems" defaultValue={editableRows(about.aboutJourneyItems || defaultAbout.aboutJourneyItems)} rows={5} placeholder="Year | Description" className="field" />
-          </label>
+          <EditableListEditor
+            fieldName="aboutJourneyItems"
+            itemLabel="Journey Item"
+            items={about.aboutJourneyItems || defaultAbout.aboutJourneyItems}
+            titleLabel="Year"
+            bodyLabel="Description"
+            titlePlaceholder="2026"
+            bodyPlaceholder="New milestone description"
+          />
         </section>
 
         <section className="admin-card grid gap-4">
@@ -152,7 +169,15 @@ export default async function AdminAboutPage({
             <input name="aboutCampusTitle" defaultValue={about.aboutCampusTitle || defaultAbout.aboutCampusTitle} placeholder="Campus title" className="field" />
           </div>
           <textarea name="aboutCampusBody" defaultValue={about.aboutCampusBody || defaultAbout.aboutCampusBody} rows={3} className="field" />
-          <textarea name="aboutCampusFeatures" defaultValue={(about.aboutCampusFeatures || defaultAbout.aboutCampusFeatures || []).join("\n")} rows={4} placeholder="One feature per line" className="field" />
+          <div>
+            <span className="label">Campus Features</span>
+            <StringListEditor
+              fieldName="aboutCampusFeatures"
+              itemLabel="Feature"
+              items={about.aboutCampusFeatures || defaultAbout.aboutCampusFeatures}
+              placeholder="Modern Classrooms"
+            />
+          </div>
           <div className="grid gap-4 lg:grid-cols-3">
             <ImageField name="aboutCampusMainImage" label="Campus Main Image" image={about.aboutCampusMainImage || defaultAbout.aboutCampusMainImage} />
             <ImageField name="aboutCampusTopImage" label="Campus Top Image" image={about.aboutCampusTopImage || defaultAbout.aboutCampusTopImage} />

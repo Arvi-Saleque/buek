@@ -1,9 +1,9 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { EditableListEditor } from "@/components/admin/editable-list-editor";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveMissionVisionAction } from "@/lib/actions";
 import { getAboutPage } from "@/lib/content";
-import { editableRows } from "@/lib/editable-rows";
 
 export default async function AdminMissionVisionPage({
   searchParams,
@@ -150,16 +150,15 @@ export default async function AdminMissionVisionPage({
               />
             </label>
           </div>
-          <label>
-            <span className="label">Mission Points</span>
-            <textarea
-              name="missionPoints"
-              defaultValue={editableRows(about.missionPoints)}
-              rows={7}
-              placeholder="Title | Short description"
-              className="field"
-            />
-          </label>
+          <EditableListEditor
+            fieldName="missionPoints"
+            itemLabel="Mission Point"
+            items={about.missionPoints}
+            withIcon
+            defaultIcon="GraduationCap"
+            titlePlaceholder="Quality Higher Education"
+            bodyPlaceholder="Provide modern curriculum, experienced faculty..."
+          />
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Core Values Eyebrow</span>
@@ -178,16 +177,15 @@ export default async function AdminMissionVisionPage({
               />
             </label>
           </div>
-          <label>
-            <span className="label">Core Values</span>
-            <textarea
-              name="coreValues"
-              defaultValue={editableRows(about.coreValues)}
-              rows={8}
-              placeholder="Title | One-line explanation"
-              className="field"
-            />
-          </label>
+          <EditableListEditor
+            fieldName="coreValues"
+            itemLabel="Core Value"
+            items={about.coreValues}
+            withIcon
+            defaultIcon="BookOpen"
+            titlePlaceholder="Academic Excellence"
+            bodyPlaceholder="We pursue high standards in teaching..."
+          />
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">Strategic Focus Eyebrow</span>
@@ -206,16 +204,13 @@ export default async function AdminMissionVisionPage({
               />
             </label>
           </div>
-          <label>
-            <span className="label">Strategic Focus</span>
-            <textarea
-              name="strategicFocus"
-              defaultValue={editableRows(about.strategicFocus)}
-              rows={5}
-              placeholder="Title | Short description"
-              className="field"
-            />
-          </label>
+          <EditableListEditor
+            fieldName="strategicFocus"
+            itemLabel="Strategic Focus"
+            items={about.strategicFocus}
+            titlePlaceholder="Student-Centered Learning"
+            bodyPlaceholder="Modern teaching, mentoring, advising..."
+          />
           <label>
             <span className="label">Institutional Quote</span>
             <textarea

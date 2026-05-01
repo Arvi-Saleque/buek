@@ -1,5 +1,7 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { EditableListEditor } from "@/components/admin/editable-list-editor";
 import { ImageField } from "@/components/admin/image-field";
+import { StringListEditor } from "@/components/admin/string-list-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveAcademicAction } from "@/lib/actions";
 import { getAcademicPage } from "@/lib/content";
@@ -12,11 +14,8 @@ export default async function AdminAcademicPage({
 }) {
   const [academic, params] = await Promise.all([getAcademicPage(), searchParams]);
   const downloadRows = academic.downloads.length
-    ? academic.downloads
-    : [
-        { label: "", href: "" },
-        { label: "", href: "" },
-      ];
+    ? academic.downloads.map((item) => ({ title: item.label, body: item.href }))
+    : [{ title: "", body: "" }];
 
   return (
     <>
@@ -36,10 +35,15 @@ export default async function AdminAcademicPage({
             <span className="label">Overview</span>
             <textarea name="overview" defaultValue={academic.overview} required rows={5} className="field" />
           </label>
-          <label>
-            <span className="label">Programs, one per line</span>
-            <textarea name="programs" defaultValue={academic.programs.join("\n")} rows={7} className="field" />
-          </label>
+          <div>
+            <span className="label">Programs</span>
+            <StringListEditor
+              fieldName="programs"
+              itemLabel="Program"
+              items={academic.programs}
+              placeholder="Faculty of Engineering and Technology"
+            />
+          </div>
           <label>
             <span className="label">Program Card Body</span>
             <textarea name="programCardBody" defaultValue={academic.programCardBody || defaultAcademic.programCardBody} rows={3} className="field" />
@@ -59,16 +63,16 @@ export default async function AdminAcademicPage({
         </section>
         <section className="admin-card grid gap-4">
           <h2 className="text-lg font-bold text-university-navy">Download Links</h2>
-          {downloadRows.map((row, index) => (
-            <div key={index} className="grid gap-3 md:grid-cols-2">
-              <input name="downloadLabel" defaultValue={row.label} placeholder="Label" className="field" />
-              <input name="downloadHref" defaultValue={row.href} placeholder="URL" className="field" />
-            </div>
-          ))}
-          <div className="grid gap-3 md:grid-cols-2">
-            <input name="downloadLabel" placeholder="Additional label" className="field" />
-            <input name="downloadHref" placeholder="Additional URL" className="field" />
-          </div>
+          <EditableListEditor
+            fieldName="download"
+            itemLabel="Download Link"
+            items={downloadRows}
+            titleLabel="Label"
+            bodyLabel="URL"
+            bodyAsInput
+            titlePlaceholder="Academic Calendar"
+            bodyPlaceholder="/download-url"
+          />
         </section>
         <button className="btn-primary w-fit">Save Academic Content</button>
       </form>

@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage, getCommitteeMembers } from "@/lib/content";
@@ -27,6 +28,16 @@ const responsibilityIcons = [
   GraduationCap,
   ShieldCheck,
 ];
+const responsibilityIconMap: Record<string, LucideIcon> = {
+  BookOpen: BookOpenCheck,
+  BookOpenCheck,
+  CheckCircle2,
+  ClipboardList: ClipboardCheck,
+  GraduationCap,
+  Shield: ShieldCheck,
+  ShieldCheck,
+  Users,
+};
 
 const fallbackMemberPhotos = [
   "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85",
@@ -255,7 +266,7 @@ export default async function CommitteePage() {
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {responsibilities.map((item, index) => {
-              const Icon = responsibilityIcons[index % responsibilityIcons.length];
+              const Icon = (item.icon ? responsibilityIconMap[item.icon] : undefined) || responsibilityIcons[index % responsibilityIcons.length];
 
               return (
                 <article

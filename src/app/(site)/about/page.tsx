@@ -146,8 +146,8 @@ export default async function AboutPage() {
             <h2 className="text-3xl font-bold text-university-navy sm:text-4xl">{about.aboutPillarsTitle || defaultAbout.aboutPillarsTitle}</h2>
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
-            {pillars.map(({ title, body }, index) => {
-              const Icon = pillarIcons[index % pillarIcons.length];
+            {pillars.map(({ icon, title, body }, index) => {
+              const Icon = (icon ? whyIconMap[icon] : undefined) || pillarIcons[index % pillarIcons.length];
               return (
                 <div
                   key={title}

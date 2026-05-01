@@ -5,6 +5,7 @@ import {
   saveCommitteePageAction,
 } from "@/lib/actions";
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { EditableListEditor } from "@/components/admin/editable-list-editor";
 import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import {
@@ -12,7 +13,6 @@ import {
   getCommitteeMember,
   getCommitteeMembers,
 } from "@/lib/content";
-import { editableRows } from "@/lib/editable-rows";
 
 export default async function AdminCommitteePage({
   searchParams,
@@ -120,16 +120,15 @@ export default async function AdminCommitteePage({
               />
             </label>
           </div>
-          <label>
-            <span className="label">Committee Responsibilities</span>
-            <textarea
-              name="committeeResponsibilities"
-              defaultValue={editableRows(about.committeeResponsibilities)}
-              rows={6}
-              placeholder="Title | Short description"
-              className="field"
-            />
-          </label>
+          <EditableListEditor
+            fieldName="committeeResponsibilities"
+            itemLabel="Responsibility"
+            items={about.committeeResponsibilities}
+            withIcon
+            defaultIcon="BookOpen"
+            titlePlaceholder="Curriculum Review"
+            bodyPlaceholder="Planning, reviewing, and improving academic programs."
+          />
         </section>
 
         <section className="admin-card grid gap-4">
@@ -209,21 +208,24 @@ export default async function AdminCommitteePage({
             />
           </label>
           <label>
-            <span className="label">Related Documents</span>
+            <span className="label">Related Documents Title</span>
             <input
               name="committeeDocumentsTitle"
               defaultValue={about.committeeDocumentsTitle || ""}
               placeholder="Related Documents"
-              className="field mb-3"
-            />
-            <textarea
-              name="committeeDocuments"
-              defaultValue={editableRows(about.committeeDocuments)}
-              rows={4}
-              placeholder="Document label | /download-url"
               className="field"
             />
           </label>
+          <EditableListEditor
+            fieldName="committeeDocuments"
+            itemLabel="Document Link"
+            items={about.committeeDocuments}
+            titleLabel="Document Label"
+            bodyLabel="URL"
+            bodyAsInput
+            titlePlaceholder="Academic Committee Policy"
+            bodyPlaceholder="/download-url"
+          />
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="label">CTA Eyebrow</span>
@@ -296,11 +298,18 @@ export default async function AdminCommitteePage({
             </label>
             <label>
               <span className="label">Committee Role</span>
-              <input
+              <select
                 name="committeeRole"
                 defaultValue={editing?.committeeRole || "Member"}
                 className="field"
-              />
+              >
+                <option>Chairperson</option>
+                <option>Secretary</option>
+                <option>Convener</option>
+                <option>Member</option>
+                <option>Advisor</option>
+                <option>Coordinator</option>
+              </select>
             </label>
             <label>
               <span className="label">Department</span>
