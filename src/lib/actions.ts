@@ -347,6 +347,15 @@ export async function saveHomeAction(formData: FormData) {
   const current = await getHomePage();
   const selectedMainNewsSlug = value(formData, "selectedMainNewsSlug");
   const selectedEventSlugs = selectedValues(formData, "selectedEventSlugs");
+  const galleryMosaicImages = await Promise.all(
+    [0, 1, 2].map(async (index) =>
+      (await imageFromForm(
+        formData,
+        `galleryMosaicImage${index}`,
+        "university/home/gallery",
+      )) || current.galleryMosaicImages?.[index],
+    ),
+  );
   const slides = await Promise.all(
     [0, 1, 2].map(async (index) => ({
       eyebrow: value(formData, `slideEyebrow${index}`),
@@ -426,7 +435,12 @@ export async function saveHomeAction(formData: FormData) {
     galleryPageBody: formData.has("galleryPageBody")
       ? value(formData, "galleryPageBody")
       : current.galleryPageBody,
-    selectedGallerySlugs: uniqueSelectedValues(formData, "selectedGallerySlugs", 3),
+    galleryMosaicImages: galleryMosaicImages.filter(
+      (image): image is ImageAsset => Boolean(image?.url),
+    ),
+    selectedGallerySlugs: formData.has("selectedGallerySlugs")
+      ? uniqueSelectedValues(formData, "selectedGallerySlugs", 3)
+      : current.selectedGallerySlugs,
     notices: formData.has("noticeItemTitle") ? notices(formData) : current.notices,
     ctaEyebrow: value(formData, "ctaEyebrow"),
     ctaTitle: value(formData, "ctaTitle"),

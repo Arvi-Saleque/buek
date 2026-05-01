@@ -114,6 +114,7 @@ export type HomePage = {
   galleryPageEyebrow?: string;
   galleryPageTitle?: string;
   galleryPageBody?: string;
+  galleryMosaicImages?: ImageAsset[];
   selectedGallerySlugs?: string[];
   notices: HomeNotice[];
   ctaEyebrow?: string;

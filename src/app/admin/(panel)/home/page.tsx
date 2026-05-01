@@ -5,20 +5,9 @@ import { ImageField } from "@/components/admin/image-field";
 import { QuickAccessCardEditor } from "@/components/admin/quick-access-card-editor";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveHomeAction } from "@/lib/actions";
-import { getGalleryItems, getHomePage, getNewsEvents } from "@/lib/content";
+import { getHomePage, getNewsEvents } from "@/lib/content";
 import { defaultHome } from "@/lib/defaults";
-import type { GalleryItem, NewsEvent } from "@/lib/types";
-
-function slugify(input: string) {
-  return input
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
-}
-
-function gallerySlug(item: GalleryItem) {
-  return item.slug || slugify(item.title);
-}
+import type { NewsEvent } from "@/lib/types";
 
 function selectedSet(items?: string[]) {
   return new Set(items || []);
@@ -28,19 +17,14 @@ function newsOptionLabel(item: NewsEvent) {
   return `${item.title} (${item.category}, ${item.date})`;
 }
 
-function galleryOptionLabel(item: GalleryItem) {
-  return `${item.title} (${item.category || "General"})`;
-}
-
 export default async function AdminHomePage({
   searchParams,
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [home, news, gallery, params] = await Promise.all([
+  const [home, news, params] = await Promise.all([
     getHomePage(),
     getNewsEvents(false),
-    getGalleryItems(false),
     searchParams,
   ]);
   const slides = home.slides?.length ? home.slides : defaultHome.slides;
@@ -55,8 +39,6 @@ export default async function AdminHomePage({
   const selectedEvents = selectedSet(
     home.selectedEventSlugs?.length ? home.selectedEventSlugs : home.selectedNewsSlugs?.slice(1),
   );
-  const selectedGallerySlugs = home.selectedGallerySlugs?.slice(0, 3) || [];
-
   return (
     <>
       <AdminHeading
@@ -426,32 +408,17 @@ export default async function AdminHomePage({
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <p className="font-bold text-slate-800">Homepage Mosaic Photos</p>
             <p className="mt-1 text-sm text-slate-600">
-              Select three existing gallery albums. Slot 1 is the large left photo, slots 2 and 3 are the right photos.
+              Choose three photos for the homepage mosaic. Slot 1 is the large left photo, slots 2 and 3 are the right photos.
             </p>
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <div className="mt-4 grid gap-4 lg:grid-cols-3">
               {[0, 1, 2].map((index) => (
-                <label key={`gallery-slot-${index}`}>
-                  <span className="label">
-                    {index === 0 ? "Large Left Photo" : `Right Photo ${index}`}
-                  </span>
-                  <select
-                    name="selectedGallerySlugs"
-                    defaultValue={selectedGallerySlugs[index] || ""}
-                    className="field bg-white"
-                  >
-                    <option value="">Use next available gallery album</option>
-                    {gallery.map((item) => {
-                      const slug = gallerySlug(item);
-                      return (
-                        <option key={`${index}-${slug}`} value={slug}>
-                          {galleryOptionLabel(item)}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </label>
+                <ImageField
+                  key={`gallery-slot-${index}`}
+                  name={`galleryMosaicImage${index}`}
+                  label={index === 0 ? "Large Left Photo" : `Right Photo ${index}`}
+                  image={home.galleryMosaicImages?.[index]}
+                />
               ))}
-              {!gallery.length ? <p className="text-sm text-slate-500">No gallery albums found. Add them from Gallery first.</p> : null}
             </div>
           </div>
         </section>

@@ -173,7 +173,10 @@ export default async function HomePage() {
         ]
       : gallery
   ).slice(0, 3);
-  const galleryCovers = visibleGallery.map((item) => galleryCover(item));
+  const selectedMosaicImages = home.galleryMosaicImages?.filter((image) => image.url).slice(0, 3) || [];
+  const galleryCovers = [0, 1, 2].map(
+    (index) => selectedMosaicImages[index] || galleryCover(visibleGallery[index]),
+  );
   const quickAccessCards: HomeQuickAccessCard[] = home.quickAccessCards?.length
     ? home.quickAccessCards
     : defaultHome.quickAccessCards || [];
@@ -564,7 +567,7 @@ export default async function HomePage() {
                 {galleryCovers[0]?.url ? (
                   <Image
                     src={galleryCovers[0].url}
-                    alt={galleryCovers[0].altText || visibleGallery[0].title}
+                    alt={galleryCovers[0].altText || visibleGallery[0]?.title || home.galleryTitle}
                     fill
                     sizes="(min-width: 1024px) 28vw, 45vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
@@ -574,7 +577,9 @@ export default async function HomePage() {
                   <span className="text-xs font-bold uppercase tracking-widest text-university-gold">
                     {visibleGallery[0]?.category ?? "Campus"}
                   </span>
-                  <p className="mt-0.5 text-sm font-bold text-white">{visibleGallery[0]?.title}</p>
+                  <p className="mt-0.5 text-sm font-bold text-white">
+                    {visibleGallery[0]?.title || galleryCovers[0]?.altText || home.galleryTitle}
+                  </p>
                 </div>
               </div>
 
@@ -583,14 +588,16 @@ export default async function HomePage() {
                 {galleryCovers[1]?.url ? (
                   <Image
                     src={galleryCovers[1].url}
-                    alt={galleryCovers[1].altText || visibleGallery[1].title}
+                    alt={galleryCovers[1].altText || visibleGallery[1]?.title || home.galleryTitle}
                     fill
                     sizes="(min-width: 1024px) 18vw, 40vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
                   />
                 ) : null}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition duration-300 group-hover:opacity-100">
-                  <p className="text-xs font-bold text-white">{visibleGallery[1]?.title}</p>
+                  <p className="text-xs font-bold text-white">
+                    {visibleGallery[1]?.title || galleryCovers[1]?.altText || home.galleryTitle}
+                  </p>
                 </div>
               </div>
 
@@ -599,7 +606,7 @@ export default async function HomePage() {
                 {galleryCovers[2]?.url ? (
                   <Image
                     src={galleryCovers[2].url}
-                    alt={galleryCovers[2].altText || visibleGallery[2].title}
+                    alt={galleryCovers[2].altText || visibleGallery[2]?.title || home.galleryTitle}
                     fill
                     sizes="(min-width: 1024px) 18vw, 40vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
