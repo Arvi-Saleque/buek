@@ -545,6 +545,13 @@ export async function saveMissionVisionAction(formData: FormData) {
   const current = await getAboutPage();
   const content: AboutPage = {
     ...current,
+    missionHeroEyebrow: value(formData, "missionHeroEyebrow"),
+    missionHeroTitle: value(formData, "missionHeroTitle"),
+    missionHeroBody: value(formData, "missionHeroBody"),
+    missionHeroImage:
+      (await imageFromForm(formData, "missionHeroImage", "university/about")) ||
+      current.missionHeroImage,
+    missionIntroEyebrow: value(formData, "missionIntroEyebrow"),
     missionIntroTitle: value(formData, "missionIntroTitle"),
     missionIntroBody: value(formData, "missionIntroBody"),
     missionTitle: value(formData, "missionTitle"),
@@ -552,10 +559,16 @@ export async function saveMissionVisionAction(formData: FormData) {
     missionPoints: listItems(formData, "missionPoints"),
     visionTitle: value(formData, "visionTitle"),
     visionBody: value(formData, "visionBody"),
+    missionVisionCardTitle: value(formData, "missionVisionCardTitle"),
+    missionCoreValuesEyebrow: value(formData, "missionCoreValuesEyebrow"),
+    missionCoreValuesTitle: value(formData, "missionCoreValuesTitle"),
     coreValues: listItems(formData, "coreValues"),
+    missionStrategicEyebrow: value(formData, "missionStrategicEyebrow"),
+    missionStrategicTitle: value(formData, "missionStrategicTitle"),
     strategicFocus: listItems(formData, "strategicFocus"),
     missionQuote: value(formData, "missionQuote"),
     missionQuoteSource: value(formData, "missionQuoteSource"),
+    missionCtaEyebrow: value(formData, "missionCtaEyebrow"),
     missionCtaTitle: value(formData, "missionCtaTitle"),
     missionCtaBody: value(formData, "missionCtaBody"),
     missionCtaPrimaryLabel: value(formData, "missionCtaPrimaryLabel"),

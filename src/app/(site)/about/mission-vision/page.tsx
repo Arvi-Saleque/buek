@@ -16,6 +16,7 @@ import {
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage } from "@/lib/content";
+import { defaultAbout } from "@/lib/defaults";
 import type { EditableListItem } from "@/lib/types";
 
 const missionIcons = [GraduationCap, Users, Lightbulb, ShieldCheck, Handshake, Target];
@@ -34,11 +35,11 @@ export default async function MissionVisionPage() {
   return (
     <>
       <PageHero
-        eyebrow="Institutional Direction"
-        title="Mission & Vision"
-        body="Guiding our commitment to academic excellence, innovation, ethical leadership, and student success."
-        image="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="University campus building"
+        eyebrow={about.missionHeroEyebrow || defaultAbout.missionHeroEyebrow || "Institutional Direction"}
+        title={about.missionHeroTitle || defaultAbout.missionHeroTitle || "Mission & Vision"}
+        body={about.missionHeroBody || defaultAbout.missionHeroBody}
+        image={about.missionHeroImage?.url || defaultAbout.missionHeroImage?.url}
+        imageAlt={about.missionHeroImage?.altText || defaultAbout.missionHeroImage?.altText || "University campus building"}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "About", href: "/about" },
@@ -50,7 +51,7 @@ export default async function MissionVisionPage() {
         <Container>
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Purpose With Discipline
+              {about.missionIntroEyebrow || defaultAbout.missionIntroEyebrow}
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
               {about.missionIntroTitle}
@@ -75,7 +76,7 @@ export default async function MissionVisionPage() {
                   {about.visionTitle}
                 </p>
                 <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-                  Our Direction for the Future
+                  {about.missionVisionCardTitle || defaultAbout.missionVisionCardTitle}
                 </h2>
                 <p className="mt-5 text-lg leading-9 text-white/78">
                   {about.visionBody}
@@ -113,10 +114,10 @@ export default async function MissionVisionPage() {
         <Container>
           <div className="mb-10 max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Core Values
+              {about.missionCoreValuesEyebrow || defaultAbout.missionCoreValuesEyebrow}
             </p>
             <h2 className="mt-2 text-3xl font-bold text-university-navy sm:text-4xl">
-              Principles That Shape Our Academic Culture
+              {about.missionCoreValuesTitle || defaultAbout.missionCoreValuesTitle}
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -146,10 +147,10 @@ export default async function MissionVisionPage() {
         <Container>
           <div className="mb-10 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Strategic Focus
+              {about.missionStrategicEyebrow || defaultAbout.missionStrategicEyebrow}
             </p>
             <h2 className="mt-2 text-3xl font-bold text-university-navy sm:text-4xl">
-              Where We Invest Our Energy
+              {about.missionStrategicTitle || defaultAbout.missionStrategicTitle}
             </h2>
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -192,7 +193,7 @@ export default async function MissionVisionPage() {
           <div className="grid gap-8 rounded-lg border border-white/10 bg-white/[0.04] p-6 text-white sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Academic Journey
+                {about.missionCtaEyebrow || defaultAbout.missionCtaEyebrow}
               </p>
               <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
                 {about.missionCtaTitle}

@@ -1,4 +1,5 @@
 import { AdminHeading } from "@/components/admin/admin-heading";
+import { ImageField } from "@/components/admin/image-field";
 import { StatusNote } from "@/components/admin/status-note";
 import { saveMissionVisionAction } from "@/lib/actions";
 import { getAboutPage } from "@/lib/content";
@@ -21,8 +22,52 @@ export default async function AdminMissionVisionPage({
 
       <form action={saveMissionVisionAction} className="grid gap-5">
         <section className="admin-card grid gap-4">
+          <h2 className="text-lg font-bold text-university-navy">Hero</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Hero Eyebrow</span>
+              <input
+                name="missionHeroEyebrow"
+                defaultValue={about.missionHeroEyebrow || ""}
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Hero Title</span>
+              <input
+                name="missionHeroTitle"
+                defaultValue={about.missionHeroTitle || ""}
+                className="field"
+              />
+            </label>
+          </div>
+          <label>
+            <span className="label">Hero Body</span>
+            <textarea
+              name="missionHeroBody"
+              defaultValue={about.missionHeroBody || ""}
+              rows={3}
+              className="field"
+            />
+          </label>
+          <ImageField
+            name="missionHeroImage"
+            label="Hero Image"
+            image={about.missionHeroImage}
+          />
+        </section>
+
+        <section className="admin-card grid gap-4">
           <h2 className="text-lg font-bold text-university-navy">Page Introduction</h2>
           <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Intro Eyebrow</span>
+              <input
+                name="missionIntroEyebrow"
+                defaultValue={about.missionIntroEyebrow || ""}
+                className="field"
+              />
+            </label>
             <label>
               <span className="label">Intro Title</span>
               <input
@@ -96,6 +141,14 @@ export default async function AdminMissionVisionPage({
                 />
               </label>
             </div>
+            <label>
+              <span className="label">Vision Card Display Title</span>
+              <input
+                name="missionVisionCardTitle"
+                defaultValue={about.missionVisionCardTitle || ""}
+                className="field"
+              />
+            </label>
           </div>
           <label>
             <span className="label">Mission Points</span>
@@ -107,6 +160,24 @@ export default async function AdminMissionVisionPage({
               className="field"
             />
           </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Core Values Eyebrow</span>
+              <input
+                name="missionCoreValuesEyebrow"
+                defaultValue={about.missionCoreValuesEyebrow || ""}
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Core Values Title</span>
+              <input
+                name="missionCoreValuesTitle"
+                defaultValue={about.missionCoreValuesTitle || ""}
+                className="field"
+              />
+            </label>
+          </div>
           <label>
             <span className="label">Core Values</span>
             <textarea
@@ -117,6 +188,24 @@ export default async function AdminMissionVisionPage({
               className="field"
             />
           </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Strategic Focus Eyebrow</span>
+              <input
+                name="missionStrategicEyebrow"
+                defaultValue={about.missionStrategicEyebrow || ""}
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Strategic Focus Title</span>
+              <input
+                name="missionStrategicTitle"
+                defaultValue={about.missionStrategicTitle || ""}
+                className="field"
+              />
+            </label>
+          </div>
           <label>
             <span className="label">Strategic Focus</span>
             <textarea
@@ -141,6 +230,10 @@ export default async function AdminMissionVisionPage({
         <section className="admin-card grid gap-4">
           <h2 className="text-lg font-bold text-university-navy">Call To Action</h2>
           <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">CTA Eyebrow</span>
+              <input name="missionCtaEyebrow" defaultValue={about.missionCtaEyebrow || ""} className="field" />
+            </label>
             <label>
               <span className="label">CTA Title</span>
               <input name="missionCtaTitle" defaultValue={about.missionCtaTitle || ""} className="field" />

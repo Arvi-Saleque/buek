@@ -300,6 +300,15 @@ export const defaultAbout: AboutPage = {
   missionIntroTitle: "Shaping the Future Through Knowledge and Values",
   missionIntroBody:
     "Bangladesh University of Engineering Knowledge is committed to building a learning environment where students gain knowledge, develop practical skills, and grow as responsible citizens. Our mission and vision guide every academic, administrative, and development activity of the university.",
+  missionHeroEyebrow: "Institutional Direction",
+  missionHeroTitle: "Mission & Vision",
+  missionHeroBody:
+    "Guiding our commitment to academic excellence, innovation, ethical leadership, and student success.",
+  missionHeroImage: {
+    url: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85",
+    altText: "University campus building",
+  },
+  missionIntroEyebrow: "Purpose With Discipline",
   missionTitle: "Mission",
   missionBody:
     "To deliver excellent education, create useful knowledge, and develop graduates who serve with competence, integrity, and compassion.",
@@ -332,6 +341,9 @@ export const defaultAbout: AboutPage = {
   visionTitle: "Vision",
   visionBody:
     "To become a respected center of learning and research that contributes to national and global progress.",
+  missionVisionCardTitle: "Our Direction for the Future",
+  missionCoreValuesEyebrow: "Core Values",
+  missionCoreValuesTitle: "Principles That Shape Our Academic Culture",
   coreValues: [
     { title: "Academic Excellence", body: "We pursue high standards in teaching, learning, and assessment." },
     { title: "Integrity", body: "We uphold honesty, transparency, and ethical responsibility." },
@@ -342,6 +354,8 @@ export const defaultAbout: AboutPage = {
     { title: "Leadership", body: "We build confidence, judgment, and the capacity to guide positive change." },
     { title: "Lifelong Learning", body: "We inspire continuous growth beyond graduation." },
   ],
+  missionStrategicEyebrow: "Strategic Focus",
+  missionStrategicTitle: "Where We Invest Our Energy",
   strategicFocus: [
     { title: "Student-Centered Learning", body: "Modern teaching, mentoring, advising, and academic support." },
     { title: "Research & Innovation", body: "Encouraging discovery, projects, and applied research." },
@@ -351,6 +365,7 @@ export const defaultAbout: AboutPage = {
   missionQuote:
     "Education is not only about earning a degree; it is about building character, confidence, and the ability to serve society.",
   missionQuoteSource: "Bangladesh University of Engineering Knowledge",
+  missionCtaEyebrow: "Academic Journey",
   missionCtaTitle: "Be Part of Our Academic Journey",
   missionCtaBody:
     "Explore our academic programs and discover how BUEK can help you build a meaningful future.",
