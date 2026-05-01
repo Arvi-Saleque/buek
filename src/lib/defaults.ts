@@ -427,8 +427,18 @@ export const defaultAbout: AboutPage = {
   ],
   committeeSubtitle:
     "Meet the members responsible for academic planning, quality assurance, curriculum development, and institutional excellence.",
+  committeeHeroEyebrow: "Governance & Quality",
+  committeeHeroTitle: "Academic Committee",
+  committeeHeroImage: {
+    url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1800&q=85",
+    altText: "Academic committee meeting",
+  },
+  committeeIntroEyebrow: "Academic Oversight",
+  committeeIntroTitle: "Responsible Leadership for Academic Excellence",
   committeeIntro:
     "The Academic Committee oversees curriculum development, academic policies, examination standards, faculty coordination, and student academic progress. The committee ensures that the university maintains strong educational standards and follows its academic mission effectively.",
+  committeeResponsibilitiesEyebrow: "Responsibilities",
+  committeeResponsibilitiesTitle: "Committee Responsibilities",
   committeeResponsibilities: [
     { title: "Curriculum Review", body: "Planning, reviewing, and improving academic programs." },
     { title: "Academic Policy", body: "Developing policies that support quality teaching and learning." },
@@ -447,12 +457,14 @@ export const defaultAbout: AboutPage = {
   committeeMeetingFrequency: "Monthly / As required",
   committeeMeetingOffice: "Academic Affairs Office",
   committeeMeetingEmail: "academic@example.edu",
+  committeeDocumentsTitle: "Related Documents",
   committeeDocuments: [
     { title: "Academic Committee Policy", body: "#" },
     { title: "Meeting Guidelines", body: "#" },
     { title: "Academic Calendar", body: "#" },
     { title: "Examination Policy", body: "#" },
   ],
+  committeeCtaEyebrow: "Academic Affairs",
   committeeCtaTitle: "Need Academic Committee Support?",
   committeeCtaBody:
     "For academic committee-related inquiries, please contact the Academic Affairs Office.",

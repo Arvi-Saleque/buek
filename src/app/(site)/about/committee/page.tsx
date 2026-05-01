@@ -16,6 +16,7 @@ import {
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { getAboutPage, getCommitteeMembers } from "@/lib/content";
+import { defaultAbout } from "@/lib/defaults";
 import type { CommitteeMember, EditableListItem } from "@/lib/types";
 
 const responsibilityIcons = [
@@ -214,11 +215,11 @@ export default async function CommitteePage() {
   return (
     <>
       <PageHero
-        eyebrow="Governance & Quality"
-        title="Academic Committee"
+        eyebrow={about.committeeHeroEyebrow || defaultAbout.committeeHeroEyebrow || "Governance & Quality"}
+        title={about.committeeHeroTitle || defaultAbout.committeeHeroTitle || "Academic Committee"}
         body={about.committeeSubtitle}
-        image="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="Academic committee meeting"
+        image={about.committeeHeroImage?.url || defaultAbout.committeeHeroImage?.url}
+        imageAlt={about.committeeHeroImage?.altText || defaultAbout.committeeHeroImage?.altText || "Academic committee meeting"}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "About", href: "/about" },
@@ -230,10 +231,10 @@ export default async function CommitteePage() {
         <Container>
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Academic Oversight
+              {about.committeeIntroEyebrow || defaultAbout.committeeIntroEyebrow}
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
-              Responsible Leadership for Academic Excellence
+              {about.committeeIntroTitle || defaultAbout.committeeIntroTitle}
             </h2>
             <p className="mt-5 text-base leading-8 text-university-text sm:text-lg">
               {about.committeeIntro}
@@ -246,10 +247,10 @@ export default async function CommitteePage() {
         <Container>
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-              Responsibilities
+              {about.committeeResponsibilitiesEyebrow || defaultAbout.committeeResponsibilitiesEyebrow}
             </p>
             <h2 className="mt-2 text-3xl font-bold text-university-navy sm:text-4xl">
-              Committee Responsibilities
+              {about.committeeResponsibilitiesTitle || defaultAbout.committeeResponsibilitiesTitle}
             </h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -350,7 +351,7 @@ export default async function CommitteePage() {
             <article className="rounded-lg border border-university-line bg-white p-7 shadow-sm">
               <FileText size={30} className="text-university-gold" />
               <h2 className="mt-4 text-2xl font-bold text-university-navy">
-                Related Documents
+                {about.committeeDocumentsTitle || defaultAbout.committeeDocumentsTitle}
               </h2>
               <div className="mt-5 grid gap-3">
                 {documents.map((item, index) => (
@@ -374,7 +375,7 @@ export default async function CommitteePage() {
           <div className="grid gap-8 rounded-lg border border-white/10 bg-white/[0.04] p-6 text-white sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Academic Affairs
+                {about.committeeCtaEyebrow || defaultAbout.committeeCtaEyebrow}
               </p>
               <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
                 {about.committeeCtaTitle}

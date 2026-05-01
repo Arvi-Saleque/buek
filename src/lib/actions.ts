@@ -624,8 +624,17 @@ export async function saveCommitteePageAction(formData: FormData) {
   const current = await getAboutPage();
   const content: AboutPage = {
     ...current,
+    committeeHeroEyebrow: value(formData, "committeeHeroEyebrow"),
+    committeeHeroTitle: value(formData, "committeeHeroTitle"),
     committeeSubtitle: value(formData, "committeeSubtitle"),
+    committeeHeroImage:
+      (await imageFromForm(formData, "committeeHeroImage", "university/about")) ||
+      current.committeeHeroImage,
+    committeeIntroEyebrow: value(formData, "committeeIntroEyebrow"),
+    committeeIntroTitle: value(formData, "committeeIntroTitle"),
     committeeIntro: value(formData, "committeeIntro"),
+    committeeResponsibilitiesEyebrow: value(formData, "committeeResponsibilitiesEyebrow"),
+    committeeResponsibilitiesTitle: value(formData, "committeeResponsibilitiesTitle"),
     committeeResponsibilities: listItems(formData, "committeeResponsibilities"),
     committeeLeadershipEyebrow: value(formData, "committeeLeadershipEyebrow"),
     committeeLeadershipTitle: value(formData, "committeeLeadershipTitle"),
@@ -635,7 +644,9 @@ export async function saveCommitteePageAction(formData: FormData) {
     committeeMeetingFrequency: value(formData, "committeeMeetingFrequency"),
     committeeMeetingOffice: value(formData, "committeeMeetingOffice"),
     committeeMeetingEmail: value(formData, "committeeMeetingEmail"),
+    committeeDocumentsTitle: value(formData, "committeeDocumentsTitle"),
     committeeDocuments: listItems(formData, "committeeDocuments"),
+    committeeCtaEyebrow: value(formData, "committeeCtaEyebrow"),
     committeeCtaTitle: value(formData, "committeeCtaTitle"),
     committeeCtaBody: value(formData, "committeeCtaBody"),
     committeeCtaButtonLabel: value(formData, "committeeCtaButtonLabel"),

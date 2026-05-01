@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   deleteCommitteeMemberAction,
   saveCommitteeMemberAction,
@@ -37,7 +38,25 @@ export default async function AdminCommitteePage({
 
       <form action={saveCommitteePageAction} className="grid gap-5">
         <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Committee Page</h2>
+          <h2 className="text-lg font-bold text-university-navy">Hero</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Hero Eyebrow</span>
+              <input
+                name="committeeHeroEyebrow"
+                defaultValue={about.committeeHeroEyebrow || ""}
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Hero Title</span>
+              <input
+                name="committeeHeroTitle"
+                defaultValue={about.committeeHeroTitle || ""}
+                className="field"
+              />
+            </label>
+          </div>
           <label>
             <span className="label">Hero Subtitle</span>
             <textarea
@@ -47,6 +66,33 @@ export default async function AdminCommitteePage({
               className="field"
             />
           </label>
+          <ImageField
+            name="committeeHeroImage"
+            label="Hero Image"
+            image={about.committeeHeroImage}
+          />
+        </section>
+
+        <section className="admin-card grid gap-4">
+          <h2 className="text-lg font-bold text-university-navy">Committee Page</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Intro Eyebrow</span>
+              <input
+                name="committeeIntroEyebrow"
+                defaultValue={about.committeeIntroEyebrow || ""}
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Intro Title</span>
+              <input
+                name="committeeIntroTitle"
+                defaultValue={about.committeeIntroTitle || ""}
+                className="field"
+              />
+            </label>
+          </div>
           <label>
             <span className="label">Short Introduction</span>
             <textarea
@@ -56,6 +102,24 @@ export default async function AdminCommitteePage({
               className="field"
             />
           </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">Responsibilities Eyebrow</span>
+              <input
+                name="committeeResponsibilitiesEyebrow"
+                defaultValue={about.committeeResponsibilitiesEyebrow || ""}
+                className="field"
+              />
+            </label>
+            <label>
+              <span className="label">Responsibilities Title</span>
+              <input
+                name="committeeResponsibilitiesTitle"
+                defaultValue={about.committeeResponsibilitiesTitle || ""}
+                className="field"
+              />
+            </label>
+          </div>
           <label>
             <span className="label">Committee Responsibilities</span>
             <textarea
@@ -146,6 +210,12 @@ export default async function AdminCommitteePage({
           </label>
           <label>
             <span className="label">Related Documents</span>
+            <input
+              name="committeeDocumentsTitle"
+              defaultValue={about.committeeDocumentsTitle || ""}
+              placeholder="Related Documents"
+              className="field mb-3"
+            />
             <textarea
               name="committeeDocuments"
               defaultValue={editableRows(about.committeeDocuments)}
@@ -155,6 +225,14 @@ export default async function AdminCommitteePage({
             />
           </label>
           <div className="grid gap-4 md:grid-cols-2">
+            <label>
+              <span className="label">CTA Eyebrow</span>
+              <input
+                name="committeeCtaEyebrow"
+                defaultValue={about.committeeCtaEyebrow || ""}
+                className="field"
+              />
+            </label>
             <label>
               <span className="label">CTA Title</span>
               <input
@@ -294,6 +372,7 @@ export default async function AdminCommitteePage({
           <table className="w-full min-w-[720px] text-left text-sm">
             <thead className="bg-slate-100 text-slate-600">
               <tr>
+                <th className="px-3 py-2">Photo</th>
                 <th className="px-3 py-2">Name</th>
                 <th className="px-3 py-2">Designation</th>
                 <th className="px-3 py-2">Committee Role</th>
@@ -306,6 +385,23 @@ export default async function AdminCommitteePage({
             <tbody className="divide-y divide-slate-100">
               {members.map((member) => (
                 <tr key={member._id || member.name}>
+                  <td className="px-3 py-3">
+                    <div className="relative h-12 w-12 overflow-hidden rounded-md bg-slate-100">
+                      {member.photo?.url ? (
+                        <Image
+                          src={member.photo.url}
+                          alt={member.photo.altText || member.name}
+                          fill
+                          sizes="48px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="grid h-full place-items-center text-xs font-bold text-slate-400">
+                          No
+                        </div>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-3 py-3 font-semibold text-slate-800">
                     {member.name}
                   </td>

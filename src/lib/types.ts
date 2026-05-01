@@ -237,7 +237,14 @@ export type AboutPage = {
   chairmanRelatedTitle?: string;
   chairmanRelatedLinks?: EditableListItem[];
   committeeSubtitle?: string;
+  committeeHeroEyebrow?: string;
+  committeeHeroTitle?: string;
+  committeeHeroImage?: ImageAsset;
+  committeeIntroEyebrow?: string;
+  committeeIntroTitle?: string;
   committeeIntro?: string;
+  committeeResponsibilitiesEyebrow?: string;
+  committeeResponsibilitiesTitle?: string;
   committeeResponsibilities?: EditableListItem[];
   committeeLeadershipEyebrow?: string;
   committeeLeadershipTitle?: string;
@@ -247,7 +254,9 @@ export type AboutPage = {
   committeeMeetingFrequency?: string;
   committeeMeetingOffice?: string;
   committeeMeetingEmail?: string;
+  committeeDocumentsTitle?: string;
   committeeDocuments?: EditableListItem[];
+  committeeCtaEyebrow?: string;
   committeeCtaTitle?: string;
   committeeCtaBody?: string;
   committeeCtaButtonLabel?: string;
