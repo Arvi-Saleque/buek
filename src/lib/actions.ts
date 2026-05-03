@@ -28,7 +28,9 @@ import {
   upsertNewsEvent,
 } from "@/lib/content";
 import type {
+  AcademicFaculty,
   AcademicPage,
+  AcademicSubject,
   AboutPage,
   ContactPage,
   DepartmentContact,
@@ -682,6 +684,44 @@ export async function saveCommitteePageAction(formData: FormData) {
   redirect("/admin/committee?saved=1");
 }
 
+function academicFaculties(formData: FormData): AcademicFaculty[] {
+  const icons = formData.getAll("facultyIcon").map((item) => String(item).trim());
+  const titles = formData.getAll("facultyTitle").map((item) => String(item).trim());
+  const labels = formData.getAll("facultyLabel").map((item) => String(item).trim());
+  const descriptions = formData
+    .getAll("facultyDescription")
+    .map((item) => String(item).trim());
+  const subjectsRaw = formData.getAll("facultySubjects").map((item) => String(item));
+
+  return titles
+    .map((title, index) => {
+      let subjects: AcademicSubject[] = [];
+      try {
+        const parsed = JSON.parse(subjectsRaw[index] || "[]");
+        if (Array.isArray(parsed)) {
+          subjects = parsed
+            .map((entry) => ({
+              icon: typeof entry?.icon === "string" ? entry.icon : undefined,
+              title: typeof entry?.title === "string" ? entry.title.trim() : "",
+              body: typeof entry?.body === "string" ? entry.body.trim() : "",
+            }))
+            .filter((subject) => subject.title);
+        }
+      } catch {
+        subjects = [];
+      }
+
+      return {
+        icon: icons[index] || undefined,
+        title,
+        label: labels[index] || "",
+        description: descriptions[index] || "",
+        subjects,
+      };
+    })
+    .filter((faculty) => faculty.title);
+}
+
 export async function saveAcademicAction(formData: FormData) {
   const current = await getAcademicPage();
   const content: AcademicPage = {
@@ -693,6 +733,12 @@ export async function saveAcademicAction(formData: FormData) {
       current.heroImage,
     programCardBody: value(formData, "programCardBody"),
     programs: lines(formData, "programs"),
+    directoryEyebrow: value(formData, "directoryEyebrow"),
+    directoryTitle: value(formData, "directoryTitle"),
+    directoryBody: value(formData, "directoryBody"),
+    facultiesEyebrow: value(formData, "facultiesEyebrow"),
+    facultiesTitle: value(formData, "facultiesTitle"),
+    faculties: academicFaculties(formData),
     admissionTitle: value(formData, "admissionTitle"),
     admissionBody: value(formData, "admissionBody"),
     downloads: downloads(formData),

@@ -499,6 +499,104 @@ export const defaultAcademic: AcademicPage = {
     "Faculty of Education",
     "Faculty of Social Sciences",
   ],
+  directoryEyebrow: "Faculty Directory",
+  directoryTitle: "All faculties highlighted in one academic map",
+  directoryBody:
+    "Explore each faculty, then scan the subjects offered under it. Every subject card gives a quick academic direction before students move into detailed curriculum and admission guidance.",
+  facultiesEyebrow: "Faculties & Subjects",
+  facultiesTitle: "Faculties and Subjects",
+  faculties: [
+    {
+      icon: "Microscope",
+      title: "Faculty of Science, Engineering and Technology",
+      label: "Technology & Applied Science",
+      description:
+        "A future-facing faculty focused on computing, intelligent systems, secure digital infrastructure, software practice, and food technology.",
+      subjects: [
+        {
+          icon: "Cpu",
+          title: "Computer Science and Engineering",
+          body:
+            "Builds strong foundations in programming, algorithms, databases, networks, and practical system development for modern technology careers.",
+        },
+        {
+          icon: "Shield",
+          title: "Artificial Intelligence and Cyber Security",
+          body:
+            "Combines intelligent computing with digital defense, helping students learn machine learning, data security, threat analysis, and responsible automation.",
+        },
+        {
+          icon: "Shield",
+          title: "Software Engineering",
+          body:
+            "Prepares students to design, test, document, and maintain reliable software through project-based learning and professional engineering practice.",
+        },
+        {
+          icon: "Sprout",
+          title: "Nutrition and Food Engineering",
+          body:
+            "Connects food science, nutrition, processing, safety, and innovation so graduates can support healthier communities and food industries.",
+        },
+      ],
+    },
+    {
+      icon: "BookOpen",
+      title: "Faculty of Arts and Social Science",
+      label: "Language, Culture & Society",
+      description:
+        "This faculty strengthens communication, ethical understanding, cultural literacy, and social awareness for thoughtful leadership.",
+      subjects: [
+        {
+          icon: "BookOpen",
+          title: "English",
+          body:
+            "Develops communication, literature, writing, critical reading, presentation, and professional language skills for academic and career success.",
+        },
+        {
+          icon: "BookOpen",
+          title: "Qur'anic Sciences and Islamic Studies",
+          body:
+            "Explores Qur'anic knowledge, Islamic thought, ethics, history, and scholarship with attention to contemporary social relevance.",
+        },
+      ],
+    },
+    {
+      icon: "Sprout",
+      title: "Faculty of Veterinary and Agriculture",
+      label: "Life Science & Food Systems",
+      description:
+        "A practical faculty for animal health, fisheries, agricultural resources, and sustainable production systems.",
+      subjects: [
+        {
+          icon: "Sprout",
+          title: "Fisheries and Aquaculture",
+          body:
+            "Focuses on aquatic resources, fish production, water quality, hatchery management, and sustainable aquaculture practice.",
+        },
+        {
+          icon: "Stethoscope",
+          title: "Veterinary and Animal Husbandry",
+          body:
+            "Covers animal care, livestock production, disease prevention, farm management, and welfare-centered veterinary foundations.",
+        },
+      ],
+    },
+    {
+      icon: "BriefcaseBusiness",
+      title: "Faculty of Business Studies",
+      label: "Management & Enterprise",
+      description:
+        "The business faculty prepares students for management, entrepreneurship, finance, marketing, operations, and responsible organizational leadership.",
+      subjects: [
+        {
+          icon: "BriefcaseBusiness",
+          title: "Department of Business Administration",
+          body:
+            "Builds core business knowledge in management, accounting, finance, marketing, strategy, communication, and decision-making.",
+        },
+      ],
+    },
+  ],
   admissionTitle: "Admission Process",
   admissionBody:
     "Admission details, eligibility, deadlines, and required documents are published by the admission office before each intake.",

@@ -4,7 +4,9 @@ import {
   BrainCircuit,
   BriefcaseBusiness,
   CheckCircle2,
+  ClipboardList,
   Code2,
+  Cpu,
   Download,
   Fish,
   GraduationCap,
@@ -13,6 +15,7 @@ import {
   Microscope,
   ShieldCheck,
   Sparkles,
+  Sprout,
   Stethoscope,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -21,6 +24,51 @@ import { PageHero } from "@/components/public/page-hero";
 import { Prose } from "@/components/public/prose";
 import { getAcademicPage } from "@/lib/content";
 import { defaultAcademic } from "@/lib/defaults";
+
+const academicIconMap: Record<string, LucideIcon> = {
+  Microscope,
+  BookOpen: BookOpenText,
+  BookOpenText,
+  BrainCircuit,
+  BriefcaseBusiness,
+  ClipboardList,
+  Code2,
+  Cpu,
+  Fish,
+  GraduationCap,
+  Languages,
+  Leaf,
+  Shield: ShieldCheck,
+  ShieldCheck,
+  Sprout,
+  Stethoscope,
+};
+
+const fallbackFacultyIcons: LucideIcon[] = [
+  Microscope,
+  BookOpenText,
+  Leaf,
+  BriefcaseBusiness,
+];
+
+const fallbackSubjectIcons: LucideIcon[] = [
+  Code2,
+  BrainCircuit,
+  ShieldCheck,
+  Languages,
+  Sprout,
+  Stethoscope,
+  Fish,
+  Cpu,
+];
+
+function resolveIcon(
+  name: string | undefined,
+  fallback: LucideIcon,
+): LucideIcon {
+  if (name && academicIconMap[name]) return academicIconMap[name];
+  return fallback;
+}
 
 type Subject = {
   title: string;
@@ -36,82 +84,48 @@ type Faculty = {
   subjects: Subject[];
 };
 
-const faculties: Faculty[] = [
-  {
-    title: "Faculty of Science, Engineering and Technology",
-    label: "Technology & Applied Science",
-    description:
-      "A future-facing faculty focused on computing, intelligent systems, secure digital infrastructure, software practice, and food technology.",
-    icon: Microscope,
-    subjects: [
-      {
-        title: "Computer Science and Engineering",
-        body:
-          "Builds strong foundations in programming, algorithms, databases, networks, and practical system development for modern technology careers.",
-        icon: Code2,
-      },
-      {
-        title: "Artificial Intelligence and Cyber Security",
-        body:
-          "Combines intelligent computing with digital defense, helping students learn machine learning, data security, threat analysis, and responsible automation.",
-        icon: BrainCircuit,
-      },
-      {
-        title: "Software Engineering",
-        body:
-          "Prepares students to design, test, document, and maintain reliable software through project-based learning and professional engineering practice.",
-        icon: ShieldCheck,
-      },
-      {
-        title: "Nutrition and Food Engineering",
-        body:
-          "Connects food science, nutrition, processing, safety, and innovation so graduates can support healthier communities and food industries.",
-        icon: Leaf,
-      },
-    ],
-  },
-  {
-    title: "Faculty of Arts and Social Science",
-    label: "Language, Culture & Society",
-    description:
-      "This faculty strengthens communication, ethical understanding, cultural literacy, and social awareness for thoughtful leadership.",
-    icon: BookOpenText,
-    subjects: [
-      {
-        title: "English",
-        body:
-          "Develops communication, literature, writing, critical reading, presentation, and professional language skills for academic and career success.",
-        icon: Languages,
-      },
-      {
-        title: "Qur'anic Sciences and Islamic Studies",
-        body:
-          "Explores Qur'anic knowledge, Islamic thought, ethics, history, and scholarship with attention to contemporary social relevance.",
-        icon: BookOpenText,
-      },
-    ],
-  },
-  {
-    title: "Faculty of Veterinary and Agriculture",
-    label: "Life Science & Food Systems",
-    description:
-      "A practical faculty for animal health, fisheries, agricultural resources, and sustainable production systems.",
-    icon: Leaf,
-    subjects: [
-      {
-        title: "Fisheries and Aquaculture",
-        body:
-          "Focuses on aquatic resources, fish production, water quality, hatchery management, and sustainable aquaculture practice.",
-        icon: Fish,
-      },
-      {
-        title: "Veterinary and Animal Husbandry",
-        body:
-          "Covers animal care, livestock production, disease prevention, farm management, and welfare-centered veterinary foundations.",
-        icon: Stethoscope,
-      },
-    ],
-  },
+const totalSubjectsFor = (list: Faculty[]) =>
+  list.reduce((count, faculty) => count + faculty.subjects.length, 0);
+
+export default async function AcademicPage() {
+  const academic = await getAcademicPage();
+
+  const sourceFaculties =
+    academic.faculties && academic.faculties.length
+      ? academic.faculties
+      : defaultAcademic.faculties || [];
+
+  const faculties: Faculty[] = sourceFaculties.map((faculty, index) => ({
+    title: faculty.title,
+    label: faculty.label,
+    description: faculty.description,
+    icon: resolveIcon(
+      faculty.icon,
+      fallbackFacultyIcons[index % fallbackFacultyIcons.length],
+    ),
+    subjects: faculty.subjects.map((subject, subjectIndex) => ({
+      title: subject.title,
+      body: subject.body,
+      icon: resolveIcon(
+        subject.icon,
+        fallbackSubjectIcons[subjectIndex % fallbackSubjectIcons.length],
+      ),
+    })),
+  }));
+
+  const totalSubjects = totalSubjectsFor(faculties);
+  const directoryEyebrow =
+    academic.directoryEyebrow || defaultAcademic.directoryEyebrow || "Faculty Directory";
+  const directoryTitle =
+    academic.directoryTitle ||
+    defaultAcademic.directoryTitle ||
+    "All faculties highlighted in one academic map";
+  const directoryBody =
+    academic.directoryBody ||
+    defaultAcademic.directoryBody ||
+    "Explore each faculty, then scan the subjects offered under it.";
+
+  return (
   {
     title: "Faculty of Business Studies",
     label: "Management & Enterprise",
@@ -165,13 +179,13 @@ export default async function AcademicPage() {
           <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-end">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
-                Faculty Directory
+                {directoryEyebrow}
               </p>
               <h2 className="mt-3 text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
-                All faculties highlighted in one academic map
+                {directoryTitle}
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-8 text-university-text">
-                Explore each faculty, then scan the subjects offered under it. Every subject card gives a quick academic direction before students move into detailed curriculum and admission guidance.
+                {directoryBody}
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">

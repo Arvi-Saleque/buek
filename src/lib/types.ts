@@ -264,6 +264,20 @@ export type AboutPage = {
   committeeCtaButtonHref?: string;
 };
 
+export type AcademicSubject = {
+  icon?: string;
+  title: string;
+  body: string;
+};
+
+export type AcademicFaculty = {
+  icon?: string;
+  title: string;
+  label: string;
+  description: string;
+  subjects: AcademicSubject[];
+};
+
 export type AcademicPage = {
   title: string;
   overview: string;
@@ -271,6 +285,12 @@ export type AcademicPage = {
   heroImage?: ImageAsset;
   programCardBody?: string;
   programs: string[];
+  directoryEyebrow?: string;
+  directoryTitle?: string;
+  directoryBody?: string;
+  facultiesEyebrow?: string;
+  facultiesTitle?: string;
+  faculties?: AcademicFaculty[];
   admissionTitle: string;
   admissionBody: string;
   downloads: { label: string; href: string }[];
