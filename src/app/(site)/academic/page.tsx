@@ -32,7 +32,6 @@ type Faculty = {
   title: string;
   label: string;
   description: string;
-  accent: string;
   icon: LucideIcon;
   subjects: Subject[];
 };
@@ -43,7 +42,6 @@ const faculties: Faculty[] = [
     label: "Technology & Applied Science",
     description:
       "A future-facing faculty focused on computing, intelligent systems, secure digital infrastructure, software practice, and food technology.",
-    accent: "from-university-green to-university-royal",
     icon: Microscope,
     subjects: [
       {
@@ -77,7 +75,6 @@ const faculties: Faculty[] = [
     label: "Language, Culture & Society",
     description:
       "This faculty strengthens communication, ethical understanding, cultural literacy, and social awareness for thoughtful leadership.",
-    accent: "from-[#7b4f18] to-university-gold",
     icon: BookOpenText,
     subjects: [
       {
@@ -99,7 +96,6 @@ const faculties: Faculty[] = [
     label: "Life Science & Food Systems",
     description:
       "A practical faculty for animal health, fisheries, agricultural resources, and sustainable production systems.",
-    accent: "from-emerald-700 to-lime-600",
     icon: Leaf,
     subjects: [
       {
@@ -121,7 +117,6 @@ const faculties: Faculty[] = [
     label: "Management & Enterprise",
     description:
       "The business faculty prepares students for management, entrepreneurship, finance, marketing, operations, and responsible organizational leadership.",
-    accent: "from-university-royal to-sky-700",
     icon: BriefcaseBusiness,
     subjects: [
       {
@@ -188,7 +183,7 @@ export default async function AcademicPage() {
                     href={`#faculty-${index + 1}`}
                     className="group flex items-center gap-4 rounded-lg border border-university-line bg-university-mist p-4 transition hover:-translate-y-0.5 hover:border-university-gold hover:bg-white hover:shadow-soft"
                   >
-                    <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-gradient-to-br ${faculty.accent} text-white shadow-sm`}>
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-university-navy text-university-gold shadow-sm">
                       <Icon size={22} />
                     </span>
                     <span className="min-w-0">
@@ -219,34 +214,33 @@ export default async function AcademicPage() {
                   id={`faculty-${facultyIndex + 1}`}
                   className="scroll-mt-24 overflow-hidden rounded-lg border border-university-line bg-white shadow-soft"
                 >
-                  <div className={`relative overflow-hidden bg-gradient-to-br ${faculty.accent} p-6 text-white sm:p-8 lg:p-10`}>
-                    <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full border border-white/15" />
-                    <div className="absolute bottom-0 right-12 h-20 w-20 rounded-full border border-white/10" />
+                  <div className="relative overflow-hidden bg-university-navy p-6 text-white sm:p-8 lg:p-10">
+                    <div className="absolute inset-x-0 bottom-0 h-1 bg-university-gold" />
                     <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
                       <div className="max-w-3xl">
                         <div className="flex flex-wrap items-center gap-3">
-                          <span className="grid h-12 w-12 place-items-center rounded-lg bg-white/14 backdrop-blur-md">
+                          <span className="grid h-12 w-12 place-items-center rounded-lg bg-white text-university-green">
                             <FacultyIcon size={24} />
                           </span>
-                          <span className="rounded-md border border-white/20 bg-white/12 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/85">
+                          <span className="rounded-md border border-university-gold/60 bg-university-gold px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-university-navy">
                             {faculty.label}
                           </span>
                         </div>
                         <h2 className="mt-5 text-2xl font-black leading-tight sm:text-3xl lg:text-4xl">
                           {faculty.title}
                         </h2>
-                        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/82 sm:text-base">
+                        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/90 sm:text-base">
                           {faculty.description}
                         </p>
                       </div>
                       <div className="grid w-full max-w-xs grid-cols-2 gap-3 lg:w-72">
-                        <div className="rounded-lg border border-white/15 bg-white/12 p-4 backdrop-blur-md">
-                          <p className="text-3xl font-black text-white">{faculty.subjects.length}</p>
-                          <p className="mt-1 text-xs font-semibold text-white/70">Subjects</p>
+                        <div className="rounded-lg border border-white/20 bg-white/10 p-4">
+                          <p className="text-3xl font-black text-university-gold">{faculty.subjects.length}</p>
+                          <p className="mt-1 text-xs font-semibold text-white/85">Subjects</p>
                         </div>
-                        <div className="rounded-lg border border-white/15 bg-white/12 p-4 backdrop-blur-md">
-                          <p className="text-3xl font-black text-white">0{facultyIndex + 1}</p>
-                          <p className="mt-1 text-xs font-semibold text-white/70">Faculty</p>
+                        <div className="rounded-lg border border-white/20 bg-white/10 p-4">
+                          <p className="text-3xl font-black text-university-gold">0{facultyIndex + 1}</p>
+                          <p className="mt-1 text-xs font-semibold text-white/85">Faculty</p>
                         </div>
                       </div>
                     </div>
@@ -264,7 +258,7 @@ export default async function AcademicPage() {
                             {subjectIndex + 1}
                           </div>
                           <div className="relative">
-                            <span className={`grid h-12 w-12 place-items-center rounded-lg bg-gradient-to-br ${faculty.accent} text-white shadow-sm transition group-hover:scale-105`}>
+                            <span className="grid h-12 w-12 place-items-center rounded-lg bg-university-navy text-university-gold shadow-sm transition group-hover:scale-105">
                               <SubjectIcon size={22} />
                             </span>
                             <h3 className="mt-5 text-xl font-bold leading-snug text-university-navy">
@@ -299,14 +293,14 @@ export default async function AcademicPage() {
       <section className="bg-white py-16 sm:py-20">
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div className="rounded-lg border border-university-line bg-university-navy p-8 text-white shadow-soft">
-              <span className="grid h-14 w-14 place-items-center rounded-lg bg-university-gold text-university-navy">
+            <div className="rounded-lg border border-university-line bg-white p-8 shadow-soft">
+              <span className="grid h-14 w-14 place-items-center rounded-lg bg-university-navy text-university-gold">
                 <GraduationCap size={28} />
               </span>
-              <h2 className="mt-6 text-3xl font-bold leading-tight">
+              <h2 className="mt-6 text-3xl font-bold leading-tight text-university-navy">
                 {academic.admissionTitle}
               </h2>
-              <div className="mt-4 text-sm leading-7 text-white/78">
+              <div className="mt-4">
                 <Prose text={academic.admissionBody} />
               </div>
               {academic.downloads.length ? (
@@ -315,7 +309,7 @@ export default async function AcademicPage() {
                     <a
                       key={item.label}
                       href={item.href}
-                      className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:border-university-gold hover:bg-university-gold hover:text-university-navy"
+                      className="btn-secondary"
                     >
                       <Download size={17} />
                       {item.label}
