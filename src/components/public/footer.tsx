@@ -159,7 +159,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
           <p className="flex items-center gap-1.5 text-xs text-white/40">
             Designed &amp; developed by{" "}
             <a
-              href="https://effy-tech.vercel.app/"
+              href="https://effytechbd.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 font-semibold text-university-gold transition hover:text-white"
