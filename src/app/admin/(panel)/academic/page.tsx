@@ -62,10 +62,9 @@ export default async function AdminAcademicPage({
         </section>
 
         <section className="admin-card grid gap-4">
-          <h2 className="text-lg font-bold text-university-navy">Programs (legacy list)</h2>
+          <h2 className="text-lg font-bold text-university-navy">Programs</h2>
           <p className="text-xs text-slate-500">
-            Simple program list kept for fallback / legacy areas. The faculty cards below drive the
-            main academic display.
+            Used for the homepage stat counter (total programs) and the first entry as a detail label.
           </p>
           <div>
             <span className="label">Programs</span>
@@ -76,15 +75,6 @@ export default async function AdminAcademicPage({
               placeholder="Faculty of Engineering and Technology"
             />
           </div>
-          <label>
-            <span className="label">Program Card Body</span>
-            <textarea
-              name="programCardBody"
-              defaultValue={academic.programCardBody || defaultAcademic.programCardBody}
-              rows={3}
-              className="field"
-            />
-          </label>
         </section>
 
         <section className="admin-card grid gap-4">

@@ -126,29 +126,6 @@ export default async function AcademicPage() {
     "Explore each faculty, then scan the subjects offered under it.";
 
   return (
-  {
-    title: "Faculty of Business Studies",
-    label: "Management & Enterprise",
-    description:
-      "The business faculty prepares students for management, entrepreneurship, finance, marketing, operations, and responsible organizational leadership.",
-    icon: BriefcaseBusiness,
-    subjects: [
-      {
-        title: "Department of Business Administration",
-        body:
-          "Builds core business knowledge in management, accounting, finance, marketing, strategy, communication, and decision-making.",
-        icon: BriefcaseBusiness,
-      },
-    ],
-  },
-];
-
-const totalSubjects = faculties.reduce((count, faculty) => count + faculty.subjects.length, 0);
-
-export default async function AcademicPage() {
-  const academic = await getAcademicPage();
-
-  return (
     <>
       <PageHero
         eyebrow={academic.heroEyebrow || defaultAcademic.heroEyebrow || "Academic"}
