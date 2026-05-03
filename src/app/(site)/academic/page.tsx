@@ -1,9 +1,140 @@
-import { Download, GraduationCap } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpenText,
+  BrainCircuit,
+  BriefcaseBusiness,
+  CheckCircle2,
+  Code2,
+  Download,
+  Fish,
+  GraduationCap,
+  Languages,
+  Leaf,
+  Microscope,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Container } from "@/components/public/container";
 import { PageHero } from "@/components/public/page-hero";
 import { Prose } from "@/components/public/prose";
 import { getAcademicPage } from "@/lib/content";
 import { defaultAcademic } from "@/lib/defaults";
+
+type Subject = {
+  title: string;
+  body: string;
+  icon: LucideIcon;
+};
+
+type Faculty = {
+  title: string;
+  label: string;
+  description: string;
+  accent: string;
+  icon: LucideIcon;
+  subjects: Subject[];
+};
+
+const faculties: Faculty[] = [
+  {
+    title: "Faculty of Science, Engineering and Technology",
+    label: "Technology & Applied Science",
+    description:
+      "A future-facing faculty focused on computing, intelligent systems, secure digital infrastructure, software practice, and food technology.",
+    accent: "from-university-green to-university-royal",
+    icon: Microscope,
+    subjects: [
+      {
+        title: "Computer Science and Engineering",
+        body:
+          "Builds strong foundations in programming, algorithms, databases, networks, and practical system development for modern technology careers.",
+        icon: Code2,
+      },
+      {
+        title: "Artificial Intelligence and Cyber Security",
+        body:
+          "Combines intelligent computing with digital defense, helping students learn machine learning, data security, threat analysis, and responsible automation.",
+        icon: BrainCircuit,
+      },
+      {
+        title: "Software Engineering",
+        body:
+          "Prepares students to design, test, document, and maintain reliable software through project-based learning and professional engineering practice.",
+        icon: ShieldCheck,
+      },
+      {
+        title: "Nutrition and Food Engineering",
+        body:
+          "Connects food science, nutrition, processing, safety, and innovation so graduates can support healthier communities and food industries.",
+        icon: Leaf,
+      },
+    ],
+  },
+  {
+    title: "Faculty of Arts and Social Science",
+    label: "Language, Culture & Society",
+    description:
+      "This faculty strengthens communication, ethical understanding, cultural literacy, and social awareness for thoughtful leadership.",
+    accent: "from-[#7b4f18] to-university-gold",
+    icon: BookOpenText,
+    subjects: [
+      {
+        title: "English",
+        body:
+          "Develops communication, literature, writing, critical reading, presentation, and professional language skills for academic and career success.",
+        icon: Languages,
+      },
+      {
+        title: "Qur'anic Sciences and Islamic Studies",
+        body:
+          "Explores Qur'anic knowledge, Islamic thought, ethics, history, and scholarship with attention to contemporary social relevance.",
+        icon: BookOpenText,
+      },
+    ],
+  },
+  {
+    title: "Faculty of Veterinary and Agriculture",
+    label: "Life Science & Food Systems",
+    description:
+      "A practical faculty for animal health, fisheries, agricultural resources, and sustainable production systems.",
+    accent: "from-emerald-700 to-lime-600",
+    icon: Leaf,
+    subjects: [
+      {
+        title: "Fisheries and Aquaculture",
+        body:
+          "Focuses on aquatic resources, fish production, water quality, hatchery management, and sustainable aquaculture practice.",
+        icon: Fish,
+      },
+      {
+        title: "Veterinary and Animal Husbandry",
+        body:
+          "Covers animal care, livestock production, disease prevention, farm management, and welfare-centered veterinary foundations.",
+        icon: Stethoscope,
+      },
+    ],
+  },
+  {
+    title: "Faculty of Business Studies",
+    label: "Management & Enterprise",
+    description:
+      "The business faculty prepares students for management, entrepreneurship, finance, marketing, operations, and responsible organizational leadership.",
+    accent: "from-university-royal to-sky-700",
+    icon: BriefcaseBusiness,
+    subjects: [
+      {
+        title: "Department of Business Administration",
+        body:
+          "Builds core business knowledge in management, accounting, finance, marketing, strategy, communication, and decision-making.",
+        icon: BriefcaseBusiness,
+      },
+    ],
+  },
+];
+
+const totalSubjects = faculties.reduce((count, faculty) => count + faculty.subjects.length, 0);
 
 export default async function AcademicPage() {
   const academic = await getAcademicPage();
@@ -17,36 +148,204 @@ export default async function AcademicPage() {
         image={academic.heroImage?.url || defaultAcademic.heroImage?.url}
         imageAlt={academic.heroImage?.altText || defaultAcademic.heroImage?.altText || "University classroom"}
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Academic" }]}
-      />
-      <Container className="py-16">
-        <div className="grid gap-6 md:grid-cols-2">
-          {academic.programs.map((program) => (
-            <article key={program} className="rounded-lg border border-university-line bg-white p-6 shadow-sm">
-              <GraduationCap className="text-university-green" size={30} />
-              <h2 className="mt-4 text-xl font-bold text-university-navy">{program}</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                {academic.programCardBody || defaultAcademic.programCardBody}
-              </p>
-            </article>
-          ))}
-        </div>
-        <section className="mt-12 rounded-lg bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-bold text-university-navy">{academic.admissionTitle}</h2>
-          <div className="mt-4">
-            <Prose text={academic.admissionBody} />
+      >
+        <div className="grid max-w-2xl grid-cols-3 gap-3">
+          <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md">
+            <p className="text-2xl font-black text-university-gold">{faculties.length}</p>
+            <p className="mt-1 text-xs font-semibold text-white/75">Faculties</p>
           </div>
-          {academic.downloads.length ? (
-            <div className="mt-6 flex flex-wrap gap-3">
-              {academic.downloads.map((item) => (
-                <a key={item.label} href={item.href} className="btn-secondary">
-                  <Download size={17} />
-                  {item.label}
-                </a>
+          <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md">
+            <p className="text-2xl font-black text-university-gold">{totalSubjects}</p>
+            <p className="mt-1 text-xs font-semibold text-white/75">Subjects</p>
+          </div>
+          <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md">
+            <p className="text-2xl font-black text-university-gold">4</p>
+            <p className="mt-1 text-xs font-semibold text-white/75">Streams</p>
+          </div>
+        </div>
+      </PageHero>
+
+      <section className="bg-white py-14 sm:py-16">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-end">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-university-gold">
+                Faculty Directory
+              </p>
+              <h2 className="mt-3 text-3xl font-bold leading-tight text-university-navy sm:text-4xl">
+                All faculties highlighted in one academic map
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-university-text">
+                Explore each faculty, then scan the subjects offered under it. Every subject card gives a quick academic direction before students move into detailed curriculum and admission guidance.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {faculties.map((faculty, index) => {
+                const Icon = faculty.icon;
+                return (
+                  <a
+                    key={faculty.title}
+                    href={`#faculty-${index + 1}`}
+                    className="group flex items-center gap-4 rounded-lg border border-university-line bg-university-mist p-4 transition hover:-translate-y-0.5 hover:border-university-gold hover:bg-white hover:shadow-soft"
+                  >
+                    <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-gradient-to-br ${faculty.accent} text-white shadow-sm`}>
+                      <Icon size={22} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-xs font-bold uppercase tracking-[0.14em] text-university-gold">
+                        0{index + 1}
+                      </span>
+                      <span className="mt-1 line-clamp-2 block text-sm font-bold leading-5 text-university-navy">
+                        {faculty.title}
+                      </span>
+                    </span>
+                    <ArrowRight className="ml-auto shrink-0 text-university-green transition group-hover:translate-x-1" size={17} />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-university-mist py-16 sm:py-20 lg:py-24">
+        <Container>
+          <div className="space-y-10">
+            {faculties.map((faculty, facultyIndex) => {
+              const FacultyIcon = faculty.icon;
+              return (
+                <article
+                  key={faculty.title}
+                  id={`faculty-${facultyIndex + 1}`}
+                  className="scroll-mt-24 overflow-hidden rounded-lg border border-university-line bg-white shadow-soft"
+                >
+                  <div className={`relative overflow-hidden bg-gradient-to-br ${faculty.accent} p-6 text-white sm:p-8 lg:p-10`}>
+                    <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full border border-white/15" />
+                    <div className="absolute bottom-0 right-12 h-20 w-20 rounded-full border border-white/10" />
+                    <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+                      <div className="max-w-3xl">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <span className="grid h-12 w-12 place-items-center rounded-lg bg-white/14 backdrop-blur-md">
+                            <FacultyIcon size={24} />
+                          </span>
+                          <span className="rounded-md border border-white/20 bg-white/12 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white/85">
+                            {faculty.label}
+                          </span>
+                        </div>
+                        <h2 className="mt-5 text-2xl font-black leading-tight sm:text-3xl lg:text-4xl">
+                          {faculty.title}
+                        </h2>
+                        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/82 sm:text-base">
+                          {faculty.description}
+                        </p>
+                      </div>
+                      <div className="grid w-full max-w-xs grid-cols-2 gap-3 lg:w-72">
+                        <div className="rounded-lg border border-white/15 bg-white/12 p-4 backdrop-blur-md">
+                          <p className="text-3xl font-black text-white">{faculty.subjects.length}</p>
+                          <p className="mt-1 text-xs font-semibold text-white/70">Subjects</p>
+                        </div>
+                        <div className="rounded-lg border border-white/15 bg-white/12 p-4 backdrop-blur-md">
+                          <p className="text-3xl font-black text-white">0{facultyIndex + 1}</p>
+                          <p className="mt-1 text-xs font-semibold text-white/70">Faculty</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 p-4 sm:p-6 lg:grid-cols-2 lg:p-8">
+                    {faculty.subjects.map((subject, subjectIndex) => {
+                      const SubjectIcon = subject.icon;
+                      return (
+                        <div
+                          key={subject.title}
+                          className="group relative min-h-[220px] overflow-hidden rounded-lg border border-university-line bg-white p-6 transition hover:-translate-y-1 hover:border-university-gold/55 hover:shadow-soft"
+                        >
+                          <div className="absolute right-4 top-4 text-7xl font-black leading-none text-university-navy/[0.04]">
+                            {subjectIndex + 1}
+                          </div>
+                          <div className="relative">
+                            <span className={`grid h-12 w-12 place-items-center rounded-lg bg-gradient-to-br ${faculty.accent} text-white shadow-sm transition group-hover:scale-105`}>
+                              <SubjectIcon size={22} />
+                            </span>
+                            <h3 className="mt-5 text-xl font-bold leading-snug text-university-navy">
+                              {subject.title}
+                            </h3>
+                            <p className="mt-3 text-sm leading-7 text-university-text">
+                              {subject.body}
+                            </p>
+                            <div className="mt-5 flex flex-wrap gap-2">
+                              {["Curriculum", "Faculty", "Practical Learning"].map((tag) => (
+                                <span
+                                  key={`${subject.title}-${tag}`}
+                                  className="inline-flex items-center gap-1.5 rounded-md bg-university-mist px-2.5 py-1 text-[11px] font-bold text-university-navy"
+                                >
+                                  <CheckCircle2 size={12} className="text-university-green" />
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-white py-16 sm:py-20">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div className="rounded-lg border border-university-line bg-university-navy p-8 text-white shadow-soft">
+              <span className="grid h-14 w-14 place-items-center rounded-lg bg-university-gold text-university-navy">
+                <GraduationCap size={28} />
+              </span>
+              <h2 className="mt-6 text-3xl font-bold leading-tight">
+                {academic.admissionTitle}
+              </h2>
+              <div className="mt-4 text-sm leading-7 text-white/78">
+                <Prose text={academic.admissionBody} />
+              </div>
+              {academic.downloads.length ? (
+                <div className="mt-7 flex flex-wrap gap-3">
+                  {academic.downloads.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:border-university-gold hover:bg-university-gold hover:text-university-navy"
+                    >
+                      <Download size={17} />
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                "Faculty-wise program guidance",
+                "Subject overview and academic direction",
+                "Admission office support",
+                "Updated notices, calendar, and downloads",
+              ].map((item, index) => (
+                <div key={item} className="rounded-lg border border-university-line bg-university-mist p-6">
+                  <Sparkles size={22} className="text-university-gold" />
+                  <p className="mt-4 text-sm font-bold uppercase tracking-[0.14em] text-university-green">
+                    Step 0{index + 1}
+                  </p>
+                  <h3 className="mt-2 text-lg font-bold text-university-navy">{item}</h3>
+                  <p className="mt-3 text-sm leading-7 text-university-text">
+                    Students can use this academic page as the starting point for choosing a faculty, comparing subjects, and preparing for admission.
+                  </p>
+                </div>
               ))}
             </div>
-          ) : null}
-        </section>
-      </Container>
+          </div>
+        </Container>
+      </section>
     </>
   );
 }
