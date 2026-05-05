@@ -104,7 +104,7 @@ export async function listCloudinaryImages({
 
   const safeMax = Math.min(Math.max(maxResults, 1), 70);
   const search = cloudinary.search
-    .expression("resource_type:image")
+    .expression("resource_type:image AND folder:university/*")
     .sort_by("created_at", "desc")
     .max_results(safeMax);
 
