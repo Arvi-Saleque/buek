@@ -49,9 +49,9 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
               ].join(" ")}
             />
           ) : null}
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-r from-university-navy/78 via-university-navy/42 to-university-navy/12" />
-          <div className="absolute inset-0 bg-gradient-to-t from-university-navy/58 via-transparent to-black/18" />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-university-navy/90 via-university-navy/60 to-university-navy/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-university-navy/70 via-transparent to-black/30" />
         </div>
       ))}
 
