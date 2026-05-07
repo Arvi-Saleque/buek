@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "University Website",
-  description: "A university website with public pages and a content admin panel.",
+  title: {
+    default: "BUEK",
+    template: "%s | BUEK",
+  },
+  description: "Official website of BUEK university.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({

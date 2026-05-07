@@ -31,7 +31,7 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
         <div
           key={`${slide.title}-${index}`}
           className={[
-            "absolute inset-0 transition-opacity duration-1000",
+            "absolute inset-0 transition-opacity duration-1000 ease-in-out",
             index === active ? "opacity-100" : "opacity-0",
           ].join(" ")}
           aria-hidden={index !== active}
@@ -43,15 +43,20 @@ export function HomeSlider({ slides }: { slides: HomeSlide[] }) {
               fill
               priority={index === 0}
               sizes="100vw"
-              className="object-cover"
+              className={[
+                "object-cover transition-transform duration-[6500ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+                index === active ? "scale-100" : "scale-105",
+              ].join(" ")}
             />
           ) : null}
-          <div className="absolute inset-0 bg-gradient-to-r from-university-navy via-university-navy/90 to-university-royal/70" />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-university-navy/78 via-university-navy/42 to-university-navy/12" />
+          <div className="absolute inset-0 bg-gradient-to-t from-university-navy/58 via-transparent to-black/18" />
         </div>
       ))}
 
       <Container className="relative flex min-h-[720px] items-center pb-28 pt-[168px] sm:min-h-screen sm:pb-24 sm:pt-[190px]">
-        <div className="max-w-5xl">
+        <div key={active} className="home-slider__content max-w-5xl">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-university-gold">
             {items[active].eyebrow}
           </p>
