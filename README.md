@@ -48,7 +48,7 @@ Never commit `.env.local` or real credentials.
 - Restrict GitHub ↔ Vercel integration to only required repositories and enforce 2FA on GitHub/Vercel accounts.
 - Enable GitHub security features (secret scanning, Dependabot alerts/security updates, branch protection on `main`).
 - The app sets global security headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, and CSP) in `next.config.ts`.
-- Admin login has basic brute-force protection (per-IP, in-memory lockout). Because this is instance-local memory, use robust centralized auth/rate limiting for stronger production guarantees.
+- Admin login has basic brute-force protection (per-IP, in-memory lockout). Because this is instance-local memory, use robust centralized auth/rate limiting (for example Redis/Vercel KV + managed auth) for stronger production guarantees.
 - `.env.example` is placeholder-only and should remain credential-free.
 
 ## Commands

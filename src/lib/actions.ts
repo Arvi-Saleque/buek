@@ -60,9 +60,9 @@ const loginAttempts = new Map<string, LoginAttempt>();
 
 async function loginAttemptKey() {
   const requestHeaders = await headers();
-  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
   const realIp = requestHeaders.get("x-real-ip")?.trim();
-  return forwardedFor || realIp || "unknown";
+  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return realIp || forwardedFor || "unknown";
 }
 
 function getBlockedUntil(attempt: LoginAttempt | undefined, now: number) {
