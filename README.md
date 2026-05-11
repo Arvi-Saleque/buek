@@ -41,6 +41,16 @@ NEXT_PUBLIC_SITE_URL=
 
 Never commit `.env.local` or real credentials.
 
+## Security (Vercel Deployment)
+
+- Keep all secrets in Vercel Environment Variables (Production/Preview/Development), never in git.
+- Use strong unique values for `ADMIN_PASSWORD` and `SESSION_SECRET`, and rotate them if exposure is suspected.
+- Restrict GitHub ↔ Vercel integration to only required repositories and enforce 2FA on GitHub/Vercel accounts.
+- Enable GitHub security features (secret scanning, Dependabot alerts/security updates, branch protection on `main`).
+- The app sets global security headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, and CSP) in `next.config.ts`.
+- Admin login has basic brute-force protection (per-IP, in-memory lockout). Because this is instance-local memory, use robust centralized auth/rate limiting for stronger production guarantees.
+- `.env.example` is placeholder-only and should remain credential-free.
+
 ## Commands
 
 ```bash

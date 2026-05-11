@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   clearAdminSession,
@@ -44,6 +45,56 @@ import type {
 export type LoginState = {
   error?: string;
 };
+
+const LOGIN_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const LOGIN_RATE_LIMIT_LOCK_MS = 10 * 60 * 1000;
+const LOGIN_RATE_LIMIT_MAX_ATTEMPTS = 5;
+
+type LoginAttempt = {
+  count: number;
+  firstFailedAt: number;
+  blockedUntil: number;
+};
+
+const loginAttempts = new Map<string, LoginAttempt>();
+
+async function loginAttemptKey() {
+  const requestHeaders = await headers();
+  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const realIp = requestHeaders.get("x-real-ip")?.trim();
+  return forwardedFor || realIp || "unknown";
+}
+
+function getBlockedUntil(attempt: LoginAttempt | undefined, now: number) {
+  if (!attempt || attempt.blockedUntil <= now) return 0;
+  return attempt.blockedUntil;
+}
+
+function registerFailedLoginAttempt(key: string, now: number) {
+  const existing = loginAttempts.get(key);
+  const inWindow = existing && now - existing.firstFailedAt <= LOGIN_RATE_LIMIT_WINDOW_MS;
+  const nextCount = inWindow ? existing.count + 1 : 1;
+  const blockedUntil =
+    nextCount >= LOGIN_RATE_LIMIT_MAX_ATTEMPTS ? now + LOGIN_RATE_LIMIT_LOCK_MS : 0;
+
+  loginAttempts.set(key, {
+    count: nextCount,
+    firstFailedAt: inWindow ? existing.firstFailedAt : now,
+    blockedUntil,
+  });
+}
+
+function clearLoginAttempt(key: string) {
+  loginAttempts.delete(key);
+}
+
+function cleanupLoginAttempts(now: number) {
+  for (const [key, attempt] of loginAttempts) {
+    const isExpired =
+      attempt.blockedUntil <= now && now - attempt.firstFailedAt > LOGIN_RATE_LIMIT_WINDOW_MS;
+    if (isExpired) loginAttempts.delete(key);
+  }
+}
 
 function value(formData: FormData, key: string) {
   return String(formData.get(key) || "").trim();
@@ -338,6 +389,17 @@ function dedupeGalleryImages(images: GalleryImage[]) {
 }
 
 export async function loginAction(_: LoginState, formData: FormData): Promise<LoginState> {
+  const now = Date.now();
+  cleanupLoginAttempts(now);
+  const attemptKey = await loginAttemptKey();
+  const blockedUntil = getBlockedUntil(loginAttempts.get(attemptKey), now);
+  if (blockedUntil) {
+    const retryAfterMinutes = Math.max(1, Math.ceil((blockedUntil - now) / 60000));
+    return {
+      error: `Too many failed attempts. Try again in ${retryAfterMinutes} minute${retryAfterMinutes === 1 ? "" : "s"}.`,
+    };
+  }
+
   const email = value(formData, "email").toLowerCase();
   const password = value(formData, "password");
   const credentials = getAdminCredentials();
@@ -347,9 +409,11 @@ export async function loginAction(_: LoginState, formData: FormData): Promise<Lo
   }
 
   if (email !== credentials.email.toLowerCase() || password !== credentials.password) {
+    registerFailedLoginAttempt(attemptKey, now);
     return { error: "Invalid email or password." };
   }
 
+  clearLoginAttempt(attemptKey);
   await setAdminSession(credentials.email);
   redirect("/admin");
 }
