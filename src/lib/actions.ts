@@ -62,7 +62,8 @@ async function loginAttemptKey() {
   const requestHeaders = await headers();
   const realIp = requestHeaders.get("x-real-ip")?.trim();
   const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return realIp || forwardedFor || "unknown";
+  const userAgent = requestHeaders.get("user-agent")?.trim();
+  return realIp || forwardedFor || (userAgent ? `ua:${userAgent}` : "unknown");
 }
 
 function getBlockedUntil(attempt: LoginAttempt | undefined, now: number) {
