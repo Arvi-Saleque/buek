@@ -46,9 +46,9 @@ export type LoginState = {
   error?: string;
 };
 
-const LOGIN_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const LOGIN_RATE_LIMIT_LOCK_MS = 10 * 60 * 1000;
-const LOGIN_RATE_LIMIT_MAX_ATTEMPTS = 5;
+const LOGIN_ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
+const LOGIN_LOCKOUT_DURATION_MS = 10 * 60 * 1000;
+const LOGIN_MAX_ATTEMPTS = 5;
 
 type LoginAttempt = {
   count: number;
@@ -72,10 +72,10 @@ function getBlockedUntil(attempt: LoginAttempt | undefined, now: number) {
 
 function registerFailedLoginAttempt(key: string, now: number) {
   const existing = loginAttempts.get(key);
-  const inWindow = existing && now - existing.firstFailedAt <= LOGIN_RATE_LIMIT_WINDOW_MS;
+  const inWindow = existing && now - existing.firstFailedAt <= LOGIN_ATTEMPT_WINDOW_MS;
   const nextCount = inWindow ? existing.count + 1 : 1;
   const blockedUntil =
-    nextCount >= LOGIN_RATE_LIMIT_MAX_ATTEMPTS ? now + LOGIN_RATE_LIMIT_LOCK_MS : 0;
+    nextCount >= LOGIN_MAX_ATTEMPTS ? now + LOGIN_LOCKOUT_DURATION_MS : 0;
 
   loginAttempts.set(key, {
     count: nextCount,
@@ -88,12 +88,12 @@ function clearLoginAttempt(key: string) {
   loginAttempts.delete(key);
 }
 
-function cleanupLoginAttempts(now: number) {
-  for (const [key, attempt] of loginAttempts) {
-    const isExpired =
-      attempt.blockedUntil <= now && now - attempt.firstFailedAt > LOGIN_RATE_LIMIT_WINDOW_MS;
-    if (isExpired) loginAttempts.delete(key);
-  }
+function resetExpiredLoginAttempt(key: string, now: number) {
+  const attempt = loginAttempts.get(key);
+  if (!attempt) return;
+
+  const isExpired = attempt.blockedUntil <= now && now - attempt.firstFailedAt > LOGIN_ATTEMPT_WINDOW_MS;
+  if (isExpired) clearLoginAttempt(key);
 }
 
 function value(formData: FormData, key: string) {
@@ -390,8 +390,8 @@ function dedupeGalleryImages(images: GalleryImage[]) {
 
 export async function loginAction(_: LoginState, formData: FormData): Promise<LoginState> {
   const now = Date.now();
-  cleanupLoginAttempts(now);
   const attemptKey = await loginAttemptKey();
+  resetExpiredLoginAttempt(attemptKey, now);
   const blockedUntil = getBlockedUntil(loginAttempts.get(attemptKey), now);
   if (blockedUntil) {
     const retryAfterMinutes = Math.max(1, Math.ceil((blockedUntil - now) / 60000));
