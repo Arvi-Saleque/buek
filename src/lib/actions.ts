@@ -62,8 +62,9 @@ async function loginAttemptKey() {
   const requestHeaders = await headers();
   const realIp = requestHeaders.get("x-real-ip")?.trim();
   const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const userAgent = requestHeaders.get("user-agent")?.trim();
-  return realIp || forwardedFor || (userAgent ? `ua:${userAgent}` : "unknown");
+  const ip = realIp || forwardedFor;
+  if (ip) return ip;
+  return process.env.NODE_ENV === "production" ? "" : "local-development";
 }
 
 function getBlockedUntil(attempt: LoginAttempt | undefined, now: number) {
@@ -392,6 +393,9 @@ function dedupeGalleryImages(images: GalleryImage[]) {
 export async function loginAction(_: LoginState, formData: FormData): Promise<LoginState> {
   const now = Date.now();
   const attemptKey = await loginAttemptKey();
+  if (!attemptKey) {
+    return { error: "Unable to verify request source. Try again later." };
+  }
   resetExpiredLoginAttempt(attemptKey, now);
   const blockedUntil = getBlockedUntil(loginAttempts.get(attemptKey), now);
   if (blockedUntil) {
